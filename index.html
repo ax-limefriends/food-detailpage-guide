@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>팔리는 이야기 상세페이지</title>
+<meta name="description" content="음식점·식품 제조·유통 소상공인을 위한 4주 실습 교안. 도널드 밀러의 스토리브랜드(SB7) 7단계로 고객의 문제에서 시작하는 상세페이지를 설계하고, ChatGPT·Claude·Google Flow·구글 AI 스튜디오로 스마트스토어·쿠팡·자사몰용 완성본과 영문판 초안까지 만듭니다.">
+<!-- 링크 미리보기 (Open Graph · Twitter Card) -->
+<link rel="canonical" href="https://mc-jeon.github.io/food-detailpage-guide/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="소상공인 AI 실전 과정">
+<meta property="og:title" content="팔리는 이야기를 만드는 AI 상세페이지 4주 과정 · 식품 소상공인 실습 교안">
+<meta property="og:description" content="SB7 스토리 설계 → 12섹션 전환 구조 → AI 이미지·영상 → 조립·검수 → 영문판. 음식점·식품 제조·유통 사장님용 따라하기 교안 (2026-09-27 기준)">
+<meta property="og:url" content="https://mc-jeon.github.io/food-detailpage-guide/">
+<meta property="og:image" content="https://mc-jeon.github.io/food-detailpage-guide/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="팔리는 이야기를 만드는 AI 상세페이지 4주 과정 표지">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="팔리는 이야기를 만드는 AI 상세페이지 4주 과정">
+<meta name="twitter:description" content="고객의 문제에서 시작하는 식품 상세페이지, 국내 완성에서 글로벌 1단계까지 (2026-09-27 기준)">
+<meta name="twitter:image" content="https://mc-jeon.github.io/food-detailpage-guide/og.png">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root{
+    --teal:#0f4c5c; --teal-d:#0a3541; --teal-l:#e6f1f3; --teal-m:#1d7a8c;
+    --amber:#e09f3e; --amber-bg:#fff7e8; --amber-d:#9a6412;
+    --green:#1f8a5b; --green-bg:#e9f7ef; --red:#c8412b; --red-bg:#fdecea;
+    --violet:#5b4bb5; --violet-bg:#efedfb;
+    --ink:#1b2530; --sub:#5b6b7a; --line:#e3e8ec; --bg:#f7f8f7; --card:#ffffff; --code:#0d1b22;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;}
+  body{font-family:'Pretendard Variable',Pretendard,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;font-size:17px;word-break:keep-all;}
+  a{color:var(--teal-m);}
+  img,svg{max-width:100%;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav .wrap{display:flex;align-items:center;gap:14px;padding:10px 20px;}
+  .nav .brand{font-weight:800;color:var(--teal);font-size:15px;white-space:nowrap;}
+  .nav .links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;}
+  .nav .links::-webkit-scrollbar{display:none;}
+  .nav .links a{white-space:nowrap;text-decoration:none;color:var(--sub);font-size:14px;padding:6px 11px;border-radius:999px;}
+  .nav .links a:hover{background:var(--teal-l);color:var(--teal);}
+  /* HERO */
+  .hero{background:radial-gradient(1200px 500px at 80% -10%,#1d7a8c 0%,transparent 60%),linear-gradient(160deg,#0a3541 0%,#0f4c5c 55%,#155f70 100%);color:#fff;padding:64px 0 56px;}
+  .hero .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 16px;font-size:13px;margin-bottom:22px;}
+  .hero h1{font-size:36px;line-height:1.3;font-weight:800;margin-bottom:16px;max-width:800px;}
+  .hero h1 em{font-style:normal;color:#ffd27a;}
+  .hero p.sub{font-size:18px;opacity:.92;margin-bottom:28px;max-width:760px;}
+  .hero .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:800px;}
+  .hero .meta div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px 16px;font-size:15px;}
+  .hero .meta b{display:block;font-size:12px;opacity:.7;font-weight:600;margin-bottom:2px;}
+  .hero .cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;border-radius:12px;padding:13px 22px;font-size:15px;}
+  .btn-amber{background:var(--amber);color:#1b2530;}
+  .btn-ghost{border:1px solid rgba(255,255,255,.4);color:#fff;}
+  .hero .trust{margin-top:30px;font-size:13px;opacity:.75;}
+  /* SECTIONS */
+  section{padding:60px 0;}
+  section + section{border-top:1px solid var(--line);}
+  .kicker{font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--amber-d);text-transform:uppercase;margin-bottom:8px;}
+  h2{font-size:30px;line-height:1.3;font-weight:800;color:var(--teal-d);margin-bottom:14px;}
+  h3{font-size:22px;font-weight:800;color:var(--teal);margin:44px 0 12px;padding-top:8px;}
+  h4{font-size:17px;font-weight:700;color:var(--ink);margin:18px 0 8px;}
+  p{margin-bottom:14px;}
+  ul,ol{margin:0 0 14px 22px;}
+  li{margin-bottom:6px;}
+  .lead{font-size:18px;color:var(--sub);max-width:780px;}
+  .part{background:linear-gradient(90deg,var(--teal-l),transparent);border-left:6px solid var(--teal);padding:20px 22px;border-radius:0 14px 14px 0;margin:0 0 30px;}
+  .part .t{font-size:13px;font-weight:700;color:var(--teal-m);margin-bottom:4px;}
+  .part h2{margin-bottom:6px;font-size:26px;}
+  .part p{margin:0;color:var(--sub);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:16px 0;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr;}}
+  .tldr{background:var(--amber-bg);border:1px solid #f3d9a4;border-radius:16px;padding:22px 24px;margin:0 0 20px;}
+  .tldr b.h{display:block;color:var(--amber-d);font-size:13px;letter-spacing:1px;margin-bottom:8px;}
+  .tldr ol{margin-bottom:0;}
+  .callout{border-radius:14px;padding:16px 20px;margin:18px 0;font-size:15.5px;border:1px solid;}
+  .callout.note{background:var(--teal-l);border-color:#c5dde2;}
+  .callout.warn{background:var(--amber-bg);border-color:#f3d9a4;}
+  .callout.good{background:var(--green-bg);border-color:#bfe5cf;}
+  .callout.bad{background:var(--red-bg);border-color:#f5c6bf;}
+  .callout.agent{background:var(--violet-bg);border-color:#cfc8f0;}
+  .callout b.h{display:block;margin-bottom:4px;}
+  .pill{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;margin-right:6px;vertical-align:middle;}
+  .pill.t{background:var(--teal-l);color:var(--teal);}
+  .pill.a{background:var(--amber-bg);color:var(--amber-d);}
+  .pill.g{background:var(--green-bg);color:var(--green);}
+  .pill.r{background:var(--red-bg);color:var(--red);}
+  .pill.v{background:var(--violet-bg);color:var(--violet);}
+  .pill.k{background:#eef0f3;color:var(--sub);}
+  /* 용어 */
+  .def{border-left:4px solid var(--amber);background:#fff;padding:12px 18px;border-radius:0 12px 12px 0;margin:14px 0;font-size:15.5px;}
+  .def b{color:var(--teal-d);}
+  .glossary{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:760px){.glossary{grid-template-columns:1fr;}}
+  .glossary .def{margin:0;}
+  /* 실습 헤더 */
+  .prac{display:flex;align-items:flex-start;gap:16px;margin:48px 0 14px;padding-top:24px;border-top:2px dashed var(--line);}
+  .prac .num{flex:none;width:56px;height:56px;border-radius:16px;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;line-height:1.1;text-align:center;}
+  .prac .num small{display:block;font-size:10px;opacity:.75;font-weight:600;}
+  .prac .num.v{background:var(--violet);}
+  .prac h3{margin:0 0 4px;padding:0;}
+  .prac .goal{color:var(--sub);font-size:15px;}
+  .prac .time{margin-left:auto;flex:none;font-size:13px;font-weight:700;color:var(--amber-d);background:var(--amber-bg);padding:5px 12px;border-radius:999px;}
+  .feel{background:var(--green-bg);border:1px solid #bfe5cf;border-radius:12px;padding:12px 16px;font-size:15px;margin:10px 0 18px;}
+  .feel b{color:var(--green);}
+  /* 단계 */
+  .steps{margin:14px 0;}
+  .step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .n{width:40px;height:40px;border-radius:12px;background:#fff;border:2px solid var(--teal);color:var(--teal);font-weight:800;display:grid;place-items:center;font-size:16px;}
+  .step .where{font-size:13px;color:var(--sub);margin-bottom:4px;}
+  .step .where b{color:var(--teal-m);}
+  .step h4{margin:0 0 6px;}
+  .step p{margin-bottom:8px;font-size:15.5px;}
+  .step .check{font-size:14px;color:var(--green);font-weight:600;}
+  .step .term{font-size:14px;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:8px 12px;margin:6px 0 8px;color:#334;}
+  .step .term b{color:var(--amber-d);}
+  /* 화면 목업 */
+  .screen{border:1px solid #d7dde2;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 12px 32px rgba(15,76,92,.10);margin:16px 0 20px;}
+  .screen .bar{display:flex;align-items:center;gap:10px;background:#eef1f4;padding:9px 14px;border-bottom:1px solid #d7dde2;font-size:12px;color:#667;}
+  .screen .dots span{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;background:#d0d5da;}
+  .screen .dots span:nth-child(1){background:#ff5f57;}
+  .screen .dots span:nth-child(2){background:#febc2e;}
+  .screen .dots span:nth-child(3){background:#28c840;}
+  .screen .url{flex:1;background:#fff;border:1px solid #d7dde2;border-radius:8px;padding:4px 12px;font-size:12px;color:#556;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .screen .body{padding:18px 20px;font-size:15px;}
+  .screen .cap{background:#f8fafb;border-top:1px solid var(--line);padding:9px 16px;font-size:13px;color:var(--sub);}
+  .screen .cap b{color:var(--teal);}
+  /* Flow 목업 */
+  .flowui{background:#101418;color:#e6e9ec;border-radius:12px;padding:14px;font-size:13.5px;}
+  .flowui .top{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+  .flowui .tab{padding:4px 12px;border-radius:999px;background:#1c232b;color:#aab;}
+  .flowui .tab.on{background:#2a3a4a;color:#fff;font-weight:700;}
+  .flowui .canvas{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0;}
+  .flowui .canvas div{aspect-ratio:16/9;background:linear-gradient(135deg,#243342,#3c5a6b);border-radius:8px;display:grid;place-items:center;color:#cfe;font-size:12px;text-align:center;padding:4px;}
+  .flowui .pbox{background:#1c232b;border:1px solid #33414f;border-radius:12px;padding:10px 12px;}
+  .flowui .pbox .row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;}
+  .flowui .chip{font-size:11.5px;background:#2a3542;border-radius:6px;padding:2px 8px;color:#bcd;}
+  .flowui .chip.on{background:#6d5bd0;color:#fff;font-weight:700;}
+  .flowui .chip.amber{background:#e09f3e;color:#1b2530;font-weight:700;}
+  .flowui .input{color:#9fb;font-family:inherit;}
+  .flowui .side{background:#161c23;border:1px solid #33414f;border-radius:10px;padding:10px 12px;margin-top:8px;}
+  .flowui .side .a{color:#c9bfff;font-weight:700;}
+  .flowui .side p{margin:4px 0;font-size:13px;color:#dde;}
+  /* chat */
+  .chat .msg{display:flex;gap:12px;margin:12px 0;}
+  .chat .who{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;}
+  .chat .user .who{background:#e5e7eb;color:#333;}
+  .chat .ai .who{background:#10a37f;color:#fff;}
+  .chat .ag .who{background:var(--violet);color:#fff;}
+  .chat .bubble{background:#f7f7f8;border-radius:14px;padding:12px 16px;line-height:1.65;flex:1;font-size:14.5px;}
+  .chat .user .bubble{background:#eaf3ff;}
+  .chat .bubble ul,.chat .bubble ol{margin:6px 0 4px 20px;}
+  .hl{background:#fff3c4;padding:0 3px;border-radius:3px;}
+  .miss{color:var(--red);font-weight:700;}
+  .hit{color:var(--green);font-weight:700;}
+  /* BEFORE / AFTER */
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0;}
+  @media(max-width:760px){.ba{grid-template-columns:1fr;}}
+  .ba > div{border-radius:14px;padding:16px 18px;font-size:14.5px;border:1px solid;}
+  .ba .b{background:var(--red-bg);border-color:#f5c6bf;}
+  .ba .a{background:var(--green-bg);border-color:#bfe5cf;}
+  .ba .lab{font-size:12px;font-weight:800;letter-spacing:1px;margin-bottom:8px;}
+  .ba .b .lab{color:var(--red);} .ba .a .lab{color:var(--green);}
+  .ba p{margin-bottom:8px;}
+  /* PROMPT */
+  .prompt{background:var(--code);color:#e8f0f3;border-radius:14px;padding:18px 20px;margin:14px 0;position:relative;font-size:14.5px;line-height:1.7;white-space:pre-wrap;font-family:'Pretendard Variable',Pretendard,sans-serif;}
+  .prompt .lab{display:block;color:#ffd27a;font-weight:800;font-size:12px;letter-spacing:1px;margin-bottom:8px;}
+  .prompt .copy{position:absolute;top:12px;right:12px;background:var(--amber);color:#1b2530;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;}
+  .prompt .var{color:#8ce2a6;}
+  .prompt .var.filled{color:#0d1b22;background:#8ce2a6;border-radius:4px;padding:0 4px;}
+  .prompt.light{background:#fff;color:var(--ink);border:1px solid var(--line);}
+  .prompt.light .lab{color:var(--amber-d);}
+  .prompt.light .var{color:var(--green);font-weight:700;}
+  .prompt.light .var.filled{background:#d7f5e3;color:#0b3d24;}
+  .prompt.en{font-family:Consolas,'Courier New',monospace;font-size:13.5px;}
+  .prompt .ko{display:block;color:#9fb3bf;font-size:13px;margin-top:8px;font-family:'Pretendard Variable',Pretendard,sans-serif;white-space:pre-wrap;}
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14.5px;background:#fff;border-radius:12px;overflow:hidden;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;}
+  th{background:var(--teal-l);color:var(--teal-d);font-weight:700;font-size:13.5px;}
+  tr:last-child td{border-bottom:none;}
+  .lv{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:6px;}
+  .lv.none{background:#eef0f3;color:#778;} .lv.m{background:#fff3c4;color:#8a6a00;} .lv.s{background:#dbeafe;color:#1e40af;} .lv.c{background:var(--green-bg);color:var(--green);}
+  /* CHECKLIST */
+  .check-list{list-style:none;margin:10px 0;}
+  .check-list li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);margin:0;font-size:15.5px;}
+  .check-list li:last-child{border-bottom:none;}
+  .check-list input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--teal);}
+  .check-list small{display:block;color:var(--sub);font-size:13.5px;}
+  /* 진단 도구 */
+  .diag{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:20px 22px;margin:18px 0 26px;}
+  .diag h4{margin-top:0;}
+  .diag .aigrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  @media(max-width:760px){.diag .aigrid{grid-template-columns:1fr 1fr;}}
+  .diag .aigrid label{display:block;font-size:13px;font-weight:700;color:var(--sub);margin-bottom:4px;}
+  .diag select,.diag input[type=text]{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;background:#fff;}
+  .diag .result{margin-top:16px;border-radius:12px;padding:16px 18px;border:1px solid var(--line);background:var(--bg);}
+  .diag .score{font-size:34px;font-weight:800;color:var(--teal-d);line-height:1.1;}
+  .diag .score small{font-size:14px;color:var(--sub);font-weight:600;}
+  .diag .grade{display:inline-block;font-size:14px;font-weight:800;padding:4px 12px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+  .diag .bar{height:12px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin:10px 0;}
+  .diag .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));width:0;transition:width .4s;}
+  .plan{border:2px solid var(--green);border-radius:16px;padding:20px 22px;margin:20px 0;background:#fff;}
+  .plan.hidden{display:none;}
+  .plan h4{margin-top:0;color:var(--green);}
+  /* 입력 폼 */
+  .fill{background:#fff;border:2px solid var(--violet);border-radius:16px;padding:20px 22px;margin:18px 0 26px;}
+  .fill .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+  @media(max-width:700px){.fill .grid{grid-template-columns:1fr;}}
+  .fill label{display:block;font-size:12.5px;font-weight:700;color:var(--sub);margin-bottom:3px;}
+  .fill input,.fill textarea,.fill select{width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;background:#fff;}
+  .fill input:focus,.fill textarea:focus{outline:2px solid var(--violet);border-color:transparent;}
+  .fill .bar2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:13px;color:var(--sub);}
+  .fbtn{background:var(--teal);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .fbtn.gray{background:#e5e7eb;color:#333;}
+  .fbtn.violet{background:var(--violet);}
+  .fbtn.amber{background:var(--amber);color:#1b2530;}
+  .kit-num{display:inline-block;background:var(--amber);color:#1b2530;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;margin-right:8px;}
+  .kit-num.v{background:var(--violet);color:#fff;}
+  .kit-when{font-size:13px;color:var(--sub);margin:-6px 0 8px;}
+  /* 에이전트 박스 */
+  .agentbox{border:2px solid var(--violet);border-radius:16px;padding:20px 22px;margin:24px 0;background:#fff;}
+  .agentbox .t{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+  .agentbox .t h4{margin:0;font-size:19px;color:var(--violet);}
+  /* 타임라인 */
+  .timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0;}
+  .timeline div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;}
+  .timeline b{display:block;color:var(--teal);font-size:13px;margin-bottom:4px;}
+  .timeline .clip{aspect-ratio:9/16;max-height:120px;background:linear-gradient(160deg,#243342,#3c5a6b);border-radius:8px;margin-bottom:8px;display:grid;place-items:center;color:#cfe;font-size:12px;text-align:center;padding:6px;}
+  /* 실습 이미지 키트 */
+  .kitgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 6px;}
+  @media(max-width:760px){.kitgrid{grid-template-columns:1fr 1fr;}}
+  .kitgrid a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13.5px;}
+  .kitgrid img{width:100%;aspect-ratio:4/5;object-fit:cover;background:#f3f5f7;display:block;}
+  .kitgrid img.sq{aspect-ratio:1;object-fit:contain;padding:10px;}
+  .kitgrid span{display:block;padding:8px 10px;}
+  .kitgrid b{display:block;color:var(--teal);font-size:12px;}
+  .kitgrid a:hover{border-color:var(--teal-m);}
+  /* FAQ */
+  details{background:#fff;border:1px solid var(--line);border-radius:12px;margin:8px 0;}
+  summary{cursor:pointer;padding:14px 18px;font-weight:700;list-style:none;}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:"Q";display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--teal);color:#fff;font-size:13px;margin-right:10px;}
+  details p{padding:0 18px 16px 54px;margin:0;color:#334;}
+  .hw{background:#fff;border:2px solid var(--amber);border-radius:16px;padding:20px 24px;margin:30px 0 0;}
+  .hw b.h{display:block;color:var(--amber-d);font-size:13px;letter-spacing:1px;margin-bottom:8px;}
+  footer{background:var(--teal-d);color:#cfe0e5;padding:40px 0;font-size:14px;}
+  footer a{color:#ffd27a;}
+  .srcs li{font-size:14px;color:var(--sub);}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1b2530;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:50;}
+  .toast.on{opacity:1;}
+  @media(max-width:640px){
+    body{font-size:16px;}
+    .hero{padding:48px 0 40px;} .hero h1{font-size:28px;} h2{font-size:25px;} h3{font-size:20px;}
+    .prac{flex-wrap:wrap;} .prac .time{margin-left:0;}
+  }
+  @media print{.nav,.prompt .copy,.toast{display:none;} section{padding:24px 0;} .screen{box-shadow:none;} .plan.hidden{display:block;}}
+</style>
+<style>
+  /* 식품 교안 전용: 색 덮어쓰기(된장·간장 톤) */
+  :root{
+    --teal:#7a3414; --teal-d:#4d1f0a; --teal-l:#f7ebe2; --teal-m:#a8501f;
+    --amber:#e3a53a; --amber-bg:#fff7e6; --amber-d:#935f0c;
+    --code:#1f140e;
+  }
+  .hero{background:radial-gradient(1100px 480px at 85% -10%,#b4541e 0%,transparent 60%),linear-gradient(160deg,#3e1807 0%,#6b2c10 55%,#8a3b16 100%);}
+  .nav .wrap{min-width:0;}
+  .nav .links{min-width:0;flex:1;}
+  .tbl{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0 18px;}
+  .tbl table{margin:0;min-width:560px;}
+  .prompt{overflow-wrap:anywhere;}
+  .wk{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0;}
+  @media(max-width:760px){.wk{grid-template-columns:1fr 1fr;}}
+  .wk a{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;color:var(--ink);}
+  .wk a b{display:block;color:var(--teal);font-size:13px;margin-bottom:2px;}
+  .wk a span{font-size:14.5px;font-weight:700;}
+  .wk a small{display:block;color:var(--sub);font-size:12.5px;margin-top:4px;}
+  .wk a:hover{border-color:var(--teal-m);}
+  .sbgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+  @media(max-width:700px){.sbgrid{grid-template-columns:1fr;}}
+  .sbgrid .full{grid-column:1/-1;}
+  .sbnum{display:inline-block;background:var(--teal);color:#fff;border-radius:6px;padding:0 7px;font-size:11.5px;margin-right:4px;}
+  .wfout{margin-top:16px;}
+  .wfout td:first-child{white-space:nowrap;font-weight:800;color:var(--teal);}
+  .wfout .emp{color:#a0a8b0;}
+  .scorebox{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:12px;}
+  .scorebox .big{font-size:30px;font-weight:800;color:var(--teal-d);line-height:1;}
+  .scorebox .big small{font-size:14px;color:var(--sub);font-weight:600;}
+  .scorebox .msg{flex:1;min-width:200px;font-size:15px;}
+  .layer{border-radius:14px;padding:16px 18px;margin:12px 0;border:1px solid var(--line);background:#fff;}
+  .layer .lt{font-weight:800;color:var(--teal-d);margin-bottom:6px;}
+  .cuts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+  @media(max-width:760px){.cuts{grid-template-columns:1fr 1fr;}}
+  .cuts div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;}
+  .cuts b{display:block;color:var(--teal);font-size:13.5px;margin-bottom:4px;}
+  .flowmap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0;font-size:14px;}
+  .flowmap span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;}
+  .flowmap i{font-style:normal;color:var(--sub);}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+  <span class="brand">팔리는 이야기 상세페이지</span>
+  <div class="links">
+    <a href="#start">시작</a>
+    <a href="#map">12섹션 지도</a>
+    <a href="#card">가게 카드</a>
+    <a href="#w0">0주 준비</a>
+    <a href="#w1">1주 스토리</a>
+    <a href="#w2">2주 설계·카피</a>
+    <a href="#w3">3주 이미지·영상</a>
+    <a href="#w4">4주 조립·영문판</a>
+    <a href="#global">글로벌</a>
+    <a href="#refs">출처</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="badge">식품 소상공인 AI 실전 과정 · 주 1회 2시간 × 4주 · 2026년 9월 27일 기준</span>
+  <h1>장점을 늘어놓는 페이지 말고,<br><em>"이거 내 얘기네"</em> 하고 사게 되는 상세페이지</h1>
+  <p class="sub">음식점·식품 제조·유통 사장님이 도널드 밀러의 스토리브랜드(SB7) 7단계로 고객의 문제에서 시작하는 이야기를 설계하고, AI로 이미지와 영상을 만들어 스마트스토어·쿠팡·자사몰용 상세페이지를 완성합니다. 마지막 주에는 같은 이야기로 영문판 초안까지 만듭니다.</p>
+  <div class="meta">
+    <div><b>대상</b>음식점(포장·밀키트·배달), 식품 제조·가공·유통</div>
+    <div><b>운영</b>주 1회 2시간 × 4주 + 주차 사이 과제</div>
+    <div><b>도구</b>크롬 + Claude in Chrome, ChatGPT, Google Flow, 구글 AI 스튜디오</div>
+    <div><b>결과물</b>국내용 상세페이지 완성본 + 영문판 초안</div>
+  </div>
+  <div class="cta">
+    <a class="btn btn-amber" href="#card">가게 카드부터 채우기</a>
+    <a class="btn btn-ghost" href="#map">12섹션 지도 보기</a>
+  </div>
+  <p class="trust">입력한 내용은 이 브라우저에만 저장되며 어디에도 전송되지 않습니다. 도구 화면과 요금은 자주 바뀌므로 수업 직전에 한 번 더 확인합니다.</p>
+</div></header>
+
+<section id="start"><div class="wrap">
+  <div class="kicker">과정 한눈에 보기</div>
+  <h2>4주 동안 페이지 하나를 끝까지 완성합니다</h2>
+  <p class="lead">매주 앞 20분은 원리, 가운데 90분은 내 상품으로 실습, 마지막 10분은 과제 안내입니다. 주차 사이 과제가 다음 주 실습의 재료가 되므로, 과제를 해 오면 수업 시간 안에 끝납니다.</p>
+
+  <div class="wk">
+    <a href="#w1"><b>1주차</b><span>진단과 스토리 설계</span><small>주인공은 고객, 우리 가게는 가이드</small></a>
+    <a href="#w2"><b>2주차</b><span>설계와 카피</span><small>스크롤이 멈추는 순서 만들기</small></a>
+    <a href="#w3"><b>3주차</b><span>이미지와 영상</span><small>보여주는 것이 증명</small></a>
+    <a href="#w4"><b>4주차</b><span>조립·검수·영문판</span><small>올리고, 넓힌다</small></a>
+  </div>
+
+  <div class="tldr"><b class="h">이 교안이 다른 점</b>
+    <ol>
+      <li><b>고객이 주인공입니다.</b> "국내산, 무첨가, 당일 제조"로 시작하지 않습니다. "매일 저녁 반찬 고민하는 맞벌이 부모"처럼 고객의 문제에서 시작해, 그 문제가 풀린 저녁 식탁으로 끝납니다.</li>
+      <li><b>이야기 순서는 SB7, 페이지 순서는 12섹션 전환 구조입니다.</b> 와디즈 스토리페이지처럼 긴 페이지의 짜임새를 식품에 맞게 정리했습니다.</li>
+      <li><b>식품이라서 지켜야 할 선이 있습니다.</b> 질병 효능 표현, 실물과 다른 AI 음식 사진, 지어낸 후기는 쓰지 않습니다. 2주차에 법규 점검표로 확인합니다.</li>
+      <li><b>국내에서 먼저 완성하고, 해외는 단계를 밟습니다.</b> 영문판을 만든 뒤 아마존·이베이·자사몰 중 채널을 골라, 부록의 채널별 해외 진출 가이드를 한 단계씩 밟습니다.</li>
+    </ol>
+  </div>
+
+  <h3>준비물과 계정</h3>
+  <div class="tbl"><table>
+    <tr><th>도구</th><th>쓰는 주차</th><th>필요한 것</th><th>없을 때</th></tr>
+    <tr><td><b>크롬 + Claude in Chrome</b></td><td>1~4주</td><td>Claude 유료 플랜(Pro 이상). 크롬 웹스토어에서 확장 프로그램 설치</td><td>ChatGPT 크롬 확장, 또는 무료 Gemini in Chrome</td></tr>
+    <tr><td><b>Claude 또는 ChatGPT</b></td><td>1~4주</td><td>유료 플랜 권장. "프로젝트" 기능에 가게 카드 저장</td><td>대화창에 가게 카드를 매번 붙여넣기</td></tr>
+    <tr><td><b>ChatGPT 이미지</b></td><td>3주</td><td>ChatGPT 유료 플랜(한글 글자가 들어간 이미지에 강함)</td><td>Google Flow 이미지(0크레딧)</td></tr>
+    <tr><td><b>Google Flow</b></td><td>3주</td><td>구글 계정. 영상은 크레딧 사용</td><td>이미지로만 완성(영상 생략)</td></tr>
+    <tr><td><b>구글 AI 스튜디오</b></td><td>4주</td><td>개인 구글 계정, 만 18세 이상</td><td>이 교안의 <a href="builder.html">조립 도구</a></td></tr>
+    <tr><td><b>노트북</b></td><td>매주</td><td>크롬 최신 버전, 내 상품 사진 폴더</td><td>교육장 PC + USB</td></tr>
+  </table></div>
+
+  <div class="callout warn"><b class="h">AI에 넣지 않는 세 가지</b>원가, 레시피(배합비), 고객 개인정보는 어떤 AI에도 넣지 않습니다. 무료로 쓰는 AI는 입력한 내용이 학습에 쓰일 수 있습니다. 판매자센터 최종 등록과 결제는 AI에게 맡기지 않고 사장님이 직접 누릅니다.</div>
+</div></section>
+
+<section id="map"><div class="wrap">
+  <div class="kicker">교안 전체의 중심</div>
+  <h2>SB7 7단계를 상세페이지 12섹션으로 옮긴 지도</h2>
+  <p class="lead">4주 내내 이 표 하나를 채워 갑니다. 1주차에 왼쪽(SB7)을 채우고, 2주차에 가운데(글)를, 3주차에 오른쪽(이미지)을 채우고, 4주차에 위에서 아래로 이어 붙이면 상세페이지가 됩니다.</p>
+
+  <h3>SB7이 뭔가요</h3>
+  <p>도널드 밀러가 『무기가 되는 스토리(Building a StoryBrand)』에서 정리한 이야기 틀입니다. 사람들은 영화처럼 "주인공이 문제를 만나고, 안내자를 만나 계획을 받고, 행동해서 실패를 피하고 성공한다"는 순서를 쉽게 기억합니다. 핵심은 하나입니다. <b>주인공은 고객이고, 우리 가게는 주인공을 돕는 안내자(가이드)입니다.</b></p>
+  <div class="glossary">
+    <div class="def"><b>① 주인공이 원하는 것</b> 고객이 이 음식으로 얻고 싶은 것. "맛있는 반찬"이 아니라 "퇴근 후 30분 안에 차리는 떳떳한 저녁상".</div>
+    <div class="def"><b>② 문제</b> 겉으로 보이는 불편(외적), 마음속 불안(내적), "이건 옳지 않다"는 생각(철학적). 사람은 내적 문제가 풀릴 때 지갑을 엽니다.</div>
+    <div class="def"><b>③ 가이드</b> 우리 가게. "저희도 그 마음 압니다"(공감)와 "그래서 이렇게 해결해 왔습니다"(권위: 인증·경력·숫자)를 함께 보여줍니다.</div>
+    <div class="def"><b>④ 계획</b> 고객이 따라 할 3단계. "주문 → 받아서 냉장 → 데워서 식탁". 단계가 짧을수록 망설임이 줄어듭니다.</div>
+    <div class="def"><b>⑤ 행동 촉구</b> "지금 주문하기"(직접)와 "보관법 가이드 받기"처럼 가벼운 행동(전환)을 둘 다 둡니다.</div>
+    <div class="def"><b>⑥ 실패 회피</b> 사지 않으면 계속될 일. 겁주지 않고 "또 배달앱을 여는 저녁"처럼 담담하게.</div>
+    <div class="def"><b>⑦ 성공</b> 문제가 풀린 뒤의 장면. "저녁 7시, 가족이 같이 앉는 식탁".</div>
+    <div class="def"><b>한 줄 정의문</b> ②문제 → ④해결 → ⑦결과를 한 문장으로. 모든 카피·이미지·영상의 뿌리가 됩니다.</div>
+  </div>
+
+  <h3>12섹션 지도 (예시: 반찬가게)</h3>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>상세페이지 섹션</th><th>SB7 단계</th><th>전환 장치</th><th>예시</th></tr>
+    <tr><td>1</td><td><b>첫 화면 후킹</b><br><small>3초 안에 멈추게</small></td><td>① 원하는 것</td><td>헤드라인 + 대표 이미지(GIF)</td><td>"오늘 저녁, 밥만 지으세요"</td></tr>
+    <tr><td>2</td><td><b>이런 고민 있으시죠?</b></td><td>② 문제</td><td>공감 체크리스트</td><td>퇴근 후 1시간 요리 / 사 먹는 반찬에 대한 미안함 / "가족 밥상에 타협하면 안 된다"</td></tr>
+    <tr><td>3</td><td><b>왜 이렇게 됐을까</b></td><td>② 문제 심화</td><td>흔한 선택지의 한계</td><td>너무 짜거나, 며칠 지났거나, 양이 애매한 반찬</td></tr>
+    <tr><td>4</td><td><b>저희도 그랬습니다</b></td><td>③ 가이드: 공감</td><td>대표 이야기, 시작한 계기</td><td>"두 아이 키우며 시작한 가게"</td></tr>
+    <tr><td>5</td><td><b>믿을 수 있는 이유</b></td><td>③ 가이드: 권위</td><td>인증, 경력, 판매량, 보도</td><td>실제 있는 숫자만, 출처와 기준일 표기</td></tr>
+    <tr><td>6</td><td><b>이렇게 만듭니다</b></td><td>④ 계획: 과정의 약속</td><td>공정 사진·영상</td><td>새벽 장보기 → 당일 조리 → 냉장 배송</td></tr>
+    <tr><td>7</td><td><b>받아서 드시기까지 3단계</b></td><td>④ 계획: 고객이 할 일</td><td>3단계 아이콘</td><td>주문 → 받아서 냉장 → 데워서 식탁</td></tr>
+    <tr><td>8</td><td><b>구성·가격</b></td><td>⑤ 행동 촉구</td><td>구성 비교표, 추천 표시</td><td>1인 / 가족 / 정기배송</td></tr>
+    <tr><td>9</td><td><b>이걸 놓치면</b></td><td>⑥ 실패 회피</td><td>담담한 한 문단</td><td>"또 배달앱을 여는 저녁"</td></tr>
+    <tr><td>10</td><td><b>이렇게 달라집니다</b></td><td>⑦ 성공</td><td>전후 장면, 실제 후기</td><td>"저녁 7시, 가족이 같이 앉는 식탁"</td></tr>
+    <tr><td>11</td><td><b>안심 정보</b></td><td>망설임 없애기</td><td>FAQ, 보관·유통기한, 알레르기, 배송·교환</td><td>식품은 이 섹션이 구매를 좌우합니다</td></tr>
+    <tr><td>12</td><td><b>마지막 행동 촉구</b></td><td>⑤ 반복</td><td>혜택 요약 + 버튼</td><td>"이번 주 저녁부터 바꿔 보세요"</td></tr>
+  </table></div>
+  <div class="callout note"><b class="h">와디즈 스토리페이지에서 배우는 것</b>와디즈 펀딩 페이지는 아직 없는 제품을 믿고 사게 해야 해서 길고 촘촘합니다. 후킹 → 공감 → 만든 사람 이야기 → 신뢰 → 과정 → 구성 → 안심 → 행동의 순서가 거의 모든 성공 프로젝트에 보입니다. 우리는 이 <b>순서와 짜임새</b>만 배웁니다. 문장과 사진은 절대 가져오지 않습니다.</div>
+</div></section>
+
+<section id="card"><div class="wrap">
+  <div class="part"><div class="t">가게 카드 · 과정 내내 사용</div><h2>가게 카드 12칸: 채우면 이 페이지의 모든 프롬프트가 내 것으로 바뀝니다</h2><p>아래 칸을 채우고 <b>적용</b>을 누르면 페이지 안의 모든 <span class="var" style="color:var(--green);font-weight:700">[초록 칸]</span>이 사장님 내용으로 바뀝니다. 브라우저를 닫아도 이 컴퓨터에는 남습니다. 모르는 칸은 비워 두고 1주차 실습 뒤에 채워도 됩니다.</p></div>
+
+  <div class="fill" id="brieftool">
+    <div class="grid">
+      <div><label for="f-name">① 상호 / 브랜드명</label><input id="f-name" type="text" placeholder="예: OO반찬"></div>
+      <div><label for="f-type">② 사업 유형</label><select id="f-type"><option value="">선택</option><option>음식점(포장·밀키트·배달)</option><option>식품 제조·가공</option><option>식품 유통(산지·도매)</option></select></div>
+      <div><label for="f-hero">③ 상세페이지를 만들 대표 상품</label><input id="f-hero" type="text" placeholder="예: 저염 반찬 3종 세트"></div>
+      <div><label for="f-who">④ 주로 사는 사람 (한 사람을 떠올리며)</label><input id="f-who" type="text" placeholder="예: 퇴근이 늦은 30~40대 맞벌이 부모"></div>
+      <div><label for="f-pain">⑤ 그 사람의 가장 큰 고민</label><input id="f-pain" type="text" placeholder="예: 평일 저녁 차릴 시간과 기운이 없다"></div>
+      <div><label for="f-edge">⑥ 우리만의 만드는 방식</label><input id="f-edge" type="text" placeholder="예: 매일 아침 그날 팔 양만 조리, 나트륨 줄인 양념"></div>
+      <div><label for="f-proof">⑦ 증거 (인증·연혁·숫자, 사실만)</label><input id="f-proof" type="text" placeholder="예: 2019년 개업, 재구매 고객 다수, HACCP 인증(있을 때만)"></div>
+      <div><label for="f-story">⑧ 대표가 시작한 계기</label><input id="f-story" type="text" placeholder="예: 두 아이 키우며 사 먹을 반찬이 없어서"></div>
+      <div><label for="f-price">⑨ 구성과 가격</label><input id="f-price" type="text" placeholder="예: 3종 1만 2천 원 / 6종 2만 2천 원"></div>
+      <div><label for="f-keep">⑩ 보관·유통기한·배송</label><input id="f-keep" type="text" placeholder="예: 냉장 3일, 아이스박스 새벽배송"></div>
+      <div><label for="f-channel">⑪ 판매 채널</label><input id="f-channel" type="text" placeholder="예: 스마트스토어, 자사몰"></div>
+      <div><label for="f-tone">⑫ 말투</label><select id="f-tone"><option>따뜻하고 담백한 말투</option><option>정직하고 전문적인 말투</option><option>밝고 친근한 말투</option><option>고급스럽고 차분한 말투</option></select></div>
+    </div>
+    <div class="bar2">
+      <button class="fbtn" id="apply">적용</button>
+      <button class="fbtn amber" data-sample="banchan">예시 A 반찬가게</button>
+      <button class="fbtn amber" data-sample="jang">예시 B 전통장류 제조</button>
+      <button class="fbtn amber" data-sample="sea">예시 C 수산물 유통</button>
+      <button class="fbtn amber" data-sample="myeon">예시 D 강희정면가(파주)</button>
+      <button class="fbtn gray" id="clear">비우기</button>
+      <span id="fillmsg"></span>
+    </div>
+  </div>
+
+  <div class="prompt light"><span class="lab">가게 카드 (Claude·ChatGPT 프로젝트 지침에 붙여넣기)</span><button class="copy" data-copy="cardtext">복사</button><span id="cardtext">[우리 가게 카드]
+상호: <span class="var" data-k="name">[상호]</span> / 유형: <span class="var" data-k="type">[사업 유형]</span>
+대표 상품: <span class="var" data-k="hero">[대표 상품]</span>
+주요 고객: <span class="var" data-k="who">[주요 고객]</span>
+고객의 가장 큰 고민: <span class="var" data-k="pain">[고객의 고민]</span>
+우리만의 방식: <span class="var" data-k="edge">[만드는 방식]</span>
+증거(사실만): <span class="var" data-k="proof">[증거]</span>
+시작한 계기: <span class="var" data-k="story">[시작한 계기]</span>
+구성·가격: <span class="var" data-k="price">[구성과 가격]</span>
+보관·배송: <span class="var" data-k="keep">[보관·배송]</span>
+판매 채널: <span class="var" data-k="channel">[판매 채널]</span>
+말투: <span class="var" data-k="tone">[말투]</span>
+
+[지켜야 할 원칙]
+- 고객이 주인공이고 우리 가게는 안내자다(StoryBrand SB7).
+- 위 카드에 없는 숫자·인증·수상·후기는 절대 지어내지 않는다. 필요하면 "[확인 필요]"로 비워 둔다.
+- 질병 예방·치료 효능, "최고·유일" 같은 근거 없는 표현은 쓰지 않는다.</span></div>
+  <div class="callout note"><b class="h">예시 A·B·C는 가상, D는 실제 가게입니다</b>A 반찬가게는 GEO 교안의 OO반찬을, B·C는 이 교안을 위해 만든 가상 사례이며 숫자도 예시입니다. D <b>강희정면가</b>(경기 파주시 탄현면, 구 용궁칼국수)는 <a href="https://xn--o39aob184ezin87r.com/" target="_blank" rel="noopener">홈페이지</a>에 공개된 내용(2026-09-27 확인)만 넣었고, 홈페이지에 없는 고객·고민·이야기는 "(예시 가정)" 또는 "[확인 필요]"로 표시했습니다. 수업에 쓰기 전 대표님께 확인받습니다.</div>
+</div></section>
+<section id="w0"><div class="wrap">
+  <div class="part"><div class="t">0주차 · 사전과제 · 과정 시작 1주 전</div><h2>수업 전에 세 가지만 해 오세요</h2><p>첫 수업의 90분을 실습에 쓰려면 설치와 재료 모으기를 미리 끝내야 합니다. 30분이면 됩니다.</p></div>
+
+  <div class="prac"><div class="num">0-1</div><div><h3>크롬에 Claude in Chrome 설치하기</h3><div class="goal">크롬 오른쪽에 AI 대화창(사이드 패널)을 띄워, 보고 있는 페이지를 그대로 분석시키는 도구입니다.</div></div><div class="time">10분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>크롬 → 크롬 웹스토어</b></div><h4>"Claude"를 검색해 Anthropic이 만든 확장 프로그램을 설치합니다</h4><p>개발자가 Anthropic인지 꼭 확인합니다. 비슷한 이름의 가짜 확장 프로그램이 있습니다.</p><div class="term"><b>확장 프로그램</b>: 크롬에 기능을 더해 주는 작은 앱. 주소창 오른쪽 퍼즐 모양 아이콘에서 관리합니다.</div></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>퍼즐 아이콘 → Claude → 고정(핀)</b></div><h4>아이콘을 고정하고, Claude 유료 계정으로 로그인합니다</h4><p>Claude in Chrome은 Claude 유료 플랜(Pro 이상)에 포함돼 있습니다. 추가 요금은 없습니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><div class="where">어디서 <b>Claude 사이드 패널 → 설정 → 사이트 권한</b></div><h4>실습에 쓰는 사이트만 허용합니다</h4><p>와디즈, 스마트스토어·쿠팡 상품 페이지, 내 가게 리뷰 페이지 정도면 충분합니다. 인터넷뱅킹이나 판매자센터 결제 화면은 허용하지 않습니다.</p><div class="check">✓ 아무 페이지에서나 아이콘을 누르면 오른쪽에 대화창이 열리면 성공</div></div></div>
+  </div>
+  <div class="callout note"><b class="h">Claude 유료 플랜이 없다면</b>ChatGPT 유료 플랜 사용자는 ChatGPT 크롬 확장 프로그램을, 유료 플랜이 없는 분은 크롬에 들어 있는 Gemini(주소창 오른쪽 Gemini 아이콘)를 씁니다. 이 교안의 프롬프트는 셋 모두에서 그대로 쓸 수 있습니다. 설치 화면은 업데이트로 달라질 수 있습니다.</div>
+
+  <div class="prac"><div class="num">0-2</div><div><h3>Claude 프로젝트에 "우리 가게 카드" 만들기</h3><div class="goal">매주 가게 설명을 다시 하지 않도록, AI가 기억할 기본 정보를 한 곳에 넣어 둡니다.</div></div><div class="time">10분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>이 교안 위쪽 <a href="#card">가게 카드</a></b></div><h4>12칸을 아는 만큼 채우고 "적용" → "복사"</h4><p>모르는 칸은 비워 둡니다. 비운 칸은 AI가 "[확인 필요]"로 남기도록 지침에 적혀 있습니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>claude.ai → 왼쪽 메뉴 "프로젝트" → 새 프로젝트</b></div><h4>프로젝트 이름 "<span class="var" data-k="name">[상호]</span>_상세페이지_2026"을 만들고, 지침(Instructions)에 가게 카드를 붙여넣습니다</h4><p>이 프로젝트 안에서 시작한 대화는 가게 카드를 기억합니다. ChatGPT에도 같은 "프로젝트" 기능이 있습니다.</p><div class="check">✓ 프로젝트 안 새 대화에서 "우리 대표 상품이 뭐야?"라고 물었을 때 맞게 답하면 성공</div></div></div>
+  </div>
+
+  <div class="prac"><div class="num">0-3</div><div><h3>재료 모으기: 사진 10장, 리뷰 20개</h3><div class="goal">1주차 실습 2와 3주차 이미지 실습의 재료입니다.</div></div><div class="time">10분+</div></div>
+  <ul>
+    <li><b>대표 상품 사진 10장 이상</b>: 잘 찍지 않아도 됩니다. 완성품, 재료, 만드는 손, 포장, 먹는 장면을 섞어서 휴대폰으로 찍습니다.</li>
+    <li><b>리뷰·문의 20개</b>: 내 스마트스토어·쿠팡·네이버 플레이스 리뷰, 카톡 문의를 캡처하거나 복사해 메모장 한 파일에 모읍니다. 리뷰가 적으면 경쟁 상품 리뷰를 <b>눈으로 읽고</b> 옮겨 적습니다.</li>
+    <li>고객 이름·전화번호·주소가 보이는 부분은 지우고 모읍니다.</li>
+  </ul>
+  <div class="callout bad"><b class="h">리뷰를 프로그램으로 대량 수집하지 않습니다</b>쿠팡·네이버는 자동 수집을 약관으로 막고 있고, 네이버 데이터 무단 크롤링에 손해배상 판결이 나온 사례도 있습니다. AI 브라우저로 여러 페이지를 돌며 리뷰를 긁어 오게 시키지 말고, 사람이 보는 화면만 분석합니다.</div>
+</div></section>
+
+<section id="w1"><div class="wrap">
+  <div class="part"><div class="t">1주차 · 2시간 · 진단과 스토리 설계</div><h2>주인공은 내가 아니라 고객입니다</h2><p>산출물: SB7 브랜드스크립트 1장, 한 줄 정의문, 12섹션 분해표 1개</p></div>
+
+  <div class="tbl"><table>
+    <tr><th>시간</th><th>내용</th></tr>
+    <tr><td>0:00–0:10</td><td>오리엔테이션, 크롬 확장과 가게 카드 점검</td></tr>
+    <tr><td>0:10–0:35</td><td>원리: 장점 나열형과 스토리형 비교, SB7 7단계, 와디즈 식품 페이지 구조</td></tr>
+    <tr><td>0:35–0:55</td><td>실습 1: 잘 팔린 와디즈 식품 페이지 1개를 12섹션으로 분해</td></tr>
+    <tr><td>0:55–1:15</td><td>실습 2: 리뷰 20개에서 고객의 문제 언어 뽑기</td></tr>
+    <tr><td>1:15–1:50</td><td>실습 3: SB7 브랜드스크립트와 한 줄 정의문 작성</td></tr>
+    <tr><td>1:50–2:00</td><td>정리, 과제 1 안내</td></tr>
+  </table></div>
+
+  <h3>원리: 같은 반찬, 다른 첫 문장</h3>
+  <div class="ba">
+    <div class="b"><div class="lab">장점 나열형</div><p><b>100% 국내산 재료로 매일 만드는 수제 반찬</b></p><p>HACCP 인증 · 무방부제 · 당일 제조 · 새벽배송</p><p>→ 다 좋은 말인데, 읽는 사람은 "그래서 나랑 무슨 상관?"이라고 느낍니다. 경쟁 상품도 똑같이 말합니다.</p></div>
+    <div class="a"><div class="lab">스토리형</div><p><b>퇴근하고 7시, 오늘 저녁은 밥만 지으세요</b></p><p>반찬 만들 기운은 없고, 또 배달시키자니 아이한테 미안한 저녁. 두 아이 키우며 저희도 그랬습니다.</p><p>→ 고객이 "내 얘기네" 하고 멈춥니다. 국내산·당일 제조는 그 다음, "믿을 수 있는 이유"에서 증거로 나옵니다.</p></div>
+  </div>
+  <p>장점은 버리지 않습니다. <b>순서를 바꿀 뿐입니다.</b> 문제 → 공감 → 증거 → 계획 → 행동 순서로 놓으면, 같은 장점이 "주장"이 아니라 "해결의 근거"가 됩니다. 각 단계는 위 <a href="#map">12섹션 지도</a>의 SB7 설명을 함께 봅니다.</p>
+
+  <div class="prac"><div class="num">실습<br>1</div><div><h3>와디즈 식품 페이지 1개를 12섹션으로 분해하기</h3><div class="goal">잘 팔린 페이지의 "순서와 짜임새"를 눈으로 익힙니다. 문장은 가져오지 않습니다.</div></div><div class="time">20분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>wadiz.kr → 펀딩 → 카테고리 "푸드"</b></div><h4>달성률이 높은 식품 프로젝트 1개를 엽니다</h4><p>내 상품과 비슷한 유형이면 더 좋습니다(반찬·밀키트, 장류·소스, 수산물·정육 등). 스토리 탭을 끝까지 한 번 내려 봅니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><div class="where">어디서 <b>그 페이지에서 Claude 아이콘 → 사이드 패널</b></div><h4>아래 프롬프트를 붙여넣습니다</h4><p>Claude가 지금 보고 있는 페이지를 읽고 표로 나눠 줍니다. 페이지가 길면 "스토리를 끝까지 스크롤해서 읽어 줘"라고 덧붙입니다.</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab">프롬프트 1-1 · 경쟁 페이지 12섹션 분해</span><button class="copy" data-copy="p11">복사</button><span id="p11">지금 열려 있는 상세페이지(스토리)를 처음부터 끝까지 읽고 구조를 분석해줘.
+
+1. 페이지를 위에서부터 덩어리로 나누고, 각 덩어리를 아래 12섹션 중 어디에 해당하는지 표로 정리해줘.
+   (1 첫 화면 후킹 / 2 고객의 고민 / 3 문제 심화 / 4 만든 사람의 공감 / 5 신뢰 증거 / 6 만드는 과정 / 7 고객이 할 3단계 / 8 구성·가격 / 9 실패 회피 / 10 성공한 모습 / 11 안심 정보 / 12 마지막 행동 촉구)
+   표 열: 순서 | 섹션 번호 | 이 덩어리가 하는 일(한 줄) | 사용한 장치(사진, 표, 후기, 인증 마크 등)
+2. 12섹션 중 빠진 섹션과, 두 번 이상 반복된 섹션을 알려줘.
+3. 이 페이지가 고객의 "내적 문제(마음속 불안)"를 건드린 부분을 한 줄로 요약해줘.
+4. 우리 가게(<span class="var" data-k="hero">[대표 상품]</span>)가 이 구조에서 배울 점 3가지.
+
+주의: 페이지의 문장을 그대로 옮기지 말고 구조와 역할만 설명해줘.</span></div>
+  <div class="feel"><b>이런 결과가 나오면 성공:</b> 표를 보면 "후킹 → 고민 → 만든 사람 이야기 → 증거 → 과정 → 구성 → 안심 → 행동" 흐름이 보이고, 빠진 섹션이 한두 개 눈에 띕니다.</div>
+  <div class="callout note"><b class="h">크롬 확장이 안 될 때</b>페이지를 스크롤하며 화면 캡처 3~5장을 찍어 Claude나 ChatGPT 대화창에 올리고 같은 프롬프트를 씁니다.</div>
+
+  <div class="prac"><div class="num">실습<br>2</div><div><h3>리뷰 20개에서 고객의 문제 언어 뽑기</h3><div class="goal">카피는 사장님 말이 아니라 고객이 쓴 말에서 나옵니다.</div></div><div class="time">20분</div></div>
+  <p>0주차에 모은 리뷰·문의를 Claude 프로젝트 대화창에 붙여넣고 아래 프롬프트를 씁니다. 리뷰 화면을 열어 둔 채 Claude in Chrome 사이드 패널에서 해도 됩니다.</p>
+  <div class="prompt"><span class="lab">프롬프트 1-2 · 리뷰에서 문제 언어 뽑기</span><button class="copy" data-copy="p12">복사</button><span id="p12">아래는 <span class="var" data-k="hero">[대표 상품]</span> 관련 고객 리뷰와 문의야. StoryBrand(SB7) 관점으로 분석해줘.
+
+1. 고객이 사기 전에 겪던 문제를 세 가지로 나눠 표로 정리해줘.
+   - 외적 문제(겉으로 보이는 불편)
+   - 내적 문제(마음속 불안, 미안함, 걱정)
+   - 철학적 문제("이건 옳지 않다"는 생각)
+   각 칸에 고객이 실제로 쓴 표현을 따옴표로 2개씩 붙여줘.
+2. 사기 전 가장 많이 한 걱정 3가지 (맛, 양, 보관, 배송, 가격, 위생 등)
+3. 먹고 나서 고객이 느낀 변화를 고객 표현 그대로 5개
+4. 우리가 몰랐을 수 있는 구매 이유 1가지
+
+리뷰에 없는 내용은 추측하지 말고 "리뷰에 없음"이라고 적어줘.
+
+[리뷰·문의]
+(여기에 붙여넣기)</span></div>
+  <div class="feel"><b>이런 결과가 나오면 성공:</b> "퇴근하면 기운이 없어서", "애들한테 미안해서" 같은 고객의 진짜 말이 표에 모입니다. 이 말들이 2주차 카피의 재료입니다.</div>
+
+  <div class="prac"><div class="num">실습<br>3</div><div><h3>SB7 브랜드스크립트와 한 줄 정의문 쓰기</h3><div class="goal">12섹션 지도의 왼쪽(SB7) 칸을 채웁니다. 2주차 와이어프레임이 여기서 자동으로 만들어집니다.</div></div><div class="time">35분</div></div>
+  <p>먼저 AI에게 초안을 받고, 사장님이 고쳐서 아래 워크시트에 적습니다. <b>초안을 그대로 쓰지 말고, 실습 2의 고객 표현으로 바꾸는 것</b>이 핵심입니다.</p>
+  <div class="prompt"><span class="lab">프롬프트 1-3 · SB7 브랜드스크립트 초안</span><button class="copy" data-copy="p13">복사</button><span id="p13">너는 도널드 밀러의 StoryBrand(SB7) 전문가야. 프로젝트의 가게 카드와 방금 분석한 리뷰를 바탕으로 <span class="var" data-k="name">[상호]</span>의 <span class="var" data-k="hero">[대표 상품]</span> 브랜드스크립트를 한국어로 써줘.
+
+고객이 주인공이고 <span class="var" data-k="name">[상호]</span>는 안내자야. 주인공: <span class="var" data-k="who">[주요 고객]</span>
+
+각 단계마다 "핵심 한 줄"과 "상세페이지에 쓸 카피 예시 1개"를 줘.
+① 주인공이 원하는 것 (상품이 아니라 삶의 장면으로)
+② 문제: 외적 / 내적 / 철학적 각각
+③ 가이드: 공감 한 줄 + 권위(가게 카드의 증거만 사용)
+④ 계획: 고객이 따라 할 3단계
+⑤ 행동 촉구: 직접 행동 1개 + 가벼운 전환 행동 1개
+⑥ 실패 회피: 사지 않으면 계속될 일 (겁주지 말고 담담하게)
+⑦ 성공: 문제가 풀린 뒤의 구체적인 장면
+마지막에 "한 줄 정의문"을 3개 제안해줘. 형식: [고객의 문제]인 분들을 위해 [해결 방식]으로 [결과]를 드립니다.
+
+<span class="var" data-k="tone">[말투]</span>로 쓰고, 카드에 없는 숫자·인증·수상은 쓰지 마.</span></div>
+
+  <div class="fill" id="sb7tool">
+    <h4 style="margin-top:0">SB7 워크시트 <small style="font-weight:400;color:var(--sub)">· 입력하면 자동 저장, 2주차 와이어프레임에 그대로 쓰입니다</small></h4>
+    <div class="sbgrid">
+      <div class="full"><label for="s-want"><span class="sbnum">①</span>주인공이 원하는 것</label><textarea id="s-want" rows="2" placeholder="예: 퇴근 후 30분 안에, 미안하지 않은 저녁상을 차리고 싶다"></textarea></div>
+      <div><label for="s-ext"><span class="sbnum">②</span>외적 문제</label><textarea id="s-ext" rows="2" placeholder="예: 평일 저녁 요리할 시간이 없다"></textarea></div>
+      <div><label for="s-int"><span class="sbnum">②</span>내적 문제</label><textarea id="s-int" rows="2" placeholder="예: 사 온 반찬을 내놓을 때 아이한테 미안하다"></textarea></div>
+      <div class="full"><label for="s-phil"><span class="sbnum">②</span>철학적 문제</label><textarea id="s-phil" rows="2" placeholder="예: 바쁘다는 이유로 가족 밥상이 대충이 되면 안 된다"></textarea></div>
+      <div><label for="s-emp"><span class="sbnum">③</span>가이드: 공감</label><textarea id="s-emp" rows="2" placeholder="예: 두 아이 키우며 저희도 매일 같은 고민을 했습니다"></textarea></div>
+      <div><label for="s-auth"><span class="sbnum">③</span>가이드: 권위 (사실만)</label><textarea id="s-auth" rows="2" placeholder="예: 2019년부터 매일 아침 조리, 재구매 고객 다수"></textarea></div>
+      <div class="full"><label for="s-plan"><span class="sbnum">④</span>계획: 고객이 할 3단계</label><textarea id="s-plan" rows="2" placeholder="예: ① 오늘 밤 10시 전 주문 ② 내일 새벽 받아서 냉장 ③ 데워서 밥과 함께"></textarea></div>
+      <div><label for="s-cta"><span class="sbnum">⑤</span>행동 촉구 (직접 / 전환)</label><textarea id="s-cta" rows="2" placeholder="예: 이번 주 3종 세트 주문하기 / 보관법 카드 받기"></textarea></div>
+      <div><label for="s-fail"><span class="sbnum">⑥</span>실패 회피</label><textarea id="s-fail" rows="2" placeholder="예: 오늘도 배달앱을 열고, 또 미안한 저녁"></textarea></div>
+      <div class="full"><label for="s-succ"><span class="sbnum">⑦</span>성공</label><textarea id="s-succ" rows="2" placeholder="예: 저녁 7시, 따뜻한 밥 옆에 반찬 세 가지. 가족이 같이 앉는 식탁"></textarea></div>
+      <div class="full"><label for="s-one"><b>한 줄 정의문</b></label><textarea id="s-one" rows="2" placeholder="예: 퇴근 후 차릴 기운이 없는 부모님께, 매일 아침 만든 저염 반찬으로 미안하지 않은 저녁을 드립니다"></textarea></div>
+    </div>
+    <div class="bar2">
+      <button class="fbtn violet" id="sbCopy">워크시트 전체 복사</button>
+      <button class="fbtn amber" id="sbSample">현재 예시로 채우기</button>
+      <button class="fbtn gray" id="sbClear">비우기</button>
+      <span id="sbmsg"></span>
+    </div>
+  </div>
+  <div class="callout good"><b class="h">한 줄 정의문 점검 3가지</b>① 고객의 문제가 먼저 나오나? ② 우리 방식이 구체적인가("정성껏" 말고 "매일 아침 그날 팔 양만")? ③ 결과가 장면으로 보이나? 세 가지가 다 되면 완성입니다.</div>
+
+  <div class="hw"><b class="h">과제 1 · 2주차 전까지</b>
+    <ol>
+      <li>단골이나 지인 3명에게 묻습니다: <b>"이 음식 처음 사기 전에 뭐가 제일 걱정됐어요?"</b> "사고 나서 뭐가 달라졌어요?"</li>
+      <li>답을 반영해 SB7 워크시트, 특히 ②내적 문제와 ⑦성공을 고칩니다.</li>
+      <li>고친 브랜드스크립트를 Claude 프로젝트의 가게 카드 아래에 붙여넣어 업데이트합니다.</li>
+    </ol>
+  </div>
+</div></section>
+<section id="w2"><div class="wrap">
+  <div class="part"><div class="t">2주차 · 2시간 · 설계와 카피</div><h2>스크롤이 멈추는 순서를 만듭니다</h2><p>산출물: 12섹션 와이어프레임, 섹션별 카피 원고, 헤드라인 A/B 3안, 법규 점검을 마친 최종 원고</p></div>
+
+  <div class="tbl"><table>
+    <tr><th>시간</th><th>내용</th></tr>
+    <tr><td>0:00–0:20</td><td>원리: 12섹션 전환 구조, 첫 화면 공식, 헤드라인 공식 5가지</td></tr>
+    <tr><td>0:20–0:50</td><td>실습 1: 브랜드스크립트를 12섹션 와이어프레임으로 옮기기</td></tr>
+    <tr><td>0:50–1:25</td><td>실습 2: 경쟁 상품 3개 비교 후 섹션별 카피와 헤드라인 A/B 3안</td></tr>
+    <tr><td>1:25–1:50</td><td>실습 3: 식품 표시·광고 법규 점검표로 카피 고치기</td></tr>
+    <tr><td>1:50–2:00</td><td>정리, 과제 2와 촬영 가이드 안내</td></tr>
+  </table></div>
+
+  <h3>원리 ① 첫 화면 공식: 3초 안에 네 가지</h3>
+  <div class="cuts">
+    <div><b>누구 얘기인지</b>"퇴근이 늦은 부모님"처럼 고객을 부릅니다.</div>
+    <div><b>무엇이 달라지는지</b>상품 이름보다 결과 장면을 먼저. "오늘 저녁, 밥만 지으세요"</div>
+    <div><b>믿을 이유 하나</b>작은 글씨로 증거 1개. "2019년부터 매일 아침 조리"</div>
+    <div><b>대표 장면 한 컷</b>음식이 가장 맛있어 보이는 실제 사진 또는 3초 GIF</div>
+    <div><b>상품명은 그 다음</b>상품명·가격은 첫 화면 아래나 구성 섹션에서 분명하게</div>
+    <div><b>모바일 기준</b>휴대폰 화면 한 장 안에 위 네 가지가 들어와야 합니다</div>
+  </div>
+
+  <h3>원리 ② 헤드라인 공식 5가지</h3>
+  <div class="tbl"><table>
+    <tr><th>공식</th><th>구조</th><th>예시</th></tr>
+    <tr><td><b>문제 해결형</b></td><td>[고객의 문제], [해결 장면]</td><td>퇴근 후 반찬 걱정, 오늘부터는 밥만 지으세요</td></tr>
+    <tr><td><b>결과 약속형</b></td><td>[기간·수고] 만에 [결과]</td><td>데우기 5분, 세 가지 반찬이 올라간 저녁상</td></tr>
+    <tr><td><b>대상 호명형</b></td><td>[이런 분]을 위한 [해결]</td><td>짠 반찬이 걱정인 부모님을 위한 저염 반찬</td></tr>
+    <tr><td><b>증거형</b></td><td>[사실 숫자·과정] + [의미]</td><td>6년째 매일 아침, 그날 팔 양만 만듭니다</td></tr>
+    <tr><td><b>질문형</b></td><td>고객이 속으로 하는 질문</td><td>사 온 반찬, 아이 앞에 내놓기 망설여지세요?</td></tr>
+  </table></div>
+  <div class="callout warn"><b class="h">숫자는 사실일 때만</b>"누적 10만 개 판매", "재구매율 80%"처럼 확인할 수 없는 숫자는 쓰지 않습니다. 쓸 때는 기준일과 출처(판매자센터 통계 등)를 작게 적습니다.</div>
+
+  <h3>원리 ③ 행동 촉구(CTA) 원칙</h3>
+  <ul>
+    <li><b>세 번 보여줍니다:</b> 첫 화면 아래, 구성·가격 섹션, 페이지 맨 끝.</li>
+    <li><b>무엇을 하면 되는지 동사로:</b> "구매하기"보다 "이번 주 3종 세트 담기".</li>
+    <li><b>망설이는 사람을 위한 가벼운 행동도 하나:</b> "소포장으로 먼저 맛보기", "보관법 안내 받기(알림받기)".</li>
+    <li><b>기한·수량 한정은 사실일 때만:</b> 없는 마감을 만들면 신뢰를 잃고 법에도 걸릴 수 있습니다.</li>
+  </ul>
+
+  <div class="prac"><div class="num">실습<br>1</div><div><h3>브랜드스크립트를 12섹션 와이어프레임으로 옮기기</h3><div class="goal">1주차 워크시트가 아래 표에 자동으로 들어갑니다. 빈칸이 보이면 거기가 이번 주에 채울 곳입니다.</div></div><div class="time">30분</div></div>
+  <div class="card">
+    <div class="bar2" style="margin:0 0 8px"><button class="fbtn" id="wfMake">와이어프레임 새로 만들기</button><button class="fbtn violet" id="wfCopy">표 복사</button><span style="font-size:13px;color:var(--sub)">1주차 SB7 워크시트와 가게 카드를 읽어 만듭니다</span></div>
+    <div class="tbl wfout"><table id="wftable"><tr><th>#</th><th>섹션</th><th>들어갈 내용 (워크시트·가게 카드에서)</th><th>필요한 이미지</th></tr></table></div>
+  </div>
+  <div class="prompt"><span class="lab">프롬프트 2-1 · 와이어프레임 상세화</span><button class="copy" data-copy="p21">복사</button><span id="p21">아래 12섹션 와이어프레임 표를 상세페이지 설계도로 발전시켜줘. 모바일 세로 화면(폭 860px 이미지) 기준이야.
+
+섹션마다 다음을 적어줘.
+- 목적: 이 섹션을 읽은 고객이 느껴야 할 한 가지
+- 제목(15자 안팎)과 본문(2~3줄)
+- 화면 구성: 사진/아이콘/표/체크리스트 중 무엇을 어떻게 배치할지
+- 필요한 이미지 1~2개와, 그게 실제 사진이어야 하는지 AI 이미지여도 되는지
+- 빈 정보가 있으면 "[확인 필요: 무엇]"으로 표시
+
+전체 길이는 휴대폰으로 스크롤 20~30번 안에 끝나게 조절하고, 식품 구매자가 가장 궁금해하는 11번 안심 정보(보관·소비기한·알레르기·배송·교환)는 빠짐없이 챙겨줘.
+
+[와이어프레임 표]
+(위 "표 복사"로 복사한 내용 붙여넣기)</span></div>
+
+  <div class="prac"><div class="num">실습<br>2</div><div><h3>경쟁 상품 3개를 비교하고, 섹션별 카피와 헤드라인 A/B 3안 쓰기</h3><div class="goal">경쟁 상품과 같은 말을 하고 있는 곳을 찾아, 우리만 할 수 있는 말로 바꿉니다.</div></div><div class="time">35분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>스마트스토어·쿠팡 검색 → 경쟁 상품 3개를 새 탭으로</b></div><h4>Claude in Chrome에서 탭 3개를 함께 보게 합니다</h4><p>사이드 패널에서 "탭 추가"로 세 탭을 Claude의 작업 그룹에 넣거나, 탭마다 번갈아 가며 같은 질문을 합니다. 화면 이름은 업데이트로 달라질 수 있습니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>비교 프롬프트 → 카피 프롬프트 순서로 씁니다</h4><p>비교표에서 "세 곳 모두 하는 말"은 우리 카피에서 앞에 두지 않습니다. 증거 섹션으로 내립니다.</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab">프롬프트 2-2 · 경쟁 상품 3개 첫 화면 비교</span><button class="copy" data-copy="p22">복사</button><span id="p22">열어 둔 경쟁 상품 페이지 3개의 첫 화면과 상세페이지 앞부분을 비교해줘.
+
+표 열: 상품 | 첫 화면 헤드라인이 말하는 것 | 고객의 문제를 다루는가(예/아니오) | 내세우는 장점 3개 | 신뢰 증거 | 안심 정보의 위치
+표 아래에:
+1. 세 곳이 공통으로 하는 말 (우리가 앞에 내세우면 묻히는 말)
+2. 세 곳 모두 말하지 않은 고객의 고민
+3. <span class="var" data-k="name">[상호]</span>의 "<span class="var" data-k="edge">[만드는 방식]</span>"으로 차별화할 수 있는 지점 2개
+문장을 그대로 옮기지 말고 요약해서 알려줘.</span></div>
+  <div class="prompt"><span class="lab">프롬프트 2-3 · 섹션별 카피와 헤드라인 A/B 3안</span><button class="copy" data-copy="p23">복사</button><span id="p23">프로젝트의 가게 카드, SB7 브랜드스크립트, 방금 만든 와이어프레임과 경쟁 비교를 바탕으로 <span class="var" data-k="hero">[대표 상품]</span> 상세페이지 카피를 써줘.
+
+1. 첫 화면 헤드라인 A/B/C 3안: 각각 다른 공식(문제 해결형, 대상 호명형, 증거형)으로. 안마다 서브카피 1줄과 "누가 더 반응할지" 한 줄 설명.
+2. 12섹션 전체 카피: 섹션마다 제목 + 본문. 2번 섹션은 고객이 공감할 체크리스트 4줄로.
+3. 고객 리뷰에서 나온 표현을 최소 3곳에 살려줘.
+4. CTA 문구 3개(첫 화면 아래, 구성·가격, 맨 끝용).
+
+규칙: <span class="var" data-k="tone">[말투]</span>. 한 문장은 40자 안쪽. 카드에 없는 숫자·인증·수상·후기는 지어내지 말고 "[확인 필요]"로. 질병 예방·치료 효능, "최고·유일·1위" 같은 근거 없는 표현 금지.</span></div>
+  <div class="feel"><b>이런 결과가 나오면 성공:</b> 첫 화면만 읽어도 "누구의 어떤 저녁이 어떻게 달라지는지"가 보이고, 국내산·당일 제조 같은 장점은 5번 섹션에서 증거로 등장합니다.</div>
+  <div class="callout note"><b class="h">A/B 3안은 어떻게 고르나요</b>가족이나 단골 3명에게 휴대폰으로 세 안을 보여주고 "어떤 걸 보면 더 읽고 싶어요?"라고 묻습니다. 과제 2의 "3초 테스트"가 바로 이것입니다.</div>
+
+  <div class="prac"><div class="num">실습<br>3</div><div><h3>식품 표시·광고 법규 점검표로 카피 고치기</h3><div class="goal">식품은 "좋게 말하기"에 선이 있습니다. 올리기 전에 걸러내면 판매 중지와 과태료를 피할 수 있습니다.</div></div><div class="time">25분</div></div>
+  <div class="card" id="lawtool">
+    <h4 style="margin-top:0">식품 상세페이지 법규 점검표 <small style="font-weight:400;color:var(--sub)">· 확인한 항목에 체크</small></h4>
+    <ul class="check-list">
+      <li><input type="checkbox" class="lw"><div><b>질병 예방·치료 효능을 말하지 않았다</b><small>"당뇨에 좋은", "면역력 회복", "혈압을 낮춰 주는" 같은 표현. 식품 등의 표시·광고에 관한 법률 제8조가 금지하는 대표 유형입니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>의약품·건강기능식품으로 오해할 표현이 없다</b><small>일반 식품에 "기능성", "혈당 관리", "복용" 같은 말을 쓰지 않습니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>근거 없는 "최고·유일·1위·가장"이 없다</b><small>근거가 있으면 기준(누가, 언제, 무엇으로 측정)과 출처를 함께 적습니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>"무첨가·무설탕·무방부제" 같은 '무(無)' 표현의 조건을 확인했다</b><small>식품등의 표시기준에 따른 요건이 있어 함부로 쓰면 안 됩니다. 확실하지 않으면 "OO을 넣지 않고 만듭니다"처럼 사실만 적고, 관할 기관에 확인합니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>원산지·원재료를 실제와 다르게 강조하지 않았다</b><small>일부 원료만 국내산인데 "100% 국내산"처럼 보이게 하지 않습니다. 원산지는 원료별로 정확히.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>후기는 실제 고객 후기만 썼다</b><small>지어낸 후기, AI로 만든 "고객 사진"은 금지. 체험단·협찬 등 대가를 준 후기는 그 사실을 표시합니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>다른 제품을 깎아내리거나 근거 없이 비교하지 않았다</b><small>"시중 반찬은 방부제 범벅" 같은 표현 대신 "우리는 이렇게 만듭니다"로.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>인증 마크는 실제 받은 인증만, 해당 제품에만 넣었다</b><small>HACCP, 유기농, 친환경 등. 인증 기간이 끝났는지도 확인합니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>필수 정보를 빠짐없이 넣었다</b><small>제품명, 원재료명, 원산지, 내용량, 소비기한(2023년부터 유통기한 대신 표시), 보관방법, 알레르기 유발물질(국내 표시 대상 중 해당 항목), 제조·판매원.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>가격·할인·한정이 사실이다</b><small>원래 가격을 부풀린 할인, 없는 마감 시간·수량은 쓰지 않습니다.</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>AI 이미지가 실물과 다르지 않다</b><small>양, 색, 구성, 크기를 바꾸지 않습니다. 연출 컷에는 "연출 이미지" 또는 "AI 생성 이미지"를 작게 표기합니다(3주차에서 자세히).</small></div></li>
+      <li><input type="checkbox" class="lw"><div><b>배송·교환·반품 조건을 적었다</b><small>신선식품은 단순 변심 반품이 어렵다는 점과, 파손·변질 시 처리 방법을 분명히.</small></div></li>
+    </ul>
+    <div class="scorebox"><div class="big"><span id="lawScore">0</span><small> / 12</small></div><div class="msg" id="lawMsg">체크하면서 카피를 고쳐 보세요.</div></div>
+  </div>
+  <div class="prompt"><span class="lab">프롬프트 2-4 · 법규 위험 표현 찾기</span><button class="copy" data-copy="p24">복사</button><span id="p24">아래 식품 상세페이지 카피를 한국 식품 표시·광고 기준으로 점검해줘. 나는 일반 식품(건강기능식품 아님)을 판다.
+
+1. 위험 표현을 표로: 원문 | 왜 위험한지(질병 효능, 의약품 오인, 근거 없는 최상급, '무' 표현, 원산지 오인, 비방, 가짜 후기, 가격 표시 중 무엇) | 고친 문장
+2. 필수 정보(원재료, 원산지, 내용량, 소비기한, 보관방법, 알레르기 유발물질, 제조·판매원, 배송·교환) 중 빠진 것
+3. 확신이 없는 항목은 "관할 기관 확인 필요"로 표시
+
+너의 점검은 참고용이고 최종 판단은 내가 식약처 기준과 전문가 확인으로 한다는 전제로 답해줘.
+
+[카피]
+(여기에 붙여넣기)</span></div>
+  <div class="callout warn"><b class="h">AI 점검은 1차 필터입니다</b>AI는 법률 전문가가 아닙니다. 애매한 표현은 빼는 쪽이 안전하고, 건강 관련 표현을 꼭 써야 한다면 식품의약품안전처 자료나 관할 지자체 위생 부서, 전문가에게 확인합니다.</div>
+
+  <div class="callout agent"><b class="h">예시 D(강희정면가)로 연습하기: 사실이어도 표현은 따져 봅니다</b>
+    <ul style="margin:6px 0 0 20px">
+      <li><b>"밀가루 0%"</b>: 원재료가 실제로 그렇다면 쓸 수 있는 사실 표현입니다. 다만 "무첨가"처럼 '무(無)'를 붙이는 표현은 표시기준 요건을 확인하고 씁니다.</li>
+      <li><b>특허</b>: 특허 번호와 이름은 사실대로 적되, 특허 이름에 들어간 "저탄수화물·포만감 지속 기능" 같은 말을 광고 문구로 옮기면 일반 식품을 기능성 식품처럼 보이게 할 수 있습니다. 특허는 "이렇게 만듭니다"의 증거로만 씁니다.</li>
+      <li><b>"명인" 같은 칭호</b>: 정부가 지정하는 대한민국식품명인과 민간 단체가 주는 칭호는 다릅니다. 칭호를 쓸 때는 수여 기관과 연도를 함께 적어 오해가 없게 합니다.</li>
+      <li><b>방송 출연</b>: "OO 방송 출연(연도)"처럼 사실만. "방송이 인정한 맛"처럼 방송사가 보증한 것처럼 쓰지 않습니다.</li>
+    </ul>
+  </div>
+
+  <div class="hw"><b class="h">과제 2 · 3주차 전까지</b>
+    <ol>
+      <li>카피 원고를 완성합니다(법규 점검 12항목 모두 체크).</li>
+      <li><b>3초 테스트:</b> 가족·단골 3명에게 헤드라인 A/B/C를 휴대폰으로 3초씩 보여주고 "무슨 상품 같아요? 누구한테 필요해 보여요?"를 묻습니다. 가장 정확히 맞힌 안을 고릅니다.</li>
+      <li>아래 촬영 가이드대로 3주차 재료 사진을 찍어 옵니다.</li>
+    </ol>
+  </div>
+
+  <h3>촬영 가이드: 휴대폰으로 충분합니다</h3>
+  <div class="cuts">
+    <div><b>① 완성품 클로즈업</b>그릇에 담아 45도 위에서. 김이 나는 순간이면 더 좋습니다. (1번·10번 섹션)</div>
+    <div><b>② 재료</b>손질 전 재료를 도마 위에 가지런히. 원산지 표시가 보이면 좋습니다. (5번·6번)</div>
+    <div><b>③ 만드는 손</b>얼굴 없이 손과 조리 과정만. 위생모·장갑이 보이게. (6번)</div>
+    <div><b>④ 포장</b>배송 상자, 아이스팩, 용기를 펼쳐서. 고객이 받는 모습 그대로. (7번·11번)</div>
+    <div><b>⑤ 먹는 장면</b>식탁 위 밥과 함께. 사람은 손만 나와도 됩니다. (10번)</div>
+    <div><b>⑥ 대표 한 컷</b>매장이나 작업장에서 대표님 상반신. 얼굴이 신뢰를 만듭니다. (4번)</div>
+  </div>
+  <ul>
+    <li><b>빛:</b> 창가 자연광, 오전 10시~오후 3시. 형광등 바로 아래는 피합니다.</li>
+    <li><b>방향:</b> 같은 장면을 세로 1장, 가로 1장씩. 세로는 영상, 가로는 상세페이지에 씁니다.</li>
+    <li><b>배경:</b> 무늬 없는 나무판·천·흰 접시. 3주차에 AI로 배경을 정리할 수 있지만, 음식 자체는 고치지 않습니다.</li>
+    <li><b>렌즈:</b> 휴대폰 기본 1배 렌즈. 광각(0.5배)은 음식이 찌그러져 보입니다.</li>
+  </ul>
+</div></section>
+<section id="w3"><div class="wrap">
+  <div class="part"><div class="t">3주차 · 2시간 · 이미지와 영상</div><h2>보여주는 것이 증명입니다</h2><p>산출물: 섹션 이미지 세트(10장 안팎), 첫 화면용 6초 영상 또는 공정 15초 영상, 첫 화면 GIF</p></div>
+
+  <div class="tbl"><table>
+    <tr><th>시간</th><th>내용</th></tr>
+    <tr><td>0:00–0:20</td><td>원리: 상세페이지 컷 5종, 식품 AI 이미지 원칙</td></tr>
+    <tr><td>0:20–1:10</td><td>실습 1: ChatGPT 이미지로 섹션 컷 만들기</td></tr>
+    <tr><td>1:10–1:50</td><td>실습 2: Google Flow로 첫 화면 6초 영상 또는 공정 15초 영상</td></tr>
+    <tr><td>1:50–2:00</td><td>정리, 과제 3 안내</td></tr>
+  </table></div>
+
+  <h3>원리 ① 상세페이지 컷 5종과 들어갈 섹션</h3>
+  <div class="tbl"><table>
+    <tr><th>컷</th><th>하는 일</th><th>섹션</th><th>무엇으로</th></tr>
+    <tr><td><b>키비주얼</b></td><td>3초 안에 멈추게 하는 대표 장면</td><td>1</td><td>실물 사진 + AI로 배경·빛 정리, 또는 6초 영상→GIF</td></tr>
+    <tr><td><b>공감 장면</b></td><td>고객의 문제 상황</td><td>2·9</td><td>AI 일러스트·연출 사진(연출 표기)</td></tr>
+    <tr><td><b>과정·증거</b></td><td>만드는 손, 재료, 인증서</td><td>5·6</td><td>실제 사진만</td></tr>
+    <tr><td><b>인포그래픽</b></td><td>3단계, 구성 비교, 보관법</td><td>7·8·11</td><td>ChatGPT 이미지(한글 글자 포함)</td></tr>
+    <tr><td><b>성공 장면</b></td><td>문제가 풀린 식탁</td><td>10</td><td>실물 사진 연출 + 실제 후기 캡처</td></tr>
+  </table></div>
+
+  <h3>원리 ② 식품 AI 이미지 다섯 가지 원칙</h3>
+  <div class="ba">
+    <div class="b"><div class="lab">하지 않습니다</div>
+      <p>✕ 음식 자체를 AI로 새로 그리기 (양·색·구성이 실물과 달라짐)</p>
+      <p>✕ AI로 만든 사람을 "실제 고객"처럼 후기 섹션에 넣기</p>
+      <p>✕ 받지 않은 인증 마크, 없는 수상 배지 그려 넣기</p>
+    </div>
+    <div class="a"><div class="lab">이렇게 합니다</div>
+      <p>✓ 실물 사진을 올리고 <b>배경·조명·소품만</b> 바꾸기</p>
+      <p>✓ 공감·분위기 컷은 AI로 만들되 "연출 이미지" 작게 표기</p>
+      <p>✓ 과정·재료·인증은 반드시 실제 사진</p>
+    </div>
+  </div>
+  <div class="callout note"><b class="h">왜 이렇게까지 조심하나요</b>식품은 받아 본 음식이 사진과 다르면 바로 반품과 나쁜 리뷰로 돌아옵니다. 실물과 다른 이미지는 소비자를 속이는 광고로 문제가 될 수 있습니다. 2026년 1월 시행된 인공지능기본법도 생성형 AI 결과물의 표시를 다루고 있으니, 연출·AI 컷에는 표기를 붙이는 습관을 들입니다.</div>
+
+  <div class="prac"><div class="num">실습<br>1</div><div><h3>ChatGPT 이미지로 섹션 컷 만들기</h3><div class="goal">과제 2에서 찍어 온 실물 사진을 재료로, 섹션별 이미지를 860px 폭에 맞게 만듭니다.</div></div><div class="time">50분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>chatgpt.com → 프로젝트 "<span class="var" data-k="name">[상호]</span>_상세페이지" → 새 대화</b></div><h4>실물 사진을 올리고 컷 하나씩 요청합니다</h4><p>한 대화에서 여러 컷을 이어서 만들면 색감과 분위기가 맞춰집니다. 글자가 들어간 컷은 생성 후 맞춤법과 숫자를 꼭 확인합니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>세 가지를 검사합니다: 음식이 실물과 같은가, 글자가 깨졌나, 손가락·그릇이 이상한가</h4><p>이상한 부분은 "이 부분만 고쳐줘"로 다시 요청합니다. 음식 모양이 바뀌었으면 처음부터 다시 합니다.</p></div></div>
+  </div>
+
+  <p><span class="kit-num">컷 A</span><b>키비주얼 · 1번 섹션</b></p>
+  <div class="prompt"><span class="lab">이미지 프롬프트 A · 실물 사진 배경 정리</span><button class="copy" data-copy="ia">복사</button><span id="ia">올린 사진 속 <span class="var" data-k="hero">[대표 상품]</span>은 모양, 양, 색, 담긴 그릇을 절대 바꾸지 마.
+배경과 조명만 바꿔줘: 따뜻한 저녁 식탁, 나무 테이블, 창가에서 들어오는 부드러운 빛, 뒤쪽은 자연스럽게 흐리게.
+세로 3:4, 상세페이지 첫 화면용. 이미지 위쪽 1/3은 헤드라인을 얹을 수 있게 여백으로 비워줘.
+화면에 글자는 넣지 마.</span></div>
+
+  <p><span class="kit-num">컷 B</span><b>공감 장면 · 2번 섹션</b></p>
+  <div class="prompt"><span class="lab">이미지 프롬프트 B · 고객의 문제 상황 (연출 이미지)</span><button class="copy" data-copy="ib">복사</button><span id="ib"><span class="var" data-k="who">[주요 고객]</span>이 겪는 순간을 따뜻한 일러스트로 그려줘.
+상황: <span class="var" data-k="pain">[고객의 고민]</span>
+감정: 지쳤지만 가족을 챙기고 싶은 마음. 과장되거나 우울하지 않게.
+스타일: 부드러운 색연필 느낌의 일러스트, 한국 가정 배경, 가로 4:3.
+사진처럼 보이지 않게 그려줘. 화면에 글자는 넣지 마.</span></div>
+
+  <p><span class="kit-num">컷 C</span><b>3단계 인포그래픽 · 7번 섹션</b></p>
+  <div class="prompt"><span class="lab">이미지 프롬프트 C · 받아서 드시기까지 3단계</span><button class="copy" data-copy="ic">복사</button><span id="ic">상세페이지용 3단계 인포그래픽을 만들어줘. 가로 폭 860px 비율의 세로 긴 이미지(약 860×1100).
+단계(한글 글자 정확히):
+<span class="var" data-k="plan3">[SB7 ④ 계획 3단계]</span>
+각 단계는 동그란 아이콘 + 굵은 제목 + 짧은 설명 한 줄. 위에서 아래로 화살표로 연결.
+색: 크림색 배경, 짙은 갈색 글자, 포인트 색 하나. 글씨는 휴대폰에서 읽히게 크게.
+맞춤법이 틀리면 안 돼.</span></div>
+
+  <p><span class="kit-num">컷 D</span><b>구성·가격 비교표 · 8번 섹션</b></p>
+  <div class="prompt"><span class="lab">이미지 프롬프트 D · 구성 비교표</span><button class="copy" data-copy="id">복사</button><span id="id">상세페이지용 구성 비교표 이미지를 만들어줘. 폭 860px 비율.
+구성과 가격: <span class="var" data-k="price">[구성과 가격]</span>
+가장 많이 고르는 구성에 "추천" 리본을 달아줘(추천 대상은 내가 확인 후 수정할게).
+각 구성마다 "이런 분께" 한 줄을 넣어줘. 가격 숫자는 위 내용 그대로, 새로 지어내지 마.
+깔끔한 표 형식, 크림색 배경, 짙은 갈색 글자.</span></div>
+
+  <p><span class="kit-num">컷 E</span><b>안심 정보 · 11번 섹션</b></p>
+  <div class="prompt"><span class="lab">이미지 프롬프트 E · 보관·배송 안내</span><button class="copy" data-copy="ie">복사</button><span id="ie">식품 상세페이지의 "안심 정보" 이미지를 만들어줘. 폭 860px 비율.
+내용: <span class="var" data-k="keep">[보관·배송]</span>
+아이콘 4개(냉장 보관, 소비기한, 배송 방법, 교환·환불)와 짧은 설명. 설명 칸은 내가 확인해서 넣을 수 있게, 확실하지 않은 내용은 "[확인 필요]"로 비워줘.
+알레르기 유발물질 표시 칸을 별도로 만들어줘(내용은 비워 두기).</span></div>
+  <div class="callout warn"><b class="h">숫자와 표시사항은 이미지에 굽지 않는 편이 안전합니다</b>가격, 소비기한, 알레르기 같은 정보는 바뀌면 이미지를 다시 만들어야 하고, AI가 글자를 틀리게 그리기도 합니다. 4주차 조립 도구에서 글자로 얹는 방법을 권합니다. 이미지에 넣었다면 한 글자씩 대조합니다.</div>
+  <div class="callout note"><b class="h">ChatGPT 이미지가 없을 때</b>Google Flow의 이미지 생성(0크레딧)으로 같은 프롬프트를 씁니다. 방법은 <a href="https://aismartworkhub.github.io/geo-flow-guide/#image">GEO × Flow 교안 6단계</a>와 같습니다.</div>
+
+  <div class="prac"><div class="num v">실습<br>2</div><div><h3>Google Flow로 첫 화면 6초 영상 또는 공정 15초 영상</h3><div class="goal">첫 화면에 움직임이 있으면 스크롤이 멈춥니다. 컷 A를 시작 프레임으로 씁니다.</div></div><div class="time">40분</div></div>
+  <div class="flowmap"><span>컷 A 이미지</span><i>→</i><span>Flow에서 6초 클립</span><i>→</i><span>상세페이지 첫 화면 GIF</span><i>+</i><span>대표 영상 칸이 있는 채널엔 MP4</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>flow.google → 새 프로젝트 "<span class="var" data-k="name">[상호]</span>_상세페이지_영상"</b></div><h4>컷 A를 올리고 시작 프레임에 넣습니다</h4><p>세로 9:16, 길이 6초, 가장 가벼운 영상 모델을 고릅니다. 모델 이름과 크레딧은 자주 바뀌므로 생성 전 확인 창의 크레딧 숫자를 꼭 봅니다. 화면별 자세한 순서는 <a href="https://aismartworkhub.github.io/geo-flow-guide/#video">GEO × Flow 교안 7단계</a>를 따릅니다(2026-09-21 기준).</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>움직임 프롬프트를 넣고 생성합니다</h4><p>음식 모양이 변하는 움직임(뒤집기, 크게 확대 후 변형)은 피하고, 김·빛·카메라만 움직이게 합니다.</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab">영상 프롬프트 · 첫 화면 6초</span><button class="copy" data-copy="va">복사</button><span id="va">시작 이미지의 음식과 그릇은 그대로 유지한다.
+따뜻한 김이 천천히 피어오르고, 창가 빛이 살짝 흔들린다.
+카메라는 아주 천천히 앞으로 다가간다(slow push-in).
+6초, 세로 9:16, 차분하고 따뜻한 분위기. 사람은 등장하지 않는다. 화면에 글자 없음.</span></div>
+  <div class="prompt"><span class="lab">영상 프롬프트 · 공정 15초 (클립 3개 × 약 5초)</span><button class="copy" data-copy="vb">복사</button><span id="vb">[클립 1] 이른 아침 작업대 위에 손질한 재료가 놓여 있고, 장갑 낀 손이 재료를 가지런히 정리한다. 얼굴은 나오지 않는다.
+[클립 2] 큰 팬에서 양념이 재료에 고루 버무려진다. 김이 오르고 카메라는 옆에서 천천히 이동한다.
+[클립 3] 완성된 <span class="var" data-k="hero">[대표 상품]</span>이 용기에 담기고 뚜껑이 닫힌다. 마지막 1초는 정지된 완성 컷.
+공통: 세로 9:16, 따뜻한 자연광, 위생적인 작업 환경, 화면에 글자 없음.
+※ 공정 영상은 가능하면 실제 촬영 영상을 쓰고, AI 영상은 분위기 보조로만 씁니다.</span></div>
+  <div class="steps">
+    <div class="step"><div class="n">3</div><div><h4>6초 클립을 GIF로 바꿉니다</h4><p>ChatGPT 대화창에 MP4 파일을 올리고 아래처럼 요청하면 GIF 파일을 만들어 줍니다. 상세페이지 이미지는 채널마다 용량 제한이 있어 GIF는 작게 만듭니다.</p></div></div>
+  </div>
+  <div class="prompt light"><span class="lab">GIF 변환 요청 (ChatGPT)</span><button class="copy" data-copy="vg">복사</button><span id="vg">올린 MP4를 상세페이지 첫 화면용 GIF로 바꿔줘.
+폭 860px, 앞에서 3초만, 초당 10프레임, 반복 재생. 파일 크기가 3MB를 넘으면 색 수를 줄여서 맞춰줘.
+완성된 GIF 파일을 내려받을 수 있게 줘.</span></div>
+  <div class="callout note"><b class="h">GIF 용량 기준은 채널마다 다릅니다</b>스마트스토어·쿠팡의 상세 이미지 용량과 GIF 허용 여부는 등록 직전 각 판매자센터 안내에서 확인합니다. 용량이 넘치면 GIF 대신 키비주얼 정지 이미지를 쓰고, 영상은 대표 영상 칸에 올립니다.</div>
+
+  <div class="hw"><b class="h">과제 3 · 4주차 전까지</b>
+    <ol>
+      <li>12섹션에 필요한 나머지 이미지를 완성합니다(2주차 와이어프레임의 "필요한 이미지" 열 기준).</li>
+      <li>내 채널(<span class="var" data-k="channel">[판매 채널]</span>)의 상세페이지 이미지 규격(폭, 한 장 용량, 전체 용량)을 판매자센터에서 확인해 적어 옵니다.</li>
+      <li>파일을 아래 규칙으로 정리해 폴더 하나에 담아 옵니다. 카피 원고도 같은 폴더에.</li>
+    </ol>
+    <div class="prompt light" style="margin-bottom:0"><span class="lab">파일 이름 규칙</span><span><span class="var" data-k="name">[상호]</span>_섹션번호_내용.jpg
+예: OO반찬_01_키비주얼.jpg / OO반찬_07_3단계.png / OO반찬_01_첫화면.gif
+폴더 이름: <span class="var" data-k="name">[상호]</span>_상세페이지_재료</span></div>
+  </div>
+</div></section>
+<section id="w4"><div class="wrap">
+  <div class="part"><div class="t">4주차 · 2시간 · 조립·검수·영문판</div><h2>올리고, 넓힙니다</h2><p>산출물: 국내용 상세페이지 완성본(PNG·HTML), 전환 체크리스트 점수, 영문판 초안, 내게 맞는 해외 채널 고르기</p></div>
+
+  <div class="tbl"><table>
+    <tr><th>시간</th><th>내용</th></tr>
+    <tr><td>0:00–0:10</td><td>구글 AI 스튜디오 로그인, 데이터 주의사항</td></tr>
+    <tr><td>0:10–0:35</td><td>실습 1: Build 메뉴에서 내 상세페이지 조립 앱 만들기</td></tr>
+    <tr><td>0:35–1:00</td><td>실습 2: 카피와 이미지를 넣어 PNG·HTML로 저장</td></tr>
+    <tr><td>1:00–1:25</td><td>실습 3: 짝과 서로 전환 체크리스트 20항목 채점 후 고치기</td></tr>
+    <tr><td>1:25–1:50</td><td>실습 4: 영문판 만들기</td></tr>
+    <tr><td>1:50–2:00</td><td>부록 채널별 해외 진출 가이드 훑어보기, 수료</td></tr>
+  </table></div>
+
+  <h3>시작 전 10분: 구글 AI 스튜디오 약속 네 가지</h3>
+  <ul class="check-list">
+    <li><input type="checkbox"><div><b>개인 구글 계정, 만 18세 이상</b><small>aistudio.google.com에 로그인합니다. 회사 계정은 관리자가 막아 둔 경우가 있습니다.</small></div></li>
+    <li><input type="checkbox"><div><b>무료로 쓰는 동안 입력한 내용은 학습·검토에 쓰일 수 있습니다</b><small>원가, 레시피, 고객정보, 거래처 정보는 넣지 않습니다. 상세페이지에 공개할 내용만 넣습니다.</small></div></li>
+    <li><input type="checkbox"><div><b>결제 계정·API 키는 연결하지 않습니다</b><small>화면 안에서 쓰는 것은 무료입니다. "Billing", "API key", "Upgrade" 버튼은 누르지 않습니다. API 키가 보이면 캡처·공유하지 않습니다.</small></div></li>
+    <li><input type="checkbox"><div><b>조립 앱에는 AI 기능을 넣지 않습니다</b><small>앱이 AI를 부르게 만들면 사용량이 과금 대상이 될 수 있습니다. 오늘 앱은 "글과 사진을 이어 붙이는 일"만 합니다.</small></div></li>
+  </ul>
+
+  <div class="prac"><div class="num">실습<br>1</div><div><h3>Build 메뉴에서 내 상세페이지 조립 앱 만들기</h3><div class="goal">말로 설명하면 AI가 앱을 만들어 줍니다. 코드를 몰라도 됩니다.</div></div><div class="time">25분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><div class="where">어디서 <b>aistudio.google.com → 왼쪽 메뉴 Build</b></div><h4>입력창에 아래 프롬프트를 붙여넣고 실행합니다</h4><p>1~2분 뒤 오른쪽에 앱 미리보기가 나옵니다. 화면 이름과 위치는 업데이트로 달라질 수 있습니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>미리보기에서 섹션 하나를 추가해 보고, 고칠 점을 말로 요청합니다</h4><p>"글자를 더 크게", "가격 강조 상자 추가", "모바일에서도 보기 좋게"처럼 한 번에 한 가지씩. 앱이 엉키면 되돌리기(이전 버전)로 돌아갑니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h4>앱을 저장합니다</h4><p>앱 이름 "<span class="var" data-k="name">[상호]</span>_상세페이지_조립기". 공유 링크와 배포는 오늘 하지 않아도 됩니다(선택).</p></div></div>
+  </div>
+  <div class="prompt"><span class="lab">AI 스튜디오 Build 프롬프트 · 상세페이지 조립 앱</span><button class="copy" data-copy="as1">복사</button><span id="as1">식품 소상공인용 "상세페이지 조립 앱"을 만들어줘. 한국어 화면.
+
+[왼쪽: 편집]
+- 섹션 목록: 기본 12개를 미리 넣어줘 (1 첫 화면, 2 이런 고민 있으시죠?, 3 왜 이렇게 됐을까, 4 저희도 그랬습니다, 5 믿을 수 있는 이유, 6 이렇게 만듭니다, 7 받아서 드시기까지 3단계, 8 구성·가격, 9 이걸 놓치면, 10 이렇게 달라집니다, 11 안심 정보, 12 마지막 한마디)
+- 섹션마다: 제목, 본문(여러 줄), 이미지 업로드(여러 장), 배경색(흰색/크림색/진한색 중 선택), 강조 상자 켜기/끄기
+- 섹션 추가·삭제·위아래 이동 버튼
+- 맨 위에 브랜드 색 고르기, 글자 크기(보통/크게)
+
+[오른쪽: 미리보기]
+- 폭 860px 고정, 세로로 긴 상세페이지
+- 한글 폰트는 Noto Sans KR, 제목은 굵게, 본문은 줄간격 넉넉하게
+- 이미지는 폭에 꽉 차게
+
+[저장 버튼]
+- "PNG로 저장": 미리보기 전체를 이미지로. 세로 3000px이 넘으면 여러 장(01, 02, 03…)으로 나눠 저장
+- "JPG로 저장": 같은 방식, 품질 90%
+- "HTML 다운로드": 이미지를 포함한 단일 HTML 파일
+- "작업 저장/불러오기": 브라우저에 글 내용 저장
+
+[중요]
+- AI API 호출, 로그인, 서버 저장 기능은 넣지 마. 모든 작업은 브라우저 안에서만.
+- 업로드한 이미지는 외부로 보내지 마.</span></div>
+  <div class="callout note"><b class="h">AI 스튜디오가 안 될 때 (대체 경로 두 가지)</b>① 이 교안과 함께 제공하는 <a href="builder.html"><b>상세페이지 조립 도구</b></a>를 엽니다. 같은 기능을 미리 만들어 둔 것입니다. ② Claude나 ChatGPT 대화창에 위 프롬프트 첫 줄을 "단일 HTML 파일로 만들어줘"로 바꿔 넣고, 받은 파일을 크롬으로 엽니다.</div>
+
+  <div class="prac"><div class="num">실습<br>2</div><div><h3>카피와 이미지를 넣어 PNG·HTML로 저장하기</h3><div class="goal">3주 동안 만든 재료가 한 장의 페이지가 됩니다.</div></div><div class="time">25분</div></div>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div><h4>섹션 순서대로 원고를 붙여넣고, 과제 3 폴더의 이미지를 올립니다</h4><p>파일 이름에 섹션 번호를 붙여 두었으니 순서대로 넣으면 됩니다.</p></div></div>
+    <div class="step"><div class="n">2</div><div><h4>휴대폰으로 확인합니다</h4><p>PNG로 저장해 카톡 "나에게 보내기"로 휴대폰에서 열어 봅니다. 글자가 작아 읽기 힘들면 "크게"로 바꿉니다.</p></div></div>
+    <div class="step"><div class="n">3</div><div><h4>채널별로 저장합니다</h4><p>스마트스토어·쿠팡은 PNG/JPG 여러 장, 자사몰은 HTML 또는 이미지. 과제 3에서 확인한 규격에 맞는지 봅니다.</p><div class="check">✓ 휴대폰에서 처음부터 끝까지 스크롤해 읽을 수 있으면 성공</div></div></div>
+  </div>
+
+  <div class="prac"><div class="num">실습<br>3</div><div><h3>짝과 서로 전환 체크리스트 20항목 채점하기</h3><div class="goal">내 페이지는 내 눈에 다 좋아 보입니다. 짝의 휴대폰으로 서로의 페이지를 보고 채점합니다.</div></div><div class="time">25분</div></div>
+  <div class="card" id="cvtool">
+    <h4 style="margin-top:0">전환 체크리스트 20 <small style="font-weight:400;color:var(--sub)">· 짝의 페이지를 보며 "예"인 항목만 체크</small></h4>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:4px"><b>첫 화면</b></p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="cv"><div>3초 안에 누구를 위한 상품인지 알 수 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>헤드라인이 상품명이 아니라 고객이 얻는 결과를 말한다</div></li>
+      <li><input type="checkbox" class="cv"><div>음식이 맛있어 보이는 대표 이미지(또는 GIF)가 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>첫 화면 아래에 첫 번째 구매 버튼·문구가 있다</div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:4px"><b>이야기 (SB7)</b></p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="cv"><div>"이거 내 얘기네" 싶은 고민 섹션이 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>대표(만든 사람)의 공감 이야기가 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>고객이 따라 할 3단계가 한눈에 보인다</div></li>
+      <li><input type="checkbox" class="cv"><div>사지 않으면 계속될 불편이 담담하게 나온다</div></li>
+      <li><input type="checkbox" class="cv"><div>문제가 풀린 장면(성공)이 그려진다</div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:4px"><b>신뢰</b></p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="cv"><div>만드는 과정·재료가 실제 사진으로 나온다</div></li>
+      <li><input type="checkbox" class="cv"><div>숫자·인증에 기준이나 출처가 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>실제 고객 후기가 있다(지어낸 후기 없음)</div></li>
+      <li><input type="checkbox" class="cv"><div>AI·연출 이미지에 표기가 있다</div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:4px"><b>구매 결정</b></p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="cv"><div>구성과 가격 차이가 표 하나로 이해된다</div></li>
+      <li><input type="checkbox" class="cv"><div>보관법·소비기한·알레르기 정보를 찾기 쉽다</div></li>
+      <li><input type="checkbox" class="cv"><div>배송 방법·도착 시점·교환 조건이 나와 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>맨 끝에 혜택을 요약한 마지막 구매 문구가 있다</div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin-bottom:4px"><b>모바일</b></p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="cv"><div>휴대폰에서 확대하지 않고 글자를 읽을 수 있다</div></li>
+      <li><input type="checkbox" class="cv"><div>한 섹션이 휴대폰 화면 1~2장 안에 끝난다</div></li>
+      <li><input type="checkbox" class="cv"><div>이미지 안 글자에 오타·깨짐이 없다</div></li>
+    </ul>
+    <div class="scorebox"><div class="big"><span id="cvScore">0</span><small> / 20</small></div><div class="msg" id="cvMsg">짝의 페이지를 보며 체크해 주세요.</div><button class="fbtn gray" id="cvReset">초기화</button></div>
+  </div>
+  <div class="callout good"><b class="h">점수보다 중요한 것</b>체크하지 못한 항목 중 <b>첫 화면</b>과 <b>구매 결정</b> 항목부터 고칩니다. 이 두 곳이 구매와 가장 가깝습니다.</div>
+
+  <div class="prac"><div class="num v">실습<br>4</div><div><h3>영문판 만들기: 번역이 아니라 현지화</h3><div class="goal">같은 SB7 이야기를 해외 고객의 눈으로 다시 씁니다. 어느 해외 채널로 가든 필요한 첫 준비물입니다.</div></div><div class="time">25분</div></div>
+  <p>구글 AI 스튜디오의 Chat 메뉴(텍스트)와 이미지 편집(나노바나나)을 씁니다. Claude나 ChatGPT로 해도 됩니다.</p>
+  <div class="prompt"><span class="lab">영문판 프롬프트 1 · 카피 현지화</span><button class="copy" data-copy="en1">복사</button><span id="en1">아래 한국어 상세페이지 카피를 미국 소비자용 영어로 현지화해줘. 직역하지 마.
+
+1. SB7 구조는 유지하되, 고객의 문제와 성공 장면을 미국 가정의 생활에 맞게 바꿔줘. 한국 음식을 처음 보는 사람도 이해하도록 "무엇이고, 어떻게 먹는지"를 짧게 설명하는 섹션을 추가해줘.
+2. 단위는 미국식으로 병기: g → oz, °C → °F, 원 → 가격 칸은 "[USD price TBD]"로 비워 둬.
+3. 영문 필수 정보 칸을 만들어줘: Ingredients, Allergens(미국 기준 주요 9종: milk, eggs, fish, crustacean shellfish, tree nuts, peanuts, wheat, soybeans, sesame 중 해당 항목), Net weight, Storage, Best by, Shipping & returns. 원재료에서 판단이 애매한 항목은 "[verify]"로.
+4. 질병 효능, 근거 없는 최상급(best, #1), 확인되지 않은 수치는 쓰지 마.
+5. 마지막에 한국어로 "번역하며 바꾼 부분과 이유"를 5줄로 알려줘.
+
+[한국어 카피]
+(여기에 붙여넣기)</span></div>
+  <div class="prompt"><span class="lab">영문판 프롬프트 2 · 이미지 속 한글 문구 교체 (나노바나나 이미지 편집)</span><button class="copy" data-copy="en2">복사</button><span id="en2">이 이미지 속 한국어 문구만 아래 영어 문구로 바꿔줘. 음식, 그릇, 배경, 색, 글자 위치와 크기, 글꼴 느낌은 그대로 유지해줘.
+바꿀 문구: "(한국어 문구)" → "(영어 문구)"
+영어 철자가 틀리면 안 돼.</span></div>
+  <div class="callout warn"><b class="h">이미지 속 글자는 가능하면 다시 굽지 않습니다</b>글자 없는 원본 이미지를 쓰고, 영어 문구는 조립 도구에서 글자로 얹는 것이 가장 정확합니다. 이미지 편집으로 바꿨다면 한 글자씩 대조합니다.</div>
+  <div class="callout note"><b class="h">영문판이 있다고 바로 해외에서 팔 수 있는 것은 아닙니다</b>부록 <a href="#global">채널별 해외 진출 가이드</a>의 0단계(품목, FDA 등록, 영문 라벨, 발송 방식)를 먼저 확인하고, 아마존·이베이·자사몰 중 하나를 골라 단계를 밟습니다. 오늘은 영문 페이지까지가 목표입니다.</div>
+
+  <div class="hw"><b class="h">과제 4 · 수료 후 2주</b>
+    <ol>
+      <li>완성한 페이지를 <span class="var" data-k="channel">[판매 채널]</span>에 실제로 등록합니다. 등록 항목 정리는 AI에게 초안을 받되, <b>등록 버튼은 직접</b> 누릅니다.</li>
+      <li>등록 2주 뒤 조회수, 구매 수, 문의 내용이 이전과 어떻게 달라졌는지 단톡방에 공유합니다(다음 기수 사례로 써도 되는지 함께 알려 주세요).</li>
+      <li>부록 채널별 해외 진출 가이드에서 첫 해외 채널을 하나 고르고, 0단계와 그 채널의 1~2단계를 체크합니다.</li>
+    </ol>
+  </div>
+  <div class="prompt light"><span class="lab">등록 항목 정리 (판매자센터 입력 전 초안)</span><button class="copy" data-copy="reg">복사</button><span id="reg">완성한 상세페이지와 가게 카드를 바탕으로 <span class="var" data-k="channel">[판매 채널]</span> 상품 등록에 필요한 항목 초안을 표로 정리해줘.
+상품명(검색에 걸리는 단어 포함, 50자 안쪽) / 검색 태그 10개 / 대표 이미지 문구 / 상품 요약 3줄 / 필수 표시 정보(원재료, 원산지, 내용량, 소비기한, 보관방법, 알레르기, 제조·판매원) / 배송·교환 안내.
+모르는 정보는 "[확인 필요]"로 두고, 채널마다 요구 항목이 다를 수 있으니 판매자센터 화면과 대조하라고 알려줘.</span></div>
+</div></section>
+<section id="global"><div class="wrap">
+  <div class="part"><div class="t">부록 · 채널별 해외 진출 가이드 · 미국 판매 기준, 2026-09-27 조사</div><h2>아마존, 이베이, 자사몰: 채널별로 한 단계씩</h2><p>4주차에 만든 영문판 상세페이지를 들고 어느 채널로 나갈지 고른 뒤, 그 채널의 단계를 위에서부터 차례로 밟습니다. 단계마다 체크하면 진행률이 이 브라우저에 저장됩니다.</p></div>
+
+  <h3>어떤 채널부터 시작할까</h3>
+  <div class="tbl"><table>
+    <tr><th>채널</th><th>이런 분께 맞습니다</th><th>시작 비용·부담</th><th>식품 판매 조건</th></tr>
+    <tr><td><b><a href="#ch-amz">아마존</a></b></td><td>상온 보관 가공식품(장류, 건면, 소스, 과자)으로 미국 시장을 크게 보고 싶은 분</td><td>프로페셔널 플랜 월 39.99달러(또는 일반 플랜 품목당 0.99달러), 판매 수수료, 영문 라벨·바코드 준비</td><td>식품은 판매 전 승인이 필요한 카테고리</td></tr>
+    <tr><td><b><a href="#ch-ebay">이베이</a></b></td><td>소량으로 해외 반응을 먼저 시험하고 싶은 분</td><td>가입 무료, 판매 시 수수료. 한국 셀러용 무료 교육 제공</td><td>금지 식품 목록이 있고, 신선식품은 포장·기한·배송 조건 명시</td></tr>
+    <tr><td><b><a href="#ch-own">자사몰</a></b></td><td>이미 해외 고객·팬이 있거나, SNS로 방문자를 모을 수 있는 분</td><td>쇼핑몰 구축·해외 결제·배송을 직접 설계</td><td>거르는 단계가 없어 모든 준비를 판매자가 직접</td></tr>
+  </table></div>
+  <p style="font-size:14px;color:var(--sub)">요금과 조건은 2026-09-27 각 채널 한국 셀러 안내 기준입니다. 가입 전에 공식 페이지에서 다시 확인합니다.</p>
+
+  <div class="layer" id="ch-base"><div class="lt">0단계 · 어느 채널이든 먼저 <span class="pill a">공통</span> <span class="pill k" id="pg-base">0/4</span></div>
+    <p style="font-size:15px">미국으로 식품을 보내는 규칙은 채널과 상관없이 같습니다. 아래 네 가지를 먼저 확인해야 어느 채널에서든 소포가 반송되지 않습니다.</p>
+    <ul class="check-list">
+      <li><input type="checkbox" class="chk" data-c="base"><div><b>내 제품이 미국으로 보낼 수 있는 품목인지 확인</b><small>소·돼지고기 등 육류가 들어간 밀키트·찌개·레토르트는 미국 반입이 제한될 가능성이 높습니다(미국 농무부 관할). 육수·소스 성분까지 확인하고, <a href="https://fooddb.mfds.go.kr" target="_blank" rel="noopener">식약처 수출식품 국가별 규제 정보</a>에서 품목을 찾아봅니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="base"><div><b>FDA 식품시설등록과 미국 대리인(US Agent) 지정</b><small>제조·가공·포장·보관 시설이 대상이고 등록비는 없습니다. 짝수 해 10~12월에 갱신하며 2026년이 갱신 해입니다. aT 수출바우처에 등록 비용 지원 항목이 있습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="base"><div><b>미국 기준 영문 라벨</b><small>영문 제품명, 원재료, 영양성분표(Nutrition Facts), 주요 알레르기 9종(우유·달걀·생선·갑각류·견과류·땅콩·밀·대두·참깨) 표시. 통조림·레토르트는 저산성식품 등록 대상인지도 확인합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="base"><div><b>보내는 방식과 관세 이해</b><small>소비자에게 소포로 보내도 발송마다 FDA 사전신고(Prior Notice)가 필요합니다. 미국의 800달러 이하 소액면세가 중단돼 한국발 소포에도 관세가 붙습니다. 냉장·냉동 제품은 우편 대신 콜드체인 특송이나 현지 창고가 필요합니다.</small></div></li>
+    </ul>
+  </div>
+
+  <div class="layer" id="ch-amz"><div class="lt">아마존 (미국) 진출 6단계 <span class="pill k" id="pg-amz">0/6</span></div>
+    <ul class="check-list">
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>1. 셀러 계정 만들기</b><small><a href="https://sell.amazon.co.kr/" target="_blank" rel="noopener">아마존 글로벌 셀링 한국 사이트</a>에서 가입합니다. 식품 카테고리 승인을 받으려면 월 39.99달러 프로페셔널 플랜이 사실상 필요합니다. 신규 셀러에게 첫 매출의 일부를 돌려주는 혜택과 무료 교육(셀러 유니버시티)이 있습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>2. 식품(Grocery &amp; Gourmet Food) 판매 승인 신청</b><small>식품은 승인이 필요한 카테고리입니다. 사업자 서류, 거래 인보이스, FDA 등록 정보 등을 요구받을 수 있습니다. 0단계를 끝낸 뒤 신청하면 빠릅니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>3. 바코드와 상품 정보 준비</b><small>상품마다 국제 바코드(GTIN, 한국은 GS1 Korea에서 발급)가 필요합니다. 영문 상품명, 핵심 특징 5줄(bullet points), 영문 라벨 사진, 영양성분표 이미지를 준비합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>4. 영문 상세페이지 올리기</b><small>4주차 영문판을 아마존 형식에 맞게 옮깁니다. 이미지형 상세 설명(A+ 콘텐츠)은 브랜드 등록(Brand Registry)을 한 판매자만 쓸 수 있고, 브랜드 등록에는 상표 출원·등록이 필요합니다. SB7 순서는 A+ 콘텐츠 모듈 순서로 그대로 살릴 수 있습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>5. 배송 방식 정하기: FBA 또는 직접 배송</b><small>FBA(아마존 창고에 미리 보내 두는 방식)는 배송이 빠르지만 식품은 로트·유통기한 관리 규정이 있고, 남은 기한이 일정 기간 이상이어야 입고됩니다. 초콜릿처럼 녹는 제품은 입고 가능한 계절이 정해져 있습니다. 직접 배송은 주문마다 사전신고와 통관을 챙겨야 합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="amz"><div><b>6. 판매 후 관리</b><small>첫 리뷰를 위해 소량으로 시작하고, 유통기한이 가까운 재고를 관리합니다. 법 준수(표시, 등록)는 아마존 승인과 별개로 판매자 책임이라고 아마존 정책에 명시돼 있습니다.</small></div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin:0">참고: <a href="https://sellercentral.amazon.com/gp/help/external/G200164550" target="_blank" rel="noopener">아마존 식품·음료 판매 정책</a></p>
+  </div>
+
+  <div class="layer" id="ch-ebay"><div class="lt">이베이 진출 6단계 <span class="pill k" id="pg-ebay">0/6</span></div>
+    <ul class="check-list">
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>1. 셀러 계정 만들고 무료 교육 듣기</b><small>개인 셀러와 사업자·법인 가입 절차가 다릅니다. <a href="https://krportal.ebay.com/ebaycampus" target="_blank" rel="noopener">이베이 한국 셀러 교육</a>에 가입·상품 등록·결제·배송·수수료를 다루는 무료 영상(기초 15개, 심화 6개)이 있습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>2. 내 상품이 금지 식품이 아닌지 확인</b><small>비살균 유제품, 가정에서 만든 식품, 기한이 지난 식품 등은 판매할 수 없습니다. 신선식품은 적절한 포장, 기한 표시, 기한 안에 도착하는 배송 방법을 적어야 합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>3. 처음 팔 나라와 상품 고르기</b><small>상온 보관되고 가벼운 상품(건면, 장류 소포장, 소스)으로 시작하면 배송비와 파손 위험이 적습니다. 판매 국가를 미국 한 곳으로 좁혀 시작합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>4. 영문 리스팅 작성</b><small>검색되는 영문 제목, 실제 제품 사진, 4주차 영문판의 핵심 문단, 원재료·알레르기·유통기한, 배송 기간과 관세 안내를 넣습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>5. 배송과 정산 설정</b><small>판매자가 직접 보내므로 발송마다 FDA 사전신고가 필요합니다. 우체국 EMS·K-Packet의 식품 발송 조건을 확인하고, 판매 대금 정산 계좌를 셀러 허브에서 설정합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="ebay"><div><b>6. 반응 보고 넓히기</b><small>첫 10건의 문의와 후기에서 해외 고객의 질문을 모아 영문 상세페이지의 FAQ로 옮깁니다. 반응이 좋은 상품을 아마존이나 자사몰로 넓힙니다.</small></div></li>
+    </ul>
+    <p style="font-size:14px;color:var(--sub);margin:0">참고: <a href="https://www.ebay.com/help/policies/prohibited-restricted-items/food-policy?id=4295" target="_blank" rel="noopener">이베이 식품 정책</a> · <a href="https://ems.epost.go.kr/front.EmsApplyGoCondition.postal?nation=US" target="_blank" rel="noopener">우체국 EMS 미국 발송 조건</a></p>
+  </div>
+
+  <div class="layer" id="ch-own"><div class="lt">자사몰 해외 판매 7단계 <span class="pill k" id="pg-own">0/7</span></div>
+    <ul class="check-list">
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>1. 해외 판매가 되는 쇼핑몰 만들기</b><small>국내 자사몰에 영문관을 추가하거나 해외 판매용 쇼핑몰 서비스를 씁니다. 해외 결제, 달러 가격 표시, 해외 배송비 계산이 되는지가 선택 기준입니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>2. 영문 상세페이지 옮기기</b><small>4주차 영문판을 그대로 씁니다. 배송 기간, 관세를 누가 내는지, 반품 조건을 상품 페이지와 별도 안내 페이지 두 곳에 적습니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>3. 해외 결제 연결</b><small>PayPal 등 해외 고객이 익숙한 결제수단을 붙입니다. 카드 결제 취소(차지백)와 환불 처리 방법을 미리 정합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>4. 발송 절차 만들기</b><small>주문마다 FDA 사전신고를 직접 하거나 특송·대행사에 맡깁니다. 상온 제품은 우체국 EMS, 냉장·냉동은 콜드체인 특송이나 미국 현지 창고를 씁니다. 한국 쪽 수출신고와 영세율 처리도 세무 담당자와 확인합니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>5. 최종 가격 정하기</b><small>제품가 + 국제 배송비 + 미국 관세를 합칩니다. 관세를 판매자가 미리 내는 방식(DDP)이면 고객이 받을 때 추가 비용이 없어 불만이 줄고, 구매자가 내는 방식(DDU)이면 그 사실을 결제 전에 분명히 알립니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>6. 방문자 모으기</b><small>자사몰은 방문자가 없으면 팔리지 않습니다. 영어 SNS(인스타그램, 틱톡) 영상, 구글 검색 광고, 해외 한식 커뮤니티를 씁니다. 3주차 영상과 이미지를 영어 자막으로 다시 씁니다.</small></div></li>
+      <li><input type="checkbox" class="chk" data-c="own"><div><b>7. 고객 응대와 반품 정책</b><small>식품은 반품 받은 제품을 다시 팔기 어렵습니다. 파손·변질 때 사진을 받고 환불하는 방식으로 정하고, 영어 자주 묻는 질문을 만들어 둡니다.</small></div></li>
+    </ul>
+  </div>
+
+  <h3>도움받을 곳</h3>
+  <ul>
+    <li><a href="https://global.at.or.kr/" target="_blank" rel="noopener">aT 수출종합지원시스템</a>: 농식품 수출바우처(FDA 등록 비용 지원 항목 포함), 현지화 지원 공고</li>
+    <li><a href="https://www.exportvoucher.com" target="_blank" rel="noopener">수출바우처(중진공·KOTRA)</a>: 해외규격인증 등 수출 서비스 비용 지원</li>
+    <li><a href="https://fooddb.mfds.go.kr" target="_blank" rel="noopener">식약처 수출식품 국가별 규제 정보</a>: 나라별 통관 절차와 기준</li>
+    <li><a href="https://sell.amazon.co.kr/" target="_blank" rel="noopener">아마존 글로벌 셀링 한국</a> · <a href="https://krportal.ebay.com/ebaycampus" target="_blank" rel="noopener">이베이 한국 셀러 교육</a></li>
+  </ul>
+  <div class="callout note"><b class="h">미국 이외의 나라와 기준일</b>일본·EU·동남아는 수입 신고, 표시 기준, 인증(할랄 등)이 모두 다릅니다. 목표 국가가 정해지면 식약처 국가별 규제 정보에서 그 나라부터 확인합니다. 관세, 우편 규칙, 채널 요금은 수시로 바뀌므로 이 부록은 2026-09-27 기준으로 읽어 주세요.</div>
+</div></section>
+
+<section id="refs"><div class="wrap">
+  <div class="kicker">출처와 기준일</div>
+  <h2>이 교안이 참고한 자료 (2026-09-27 확인)</h2>
+  <p class="lead">도구의 화면·요금·한도와 해외 규제는 자주 바뀝니다. 강사는 수업 직전에 아래 링크로 한 번 더 확인합니다.</p>
+  <h4>도구</h4>
+  <ul class="srcs">
+    <li><a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude in Chrome 공식 안내</a> · <a href="https://gigazine.net/gsc_news/en/20260827-claude-chrome-available/" target="_blank" rel="noopener">정식 출시 보도(2026-08-27)</a></li>
+    <li><a href="https://help.openai.com/en/articles/20001371-evolving-atlas-into-chatgpt-for-browser-based-agentic-work" target="_blank" rel="noopener">OpenAI: Atlas 기능의 ChatGPT 이전 안내</a></li>
+    <li><a href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener">구글 AI 스튜디오 Build 모드 문서</a> · <a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener">가격·무료 범위</a> · <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">약관(나이·데이터)</a></li>
+    <li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/build-with-nano-banana-2/" target="_blank" rel="noopener">Nano Banana 2(이미지 속 글자 현지화)</a></li>
+    <li><a href="https://aismartworkhub.github.io/geo-flow-guide/" target="_blank" rel="noopener">GEO × Google Flow 실습 교안(2026-09-21 기준 Flow 화면·크레딧)</a></li>
+  </ul>
+  <h4>해외 판매·수출</h4>
+  <ul class="srcs">
+    <li><a href="https://sell.amazon.co.kr/" target="_blank" rel="noopener">아마존 글로벌 셀링 한국(요금제·가입 단계)</a> · <a href="https://krportal.ebay.com/ebaycampus" target="_blank" rel="noopener">이베이 한국 셀러 교육</a></li>
+    <li><a href="https://sellercentral.amazon.com/gp/help/external/G200164550" target="_blank" rel="noopener">Amazon 식품·음료 판매 정책</a></li>
+    <li><a href="https://www.ebay.com/help/policies/prohibited-restricted-items/food-policy?id=4295" target="_blank" rel="noopener">eBay 식품 정책</a></li>
+    <li><a href="https://www.fda.gov/industry/prior-notice-imported-foods/prior-notice-policy-sending-gifts-your-friends-and-family" target="_blank" rel="noopener">FDA 사전신고(소포 발송) 정책</a> · <a href="https://www.fda.gov/food/food-allergies/faster-act-sesame-ninth-major-food-allergen" target="_blank" rel="noopener">참깨 9번째 주요 알레르기</a></li>
+    <li><a href="https://www.federalregister.gov/documents/2026/06/24/2026-12669/indefinite-suspension-of-the-de-minimis-exemption-for-mail-shipments-and-new-postal-informal-entry" target="_blank" rel="noopener">미국 우편물 소액면세 무기한 중단 규칙(2026-06-24)</a></li>
+    <li><a href="https://fooddb.mfds.go.kr" target="_blank" rel="noopener">식약처 수출식품 국가별 규제 정보</a></li>
+  </ul>
+  <h4>이야기 틀</h4>
+  <ul class="srcs">
+    <li>도널드 밀러, 『무기가 되는 스토리』(원제 Building a StoryBrand). SB7 7단계의 출처입니다.</li>
+  </ul>
+</div></section>
+
+<footer><div class="wrap">
+  <p><b>팔리는 이야기를 만드는 AI 상세페이지 4주 과정</b> · 식품 소상공인 실습 교안 · 2026-09-27 기준</p>
+  <p>예시 A·B·C(OO반찬, 해담장, 바다곳간)와 그 숫자는 실습용 가상 자료이고, 예시 D 강희정면가는 가게 홈페이지 공개 정보(2026-09-27 확인)를 바탕으로 했습니다. 법규 점검표와 해외 판매 안내는 참고용이며, 최종 판단은 관할 기관과 전문가 확인을 거칩니다.</p>
+  <p>함께 쓰는 도구: <a href="builder.html">상세페이지 조립 도구</a> · <a href="https://aismartworkhub.github.io/geo-flow-guide/">GEO × Google Flow 교안</a></p>
+</div></footer>
+<div class="toast" id="toast">복사됐습니다</div>
+<script>
+(function(){
+  var $=function(s,c){return (c||document).querySelector(s);};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+  var toast=$('#toast');
+  function say(m){toast.textContent=m;toast.classList.add('on');setTimeout(function(){toast.classList.remove('on');},1400);}
+  function store(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function load(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function fallback(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');say('복사됐습니다');}catch(e){say('복사 실패: 직접 드래그해 주세요');}document.body.removeChild(ta);}
+  function copyText(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say('복사됐습니다');},function(){fallback(t);});}else fallback(t);}
+
+  /* ---------- 복사 버튼 ---------- */
+  $$('.copy').forEach(function(b){
+    b.addEventListener('click',function(){var el=document.getElementById(b.getAttribute('data-copy'));copyText(el?el.innerText:'');});
+  });
+
+  /* ---------- 가게 카드 + SB7 ---------- */
+  var fields={name:'f-name',type:'f-type',hero:'f-hero',who:'f-who',pain:'f-pain',edge:'f-edge',proof:'f-proof',story:'f-story',price:'f-price',keep:'f-keep',channel:'f-channel',tone:'f-tone'};
+  var sbf={want:'s-want',ext:'s-ext',int:'s-int',phil:'s-phil',emp:'s-emp',auth:'s-auth',plan:'s-plan',cta:'s-cta',fail:'s-fail',succ:'s-succ',one:'s-one'};
+  function val(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+  function cardVals(){var v={};Object.keys(fields).forEach(function(k){v[k]=val(fields[k]);});return v;}
+  function sbVals(){var v={};Object.keys(sbf).forEach(function(k){v[k]=val(sbf[k]);});return v;}
+  $$('.var').forEach(function(v){if(!v.getAttribute('data-def'))v.setAttribute('data-def',v.textContent);});
+
+  function apply(){
+    var v=cardVals(),s=sbVals();
+    v.plan3=s.plan;
+    store('fdp_card',JSON.stringify(cardVals()));
+    var n=0;
+    $$('.var').forEach(function(el){
+      var k=el.getAttribute('data-k');
+      if(v[k]){el.textContent=v[k];el.classList.add('filled');n++;}
+      else{el.textContent=el.getAttribute('data-def');el.classList.remove('filled');}
+    });
+    var msg=$('#fillmsg');if(msg)msg.textContent=n?('적용됨: '+n+'곳 치환'):'입력값이 비어 있습니다';
+  }
+
+  var samples={
+    banchan:{card:{name:'OO반찬',type:'음식점(포장·밀키트·배달)',hero:'저염 반찬 3종 세트',who:'퇴근이 늦은 30~40대 맞벌이 부모',pain:'평일 저녁 차릴 시간과 기운이 없다',edge:'매일 아침 그날 팔 양만 조리, 나트륨을 줄인 양념',proof:'2021년 개업, 하루 22가지 반찬 조리(예시)',story:'두 아이 키우며 사 먹을 반찬이 마땅치 않아서',price:'3종 1만 원 / 6종 1만 9천 원(예시)',keep:'냉장 3일, 수도권 아이스박스 새벽배송(예시)',channel:'스마트스토어, 자사몰',tone:'따뜻하고 담백한 말투'},
+      sb:{want:'퇴근 후 30분 안에, 미안하지 않은 저녁상을 차리고 싶다',ext:'평일 저녁 요리할 시간과 기운이 없다',int:'사 온 반찬을 아이 앞에 내놓을 때 미안하다',phil:'바쁘다는 이유로 가족 밥상이 대충이 되면 안 된다',emp:'두 아이 키우며 저희도 매일 같은 고민을 했습니다',auth:'2021년부터 매일 아침 그날 팔 양만 조리(예시)',plan:'① 밤 10시 전 주문 ② 새벽에 받아서 냉장 ③ 데워서 밥과 함께',cta:'이번 주 3종 세트 담기 / 소포장으로 먼저 맛보기',fail:'오늘도 배달앱을 열고, 또 미안한 저녁',succ:'저녁 7시, 따뜻한 밥 옆에 반찬 세 가지. 가족이 같이 앉는 식탁',one:'퇴근 후 차릴 기운이 없는 부모님께, 매일 아침 만든 저염 반찬으로 미안하지 않은 저녁을 드립니다'}},
+    jang:{card:{name:'해담장',type:'식품 제조·가공',hero:'3년 숙성 재래식 된장 1kg',who:'가족 밥상을 챙기는 30~50대',pain:'시판 된장은 맛이 달고 무엇이 들었는지 불안하다',edge:'국산 콩으로 메주를 직접 쑤고 항아리에서 3년 숙성',proof:'2015년 창업(예시), 전통식품 인증 여부 [확인 필요]',story:'어머니가 담그던 장맛을 잃고 싶지 않아서',price:'1kg 2만 8천 원 / 500g 2통 3만 원(예시)',keep:'직사광선 피해 서늘한 곳, 개봉 후 냉장, 택배 2~3일(예시)',channel:'스마트스토어, 쿠팡, 자사몰',tone:'정직하고 전문적인 말투'},
+      sb:{want:'식구들 밥상에 믿고 쓰는 된장 하나',ext:'시판 된장 성분표를 봐도 무엇이 좋은지 모르겠다',int:'아이에게 먹여도 되는지 늘 마음에 걸린다',phil:'장만큼은 제대로 된 걸 먹어야 한다',emp:'저희도 어머니 장맛을 잃고 나서야 그 소중함을 알았습니다',auth:'국산 콩 메주를 직접 쑤고 항아리 3년 숙성(예시)',plan:'① 용량 고르기 ② 받아서 서늘한 곳에 보관 ③ 한 숟갈로 찌개 끓이기',cta:'1kg 한 통 주문하기 / 500g으로 먼저 맛보기',fail:'또 성분표 앞에서 망설이다 아무거나 집는 장보기',succ:'된장찌개 한 숟갈에 "이 맛이야" 하는 저녁',one:'시판 된장이 불안한 분들께, 국산 콩 메주로 3년 숙성한 된장으로 믿고 쓰는 장맛을 드립니다'}},
+    myeon:{card:{name:'강희정면가',type:'음식점(포장·밀키트·배달)',hero:'밀가루 0% 장단콩 들기름막국수 밀키트 2인분',who:'밀가루 면이 부담스럽지만 면 요리를 즐기고 싶은 사람(예시 가정)',pain:'먹고 싶은 면 요리는 대부분 밀가루로 만들어 고르기 어렵다(예시 가정)',edge:'장단콩·보리·현미·귀리·상황버섯으로 만든 밀가루 0% 면(홈페이지 기준)',proof:'장단콩면 특허 제10-2000908호(2019 등록), 2016년부터 방송 소개, 경기 파주 탄현면 매장(홈페이지 기재, 원문 확인 필요)',story:'[확인 필요: 대표님께 직접 듣기] 2026년 5월 용궁칼국수에서 강희정면가로 상호 변경',price:'들기름막국수 밀키트 2인분 1만 8천 원 / 비빔막국수 밀키트 2인분 1만 8천 원 / 장단콩 소면 5인분 750g 2만 원(홈페이지 기준)',keep:'[확인 필요: 보관 방법·소비기한·배송 방법과 기간]',channel:'자사몰(홈페이지), 매장',tone:'정직하고 전문적인 말투'},
+      sb:{want:'밀가루 걱정 없이 고소한 막국수 한 그릇을 집에서',ext:'면 요리는 대부분 밀가루라 고를 수 있는 게 적다',int:'좋아하는 면을 먹을 때마다 괜히 망설여진다(예시 가정)',phil:'좋아하는 음식을 포기하지 않고도 재료를 따져 먹을 수 있어야 한다',emp:'[확인 필요: 대표님이 장단콩면을 만들게 된 이야기]',auth:'밀가루·전분·염분 무첨가 장단콩면 특허(2019 등록), 2016년부터 방송 소개(홈페이지 기재)',plan:'① 밀키트 주문 ② 받아서 면 삶기 ③ 들기름 양념에 버무려 완성 [조리법 확인 필요]',cta:'들기름막국수 밀키트 2인분 담기 / 파주 매장에서 먼저 맛보기',fail:'오늘도 밀가루 면 앞에서 망설이다 다른 메뉴를 고르는 점심',succ:'집 식탁에서 파주 장단콩면 한 그릇, 고소한 들기름 향',one:'밀가루 면이 부담스러운 분들께, 장단콩으로 만든 밀가루 0% 면으로 집에서 즐기는 막국수 한 그릇을 드립니다'}},
+    sea:{card:{name:'바다곳간',type:'식품 유통(산지·도매)',hero:'통영 굴 1kg (세척·선별)',who:'제철 해산물을 집에서 먹고 싶은 40~60대',pain:'마트 굴은 언제 캔 건지 알 수 없고 손질이 번거롭다',edge:'새벽 경매 굴을 당일 세척·선별해 바로 발송',proof:'산지 거래 10년(예시), 원산지 통영',story:'산지에서 먹던 굴 맛을 도시에서도 전하고 싶어서',price:'1kg 1만 9천 원 / 2kg 3만 5천 원(예시)',keep:'냉장, 받은 날 조리 권장, 가열 조리용 표시 여부 [확인 필요], 아이스박스 익일 도착(도서산간 제외)',channel:'스마트스토어, 자사몰',tone:'밝고 친근한 말투'},
+      sb:{want:'제철 굴을 산지 그대로 우리 집 식탁에서',ext:'마트 굴은 언제 캔 건지 모르고 손질이 번거롭다',int:'비싸게 샀는데 비리거나 상했을까 걱정된다',phil:'제철 음식은 제철에 제대로 먹어야 한다',emp:'저희도 도시로 올라와서 그 맛을 다시 못 찾았습니다',auth:'통영 산지 거래 10년(예시), 새벽 경매 당일 선별',plan:'① 저녁 6시 전 주문 ② 다음 날 아이스박스로 받기 ③ 흐르는 물에 헹궈 바로 요리',cta:'1kg 주문하기 / 제철 알림 받기',fail:'올해도 마트 굴 앞에서 반신반의하다 지나가는 제철',succ:'굴전과 굴국밥이 오르는 주말 저녁, "산지 맛 그대로네"',one:'마트 굴이 미덥지 않은 분들께, 새벽 경매 굴을 당일 선별해 산지의 제철 맛을 식탁까지 보내 드립니다'}}
+  };
+  var current='banchan';
+  function setSel(el,v){if(el.tagName==='SELECT'){for(var i=0;i<el.options.length;i++){if(el.options[i].text===v){el.selectedIndex=i;return;}}}else el.value=v;}
+  $$('[data-sample]').forEach(function(b){b.addEventListener('click',function(){
+    current=b.getAttribute('data-sample');var s=samples[current].card;
+    Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&s[k]!=null)setSel(el,s[k]);});
+    store('fdp_sample',current);apply();say('예시로 채웠습니다');
+  });});
+  var ap=$('#apply');if(ap)ap.addEventListener('click',function(){apply();say('페이지 전체에 적용했습니다');});
+  var cl=$('#clear');if(cl)cl.addEventListener('click',function(){Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(!el)return;if(el.tagName==='SELECT')el.selectedIndex=0;else el.value='';});apply();});
+  var saved=load('fdp_card');
+  if(saved){try{var o=JSON.parse(saved);Object.keys(o).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&o[k])setSel(el,o[k]);});}catch(e){}}
+  current=load('fdp_sample')||'banchan';
+
+  /* SB7 워크시트 */
+  function saveSb(){store('fdp_sb7',JSON.stringify(sbVals()));var m=$('#sbmsg');if(m)m.textContent='자동 저장됨';}
+  var sbSaved=load('fdp_sb7');
+  if(sbSaved){try{var so=JSON.parse(sbSaved);Object.keys(so).forEach(function(k){var el=document.getElementById(sbf[k]);if(el&&so[k])el.value=so[k];});}catch(e){}}
+  Object.keys(sbf).forEach(function(k){var el=document.getElementById(sbf[k]);if(el)el.addEventListener('input',function(){saveSb();if(k==='plan')apply();});});
+  var sbl={want:'① 주인공이 원하는 것',ext:'② 외적 문제',int:'② 내적 문제',phil:'② 철학적 문제',emp:'③ 가이드: 공감',auth:'③ 가이드: 권위',plan:'④ 계획 3단계',cta:'⑤ 행동 촉구',fail:'⑥ 실패 회피',succ:'⑦ 성공',one:'한 줄 정의문'};
+  var sc=$('#sbCopy');if(sc)sc.addEventListener('click',function(){var s=sbVals(),c=cardVals();var t='[SB7 브랜드스크립트] '+(c.name||'')+' · '+(c.hero||'')+'\n';Object.keys(sbl).forEach(function(k){t+=sbl[k]+': '+(s[k]||'(비어 있음)')+'\n';});copyText(t);});
+  var ss=$('#sbSample');if(ss)ss.addEventListener('click',function(){var s=samples[current].sb;Object.keys(sbf).forEach(function(k){var el=document.getElementById(sbf[k]);if(el)el.value=s[k]||'';});saveSb();apply();makeWF();say('예시 브랜드스크립트로 채웠습니다');});
+  var sx=$('#sbClear');if(sx)sx.addEventListener('click',function(){Object.keys(sbf).forEach(function(k){var el=document.getElementById(sbf[k]);if(el)el.value='';});saveSb();apply();makeWF();});
+
+  /* ---------- 와이어프레임 ---------- */
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function cell(parts){var out=parts.filter(function(p){return p[1];}).map(function(p){return '<b>'+esc(p[0])+'</b> '+esc(p[1]);});return out.length?out.join('<br>'):'<span class="emp">비어 있음: 1주차 워크시트나 가게 카드를 채워 주세요</span>';}
+  function makeWF(){
+    var s=sbVals(),c=cardVals(),t=$('#wftable');if(!t)return;
+    var rows=[
+      ['1','첫 화면 후킹',[['원하는 것:',s.want],['정의문:',s.one]],'키비주얼(실물 사진 + 배경 정리) 또는 3초 GIF'],
+      ['2','이런 고민 있으시죠?',[['외적:',s.ext],['내적:',s.int],['철학적:',s.phil]],'공감 장면(연출 이미지, 표기)'],
+      ['3','왜 이렇게 됐을까',[['철학적 문제:',s.phil],['흔한 선택지의 한계:','[2주차 실습 2 경쟁 비교에서 작성]']],'비교 아이콘 또는 없음'],
+      ['4','저희도 그랬습니다',[['공감:',s.emp],['시작한 계기:',c.story]],'대표 사진(실물)'],
+      ['5','믿을 수 있는 이유',[['권위:',s.auth],['증거:',c.proof]],'작업장·재료·인증서(실물)'],
+      ['6','이렇게 만듭니다',[['만드는 방식:',c.edge]],'공정 사진 3장 또는 15초 영상'],
+      ['7','받아서 드시기까지 3단계',[['계획:',s.plan]],'3단계 인포그래픽'],
+      ['8','구성·가격',[['구성:',c.price],['행동 촉구:',s.cta]],'구성 비교표'],
+      ['9','이걸 놓치면',[['실패 회피:',s.fail]],'없음 또는 공감 장면'],
+      ['10','이렇게 달라집니다',[['성공:',s.succ],['후기:','[실제 고객 후기 2~3개]']],'식탁 장면(실물 연출) + 후기 캡처'],
+      ['11','안심 정보',[['보관·배송:',c.keep],['필수 표시:','[원재료·원산지·내용량·소비기한·알레르기·제조원 확인 필요]']],'안심 정보 아이콘'],
+      ['12','마지막 행동 촉구',[['행동 촉구:',s.cta],['정의문:',s.one]],'키비주얼 재사용 + 버튼 문구']
+    ];
+    var h='<tr><th>#</th><th>섹션</th><th>들어갈 내용 (워크시트·가게 카드에서)</th><th>필요한 이미지</th></tr>';
+    rows.forEach(function(r){h+='<tr><td>'+r[0]+'</td><td><b>'+esc(r[1])+'</b></td><td>'+cell(r[2])+'</td><td>'+esc(r[3])+'</td></tr>';});
+    t.innerHTML=h;
+  }
+  var wm=$('#wfMake');if(wm)wm.addEventListener('click',function(){makeWF();say('와이어프레임을 새로 만들었습니다');});
+  var wc=$('#wfCopy');if(wc)wc.addEventListener('click',function(){
+    var t=$('#wftable');if(!t)return;var lines=[];
+    $$('tr',t).forEach(function(tr){lines.push($$('th,td',tr).map(function(td){return td.innerText.replace(/\n/g,' / ');}).join(' | '));});
+    copyText(lines.join('\n'));
+  });
+
+  /* ---------- 체크리스트 점수 ---------- */
+  function scorer(sel,outId,msgId,key,msgs){
+    var boxes=$$(sel);if(!boxes.length)return;
+    var st=load(key);if(st){try{var a=JSON.parse(st);boxes.forEach(function(b,i){b.checked=!!a[i];});}catch(e){}}
+    function upd(){var n=boxes.filter(function(b){return b.checked;}).length;$('#'+outId).textContent=n;$('#'+msgId).textContent=msgs(n,boxes);store(key,JSON.stringify(boxes.map(function(b){return b.checked;})));}
+    boxes.forEach(function(b){b.addEventListener('change',upd);});upd();
+    return {reset:function(){boxes.forEach(function(b){b.checked=false;});upd();}};
+  }
+  scorer('#lawtool .lw','lawScore','lawMsg','fdp_law',function(n){return n===12?'12항목 모두 확인했습니다. 애매한 표현이 남아 있다면 빼는 쪽이 안전합니다.':(12-n)+'개 항목이 남았습니다. 체크하지 못한 항목의 표현부터 고칩니다.';});
+  var cv=scorer('#cvtool .cv','cvScore','cvMsg','fdp_cv',function(n){if(n>=18)return '올려도 좋은 수준입니다. 빠진 항목만 다듬어 등록하세요.';if(n>=13)return '뼈대는 갖췄습니다. 첫 화면과 구매 결정 항목부터 보완하세요.';if(n>=1)return '아직 빈 곳이 많습니다. 12섹션 지도에서 빠진 섹션을 먼저 채우세요.';return '짝의 페이지를 보며 체크해 주세요.';});
+  var cr=$('#cvReset');if(cr&&cv)cr.addEventListener('click',cv.reset);
+  /* 채널별 해외 진출 진행률 */
+  var chk=$$('.chk');
+  var cs=load('fdp_ch');if(cs){try{var ca=JSON.parse(cs);chk.forEach(function(b,i){b.checked=!!ca[i];});}catch(e){}}
+  function chUpd(){
+    ['base','amz','ebay','own'].forEach(function(c){var bs=chk.filter(function(b){return b.getAttribute('data-c')===c;});var n=bs.filter(function(b){return b.checked;}).length;var el=$('#pg-'+c);if(el){el.textContent=n+'/'+bs.length;el.className='pill '+(n===bs.length?'g':'k');}});
+    store('fdp_ch',JSON.stringify(chk.map(function(b){return b.checked;})));
+  }
+  chk.forEach(function(b){b.addEventListener('change',chUpd);});chUpd();
+
+  apply();makeWF();
+})();
+</script>
+</body>
+</html>
