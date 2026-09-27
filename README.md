@@ -2,8 +2,9 @@
 
 음식점·식품 제조·유통 소상공인을 위한 4주 실습 교안입니다. 도널드 밀러의 스토리브랜드 7단계(SB7단계)로 고객의 문제에서 시작하는 이야기를 설계하고, AI로 이미지와 영상을 만들어 스마트스토어·쿠팡·자사몰용 상세페이지를 완성한 뒤, 영문판과 채널별 해외 진출 단계까지 안내합니다.
 
-- 교안: https://mc-jeon.github.io/food-detailpage-guide/
-- 상세페이지 조립 도구: https://mc-jeon.github.io/food-detailpage-guide/builder.html
+- 교안: https://food-sb7.myoungcheoljeon.workers.dev/
+- 상세페이지 조립 도구: https://food-sb7.myoungcheoljeon.workers.dev/builder
+- 보조 주소(GitHub Pages): https://mc-jeon.github.io/food-detailpage-guide/
 - 기준일: 2026-09-27 (도구 화면·요금·해외 규제는 수업 직전 재확인)
 
 ## 구성
