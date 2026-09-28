@@ -27,7 +27,8 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Pretendard Variable',Pretendard,'Malgun Gothic',sans-serif;color:var(--ink);background:var(--bg);font-size:15px;word-break:keep-all;}
   header{background:#151A45;border-bottom:4px solid #FE4728;color:#fff;padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
-  header h1{font-size:17px;font-weight:900;margin-right:auto;}
+  header h1{font-size:17px;font-weight:900;margin-right:auto;display:flex;align-items:center;gap:12px;}
+  header h1 .hlogo{height:28px;width:auto;}
   header a{color:#FFB199;font-size:13px;}
   .tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
   button,.btn{font-family:inherit;font-size:13px;font-weight:700;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;background:#e5e7eb;color:#222;}
@@ -74,7 +75,7 @@
 </head>
 <body>
 <header>
-  <h1>상세페이지 조립 도구</h1>
+  <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구</h1>
   <div class="tools">
     <button class="p" id="fromGuide">교안 워크시트 불러오기</button>
     <button id="saveTxt">글 저장</button>
