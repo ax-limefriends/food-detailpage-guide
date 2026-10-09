@@ -104,6 +104,8 @@
   #page .b.dark .bd{color:rgba(255,255,255,.82);}
   #page .c{text-align:center;}
   #page .ph{color:#b9bfca !important;}
+  /* 저장할 때는 회색 예시 글자와 빈 사진 자리를 뺀다 */
+  #page.exp .ph,#page.exp .pp,#page.exp div.im{display:none !important;}
   #page .aim{font-size:14px;opacity:.6;margin-top:10px;text-align:right;}
   #page .box{background:var(--pcard);border-radius:var(--r);border:1px solid rgba(0,0,0,.08);}
   #page .b.dark .box{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);}
@@ -200,7 +202,7 @@
 <header>
   <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구 <small>v2</small></h1>
   <button class="btn p" id="fromGuide" title="교안에 저장한 가게 카드·SB7단계 워크시트를 빈 칸에 채웁니다">교안 워크시트 불러오기</button>
-  <button class="btn g" id="sample">예시 채우기(반찬가게)</button>
+  <button class="btn g" id="sample">예시 채우기</button>
   <button class="btn g" id="reset">기본 12섹션으로</button>
   <button class="btn d" id="saveProj" title="사진까지 포함한 작업 파일(.json)">작업 파일 저장</button>
   <label class="btn d" title="저장해 둔 작업 파일 열기">작업 파일 열기<input type="file" id="openProj" accept=".json,application/json" hidden></label>
@@ -212,6 +214,7 @@
     <div class="panel">
       <h2><span class="tag">1</span>디자인</h2>
       <div class="grid2">
+        <div style="grid-column:1/-1"><label class="f" for="o-cat">상품 유형 (예시 글·안심 정보·표현 점검 기준이 바뀝니다)</label><select id="o-cat"></select><p class="hint" id="o-cath"></p></div>
         <div><label class="f" for="o-theme">테마</label><select id="o-theme"></select></div>
         <div><label class="f" for="o-font">제목 글꼴</label><select id="o-font"><option value="sans">고딕 (깔끔)</option><option value="serif">명조 (고급·전통)</option></select></div>
         <div><label class="f" for="o-c1">대표색</label><input type="color" id="o-c1"></div>
@@ -276,7 +279,7 @@
   /* ---------- 블록 정의: [키, 종류, 이름, 예시/옵션, 도움말] ---------- */
   var BG=['bg','select','배경',[['white','기본'],['tint','연한색'],['dark','진한색']]];
   var TYPES={
-    hero:{n:'첫 화면',f:[['eb','text','작은 제목','예: 퇴근 후 반찬 걱정 끝'],['title','textarea','헤드라인 (3초 안에 읽히게, 22자 안팎)','오늘 저녁, 밥만 지으세요'],['sub','textarea','서브카피','매일 아침 그날 팔 양만 만드는 저염 반찬'],['badges','text','배지 (쉼표로 구분)','새벽배송, 당일 조리, 저염 레시피'],['img','img','배경 사진 (음식이 가장 맛있어 보이는 실물 사진)'],['ov','range','사진 어둡게 (글자 잘 보이게)',[0,85]],['align','select','글자 위치',[['c','가운데'],['l','왼쪽 아래']]],['hh','select','높이',[['1000','보통'],['1200','크게'],['800','작게']]],['ai','check','AI·연출 이미지 포함']]},
+    hero:{n:'첫 화면',f:[['eb','text','작은 제목','예: 퇴근 후 반찬 걱정 끝'],['title','textarea','헤드라인 (3초 안에 읽히게, 22자 안팎)','오늘 저녁, 밥만 지으세요'],['sub','textarea','서브카피','매일 아침 그날 팔 양만 만드는 저염 반찬'],['badges','text','배지 (쉼표로 구분)','새벽배송, 당일 조리, 저염 레시피'],['img','img','배경 사진 (상품이 가장 돋보이는 실물 사진)'],['ov','range','사진 어둡게 (글자 잘 보이게)',[0,85]],['align','select','글자 위치',[['c','가운데'],['l','왼쪽 아래']]],['hh','select','높이',[['1000','보통'],['1200','크게'],['800','작게']]],['ai','check','AI·연출 이미지 포함']]},
     text:{n:'글',f:[BG,['eb','text','작은 제목',''],['title','textarea','제목',''],['body','textarea','본문',''],['align','select','정렬',[['l','왼쪽'],['c','가운데']]]]},
     checklist:{n:'공감 체크리스트',f:[BG,['eb','text','작은 제목','이런 고민 있으시죠?'],['title','textarea','제목','퇴근하면 저녁 차릴 기운이 없다면'],['items','lines','고민 목록 (한 줄에 하나)','퇴근 후 1시간씩 요리할 여유가 없다\n사 온 반찬을 아이 앞에 내놓기 미안하다\n배달 음식은 너무 짜고 기름지다',''],['note','textarea','아래 한 줄 (선택)','']]},
     compare:{n:'비교표',f:[BG,['eb','text','작은 제목','왜 이렇게 됐을까'],['title','textarea','제목',''],['lt','text','왼쪽 이름','흔한 선택'],['li','lines','왼쪽 항목','며칠 지난 반찬\n간이 센 양념'],['rt','text','오른쪽 이름','우리 반찬'],['ri','lines','오른쪽 항목','매일 아침 당일 조리\n나트륨 줄인 양념']]},
@@ -294,6 +297,147 @@
   };
   var ORDER=['hero','text','checklist','compare','founder','numbers','photos','steps','pricing','reviews','infotable','faq','cta','notice','spacer'];
 
+  /* ---------- 상품 유형: 안심 정보 필수 항목, 위험 표현, 예시 글, 예시 채우기 ----------
+     info: [찾을 단어(정규식), 표시 이름] / risk: 유형별 위험 표현(공통 RISK에 더해 점검)
+     ph: 블록별 회색 예시 글 (없으면 TYPES의 반찬가게 예시) / sample: 기본 13블록 순서대로 채울 값 */
+  var CATS={
+    food:{n:'가공식품·반찬·밀키트',ex:'반찬가게',photo:'음식 실물',steps:'받아서 드시기까지 3단계',info:'안심 정보',
+      hint:'식품위생법·식품표시광고법 기준. 질병 효능, 건강기능식품 오인, \'무첨가\' 표현을 조심하세요.',
+      info_k:[['원산지','원산지'],['내용량|중량|용량','내용량'],['소비기한|유통기한','소비기한'],['보관','보관방법'],['알레르기','알레르기'],['배송|교환|반품','배송·교환']],
+      risk:'약효|처방|당뇨|고혈압|건강기능식품',sample:null},
+    agri:{n:'농수산물·산지직송 (과일 등)',ex:'산지직송 사과',photo:'과일·수산물 실물',steps:'받아서 드시기까지 3단계',info:'상품 정보',
+      hint:'원산지는 상품명·가격 가까이에 같은 크기 이상 글씨로. 인증 없이 유기농·무농약·친환경 표현 금지. 당도는 측정 방법·평균값으로 적고 \'보장\'은 피하세요.',
+      info_k:[['중량|kg|수량|크기','중량·수량·크기'],['생산자','생산자'],['원산지|산지','원산지'],['수확|발송일|제조연월일|소비기한|품질유지','수확·발송일'],['보관','보관방법'],['파손|변질|교환|반품','파손·교환']],
+      risk:'유기농|무농약|친환경|오가닉|당도 ?보장',
+      sample:{theme:'green',b:[
+        {eb:'산지에서 바로 보내는 사과',title:'아삭한 첫 입,\n산지에서 바로',sub:'경북 OO 과수원 부사 3kg (13~15과)',badges:'수확 후 바로 발송, 크기 선별, 파손 시 교환',align:'c'},
+        {title:'마트 사과가 아쉬웠다면',items:'사 오면 이미 푸석한 사과가 섞여 있다\n크기가 들쭉날쭉해 선물하기 애매하다\n언제 딴 사과인지 알 수 없다'},
+        {title:'왜 이런 차이가 날까',lt:'여러 단계를 거친 사과',li:'도매·유통을 거쳐 며칠 뒤 도착\n크기가 섞인 한 상자',rt:'우리 과수원 사과',ri:'주문 들어온 주에 골라 발송\n과 수와 무게로 크기 선별'},
+        {eb:'농부 이야기',title:'아버지 과수원을\n이어받았습니다',quote:'30년 된 사과밭을 이어받아\n직접 팔기 시작했습니다.\n제가 먹는 사과만 보냅니다.',name:'OO과수원 대표 (예시)'},
+        {title:'숫자로 보여 드립니다',items:'30년|가꿔 온 사과밭 (예시)\n13~15과|3kg 한 상자 기준\n평균 14Brix|올해 수확분 자체 측정 (예시)',src:'※ 예시 숫자입니다. 당도는 측정일·측정 방법과 함께 적으세요'},
+        {eb:'이렇게 보냅니다',title:'따고, 고르고,\n한 알씩 감싸서',cap:'수확 → 크기 선별 → 한 알씩 완충 포장'},
+        {title:'받는 날부터 맛있게',items:'주문|원하는 크기와 양을 고르세요\n선별 후 발송|주문한 주에 골라 택배로 보냅니다 (예시)\n냉장 보관|비닐째 냉장고에 넣어 두세요'},
+        {title:'양과 크기를 고르세요',items:'가정용 3kg|29,000원|13~15과, 흠 없는 상품\n선물용 5kg|49,000원|크기를 고른 큰 사과, 선물 포장|추천',note:'※ 예시 가격입니다'},
+        {title:'올겨울에도\n푸석한 사과 한 봉지',body:'제철 사과는 지금이 가장 맛있습니다.'},
+        {title:'한 입 먹고\n다시 주문했어요',items:'아이들이 껍질째 잘 먹어요|김OO|예시 후기\n선물한 부모님이 또 보내 달래요|박OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'품목|사과(부사)\n중량·수량·크기|3kg, 13~15과\n생산자|OO과수원 (예시)\n원산지|국내산(경북 OO군) (예시)\n수확·발송일|수확 후 선별해 발송, 발송일 문자 안내 (예시)\n보관방법|비닐째 냉장 보관\n파손·교환|받은 날 사진과 함께 연락 주시면 교환 (예시)'},
+        {items:'당도는 얼마나 되나요?|올해 수확분 자체 측정 평균 14Brix입니다(예시). 사과마다 다릅니다.\n멍든 사과가 왔어요|받은 날 사진을 보내 주시면 교환해 드립니다(예시).'},
+        {eb:'제철일 때',title:'산지에서 바로 온 사과,\n지금 맛보세요',button:'3kg 한 상자 담기',badges:'수확 후 바로 발송, 크기 선별'}]}},
+    elec:{n:'소형가전·전자기기 (빔프로젝터 등)',ex:'미니 빔프로젝터',photo:'제품 사용 장면',steps:'받아서 쓰기까지 3단계',info:'제품 정보',
+      hint:'KC 인증(전기용품)과 전파 인증 번호는 이미지 안에만 넣지 말고 판매 화면의 상품정보 입력란에 글자로도 꼭 적으세요. 근거 없는 살균·99.9%·전자파 차단 표현 금지.',
+      info_k:[['모델','품명·모델명'],['KC|인증','KC·전파 인증'],['정격|전압|소비전력','정격전압·소비전력'],['제조자|제조국|수입','제조자·제조국'],['크기|무게','크기·무게'],['보증','품질보증'],['A\\/S|AS|고객센터|서비스','A/S 연락처']],
+      risk:'99\\.9|살균|멸균|제균|항균|항바이러스|바이러스 ?(제거|차단)|소독|박멸|전자파 ?(차단|제로|0|없)',warn:'음이온|원적외선|혈액순환|의료',
+      sample:{theme:'dark',b:[
+        {eb:'방 한 칸이 영화관으로',title:'벽만 있으면\n주말 영화관',sub:'손바닥만 한 미니 빔프로젝터 (예시)',badges:'Wi-Fi·블루투스, 1080p(예시), 1년 무상 보증(예시)',align:'c'},
+        {title:'큰 화면으로 보고 싶은데',items:'거실 TV는 늘 다른 가족 차지다\n노트북 화면으로 영화를 보면 답답하다\n빔프로젝터는 크고 설치가 어려울 것 같다'},
+        {title:'왜 망설였을까',lt:'흔한 빔프로젝터',li:'무겁고 설치가 번거롭다\n선 연결이 복잡하다',rt:'이 제품',ri:'한 손에 들리는 크기 (예시)\n휴대폰 화면을 무선으로 연결'},
+        {eb:'만든 사람',title:'원룸에서\n영화관을 꿈꿨습니다',quote:'원룸에서도 큰 화면으로 영화를 보고 싶어\n작고 쉬운 빔프로젝터를 기획했습니다.',name:'OO테크 대표 (예시)'},
+        {title:'숫자로 보는 사양',items:'1080p|해상도 (예시)\n100인치|최대 투사 크기, 3m 거리 (예시)\n0.8kg|무게 (예시)',src:'※ 예시 사양입니다. 측정 조건과 시험 기관을 함께 적으세요'},
+        {eb:'이렇게 씁니다',title:'침실 벽, 천장,\n캠핑장 텐트까지',cap:'침실 벽 투사 · 천장 투사 · 구성품'},
+        {title:'설치는 3분이면 끝',items:'전원 연결|어댑터를 꽂고 전원 버튼\n화면 맞추기|초점 다이얼로 선명하게\n무선 연결|휴대폰 화면을 띄워 재생'},
+        {title:'구성을 고르세요',items:'기본 구성|189,000원|본체, 어댑터, 리모컨\n스탠드 구성|219,000원|기본 구성 + 각도 조절 스탠드|추천',note:'※ 예시 가격입니다'},
+        {title:'이번 주말도\n작은 화면 앞에서',body:'벽 하나로 주말 영화관을 만들어 보세요.'},
+        {title:'주말마다\n영화관이 열려요',items:'천장에 띄워 놓고 누워서 봐요|이OO|예시 후기\n캠핑 가서 아이들이 제일 좋아했어요|최OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'품명·모델명|미니 빔프로젝터 OO-100 (예시)\nKC 인증|전기용품 안전인증번호, 전파 적합성평가 번호 기재 (예시)\n정격전압·소비전력|DC 12V · 36W (예시)\n출시년월|2026년 9월 (예시)\n제조자·제조국|OO테크 / 중국 (예시)\n크기·무게|120×95×80mm · 0.8kg (예시)\n품질보증|구매일로부터 1년 무상 (예시)\nA/S 연락처|고객센터 0000-0000 (예시)'},
+        {items:'낮에도 보이나요?|밝은 곳에서는 화면이 흐려집니다. 커튼을 치거나 저녁 사용을 권합니다.\n고장 나면 어떻게 하나요?|1년 안에는 무상 수리해 드립니다(예시).'},
+        {eb:'이번 주말',title:'벽 하나로 만드는\n우리 집 영화관',button:'스탠드 구성 담기',badges:'1년 무상 보증(예시), 무선 연결'}]}},
+    beauty:{n:'화장품',ex:'수분 크림',photo:'제품과 제형',steps:'사용 방법 3단계',info:'제품 정보',
+      hint:'화장품법 기준. 치료·재생·여드름·의사 추천 같은 의약품 오인, \'최고·최상\' 금지. 미백·주름 개선·자외선 차단은 기능성 심사(보고)를 받은 경우에만 쓰세요.',
+      info_k:[['용량|중량','용량'],['전 ?성분','전성분'],['사용기한|개봉 ?후','사용기한'],['사용 ?방법','사용방법'],['제조업자|책임판매업자','제조업자·책임판매업자'],['제조국','제조국'],['기능성','기능성 여부'],['주의','주의사항']],
+      risk:'재생|항염|염증|여드름|아토피|질염|통증|노화 ?방지|보톡스|병원|의사(?!항)|약사(?!항)|피부과|엑소좀|마이크로니들|피부 ?나이|디톡스|독소|최상|미백|주름 ?개선|자외선 ?차단',
+      sample:{theme:'white',b:[
+        {eb:'건조한 계절의 보습',title:'오후 3시에도\n촉촉한 피부',sub:'수분 크림 50ml (일반화장품)',badges:'전 성분 공개, 제조일 표기, 가벼운 젤 제형',align:'c'},
+        {title:'바르고 나서도 땅긴다면',items:'아침에 바른 크림이 오후면 사라진다\n무거운 크림은 답답하고 번들거린다\n성분을 봐도 무엇이 들었는지 모르겠다'},
+        {title:'왜 금방 건조해질까',lt:'흔한 수분 크림',li:'바를 때만 촉촉하다\n성분 설명이 어렵다',rt:'이 크림',ri:'가벼운 젤 크림 제형 (예시)\n전 성분과 역할을 쉽게 설명'},
+        {eb:'만든 사람',title:'건성 피부로\n크림을 찾아 헤맸습니다',quote:'맞는 크림을 찾다가 직접 만들기로 했습니다.\n제가 매일 쓰는 크림만 팝니다.',name:'OO랩 대표 (예시)'},
+        {title:'숫자로 보여 드립니다',items:'50ml|용량\n12개월|개봉 후 사용기간 (예시)\n2,000개|누적 판매 (예시)',src:'※ 예시 숫자입니다. 시험 결과는 기관·대상·기간을 함께 적으세요'},
+        {title:'국내 제조소에서\n소량씩 생산',cap:'원료 계량 → 배합 → 충전 (예시)'},
+        {title:'세안 후 이렇게 쓰세요',items:'토너로 정돈|세안 후 피부결 정리\n적당량 덜기|콩알 두 개 크기\n가볍게 두드리기|얼굴 안쪽에서 바깥으로'},
+        {title:'나에게 맞게 고르세요',items:'단품 50ml|28,000원|처음 써 보는 분\n2개 세트|50,000원|가족과 함께|추천',note:'※ 예시 가격입니다'},
+        {title:'올겨울에도\n오후마다 덧바르는 크림',body:'아침 한 번으로 오후까지 가는 보습을 써 보세요.'},
+        {title:'오후가\n편안해졌어요',items:'오후까지 당김이 덜해요|정OO|예시 후기\n가벼워서 아침에도 잘 써요|한OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'용량|50ml\n피부 타입|모든 피부 (예시)\n사용기한|제조일로부터 24개월, 개봉 후 12개월 (예시)\n사용방법|세안 후 적당량을 펴 바름\n제조업자·책임판매업자|OO코스메틱 / OO랩 (예시)\n제조국|대한민국\n전성분|정제수, 글리세린, 부틸렌글라이콜 … (예시)\n기능성 여부|해당 없음 (일반화장품)\n주의사항|이상이 있으면 사용을 멈추고 전문가와 상담'},
+        {items:'민감한 피부도 쓸 수 있나요?|팔 안쪽에 먼저 발라 보고 쓰시길 권합니다.\n여름에도 쓸 수 있나요?|가벼운 젤 제형이라 사계절 쓰실 수 있습니다(예시).'},
+        {eb:'오늘 밤부터',title:'아침 한 번으로\n오후까지 촉촉하게',button:'2개 세트 담기',badges:'전 성분 공개, 일반화장품'}]}},
+    living:{n:'생활·주방용품 (직접 제작 포함)',ex:'호두나무 도마',photo:'제품 실물',steps:'받아서 쓰기까지 3단계',info:'제품 정보',
+      hint:'세제·방향제·캔들처럼 생활화학제품이면 정보 항목과 표현 기준이 달라집니다(무독성·친환경 표현 금지). 나무 제품은 실제 재질(통원목·집성목·합판)을 정확히 적으세요.',
+      info_k:[['재질|소재','재질'],['크기|사이즈','크기'],['구성','구성품'],['제조자|제조국|수입','제조자·제조국'],['관리|세척|사용 ?방법','관리·세척법'],['주의','주의사항'],['보증|A\\/S|교환','보증·교환']],
+      risk:'무독성|무해|친환경|환경 ?친화|항균|살균|제균|99\\.9',warn:'원목',
+      sample:{theme:'warm',b:[
+        {eb:'매일 쓰는 주방 도구',title:'칼질이 즐거워지는\n호두나무 도마',sub:'공방에서 직접 깎아 만든 도마 (예시)',badges:'직접 제작, 식물성 오일 마감, 크기 3종',align:'c'},
+        {title:'도마 바꿀 때가 됐다면',items:'플라스틱 도마에 칼자국이 가득하다\n오래 쓸 수 있는 도마를 찾고 싶다\n식탁에 그대로 올려도 예쁜 도마가 좋다'},
+        {title:'왜 금방 바꾸게 될까',lt:'흔한 도마',li:'칼자국에 물기가 남는다\n금방 휘거나 갈라진다',rt:'우리 공방 도마',ri:'충분히 말린 나무를 깎아 만듦 (예시)\n관리법과 다시 칠하는 법 안내'},
+        {eb:'만든 사람',title:'가구를 만들다\n도마를 깎기 시작했습니다',quote:'가구를 만들고 남은 좋은 나무가 아까워\n집에서 쓸 도마를 깎기 시작했습니다.',name:'OO공방 대표 (예시)'},
+        {title:'숫자로 보여 드립니다',items:'3종|크기 (소·중·대)\n3번|사포질과 오일 마감 횟수 (예시)\n7년|공방 운영 (예시)',src:'※ 예시 숫자입니다'},
+        {title:'재단부터 마감까지\n공방에서 직접',cap:'재단 → 사포질 → 오일 마감'},
+        {title:'오래 쓰는 관리법',items:'처음 한 번 오일칠|동봉한 오일을 얇게 바르기\n쓰고 나면 세워 말리기|물기를 닦고 세워서 건조\n한 달에 한 번 오일|마르고 거칠어지면 다시 바르기'},
+        {title:'크기를 고르세요',items:'소 (25×18cm)|35,000원|과일·간단한 조리용\n중 (35×22cm)|52,000원|매일 쓰는 기본 크기|추천\n대 (45×28cm)|69,000원|플레이팅·큰 재료용',note:'※ 예시 가격입니다'},
+        {title:'올해도\n칼자국 가득한 도마 위에서',body:'매일 쓰는 도구부터 바꿔 보세요.'},
+        {title:'주방에 서는 시간이\n즐거워졌어요',items:'식탁에 그대로 올려 써요|윤OO|예시 후기\n칼질 소리가 부드러워졌어요|장OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'품명|호두나무 도마 (예시)\n재질|호두나무 통판, 식물성 오일 마감 (예시)\n크기|소 25×18cm / 중 35×22cm / 대 45×28cm\n구성품|도마 1개, 관리용 오일 30ml\n제조자·제조국|OO공방 / 대한민국 (예시)\n관리·세척법|중성세제로 씻고 세워 말리기, 식기세척기 사용 금지\n주의사항|뜨거운 냄비를 바로 올리지 마세요\n품질보증·교환|제작 하자는 받은 날부터 7일 안에 교환 (예시)'},
+        {items:'나무 무늬가 사진과 달라요|나무마다 무늬가 달라 한 장씩 다릅니다.\n갈라지면 어떻게 하나요?|사진을 보내 주시면 상태를 보고 안내해 드립니다(예시).'},
+        {eb:'오늘 주방부터',title:'매일 쓰는 도마,\n오래 쓸 하나로',button:'중 사이즈 담기',badges:'직접 제작, 크기 3종'}]}},
+    fashion:{n:'패션·잡화',ex:'가죽 카드지갑',photo:'착용·실물',steps:'주문부터 받기까지 3단계',info:'제품 정보',
+      hint:'의류는 혼용률(%)·세탁법, 가방·신발은 항목이 따로 있습니다. 레플리카·A급·정품과 동일 같은 표현은 위조품으로 오인될 수 있습니다.',
+      info_k:[['소재|혼용','소재'],['색상','색상'],['치수|사이즈|실측','치수'],['제조자|제조국','제조자·제조국'],['세탁|취급','세탁·취급 주의'],['교환|반품','교환·반품']],
+      risk:'레플리카|이미테이션|A급|S급|정품과 ?동일|싱크로율|완벽 ?재현',
+      sample:{theme:'white',b:[
+        {eb:'매일 손에 쥐는 물건',title:'카드 네 장이면\n충분한 하루',sub:'손바느질 소가죽 카드지갑 (예시)',badges:'손바느질, 이니셜 각인, 색상 3종',align:'c'},
+        {title:'지갑이 늘 두툼하다면',items:'쓰지 않는 카드까지 들고 다닌다\n주머니에 넣으면 불룩 튀어나온다\n금방 실밥이 풀리는 지갑에 지쳤다'},
+        {title:'왜 지갑이 두꺼워질까',lt:'흔한 지갑',li:'칸이 많아 점점 두꺼워진다\n기계 박음질이 풀리기 쉽다',rt:'이 카드지갑',ri:'꼭 필요한 4칸만 (예시)\n한 땀씩 손바느질'},
+        {eb:'만든 사람',title:'가죽 공방에서\n10년째 꿰매고 있습니다',quote:'오래 쓸수록 손에 맞는 지갑을 만들고 싶었습니다.',name:'OO레더 대표 (예시)'},
+        {title:'숫자로 보여 드립니다',items:'4칸|카드 수납\n6mm|두께, 카드 넣기 전 (예시)\n10년|공방 운영 (예시)',src:'※ 예시 숫자입니다'},
+        {title:'재단부터 바느질까지\n한 사람이 만듭니다',cap:'재단 → 손바느질 → 마감'},
+        {title:'주문은 이렇게',items:'색상 고르기|브라운·블랙·탄 중 선택\n각인 문구 적기|이니셜 최대 5자 (예시)\n제작 후 발송|주문 후 3일 안에 발송 (예시)'},
+        {title:'구성을 고르세요',items:'카드지갑|39,000원|기본 4칸\n카드지갑 + 각인|42,000원|이니셜 각인 포함|추천',note:'※ 예시 가격입니다'},
+        {title:'오늘도\n불룩한 주머니로 출근',body:'꼭 필요한 것만 들고 가볍게 다녀 보세요.'},
+        {title:'주머니가\n가벼워졌어요',items:'주머니가 가벼워졌어요|서OO|예시 후기\n쓸수록 색이 예뻐져요|오OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'종류|카드지갑\n소재|소가죽 (예시)\n색상|브라운, 블랙, 탄\n치수|가로 10cm × 세로 7cm (예시)\n제조자·제조국|OO레더 / 대한민국 (예시)\n취급 주의|물에 젖으면 마른 천으로 닦고 그늘에서 말리기\n품질보증|바느질 하자는 1년 무상 수선 (예시)\n교환·반품|각인 제품은 단순 변심 교환 불가'},
+        {items:'모니터와 색이 달라 보여요|화면마다 색이 조금씩 다르게 보일 수 있습니다.\n가죽에 주름이 있어요|천연 가죽의 자연스러운 주름입니다.'},
+        {eb:'오늘부터',title:'가벼운 주머니,\n오늘부터',button:'각인 지갑 주문하기',badges:'손바느질, 색상 3종'}]}},
+    digital:{n:'VOD 강의·디지털 콘텐츠',ex:'VOD 강의',photo:'강의 화면',steps:'수강 방법 3단계',info:'수강 안내',
+      hint:'합격·수익·취업 보장, 근거 없는 \'1위\' 금지. 수강생 수·평점은 실제 수치와 기준일만. 종이책은 항목이 달라 \'기타\'를 고르세요.',
+      info_k:[['제작자|공급자|강사','제작자(공급자)'],['이용 ?기간|수강 ?기간','이용 기간'],['제공 ?방식|스트리밍|다운로드','제공 방식'],['사양|환경|기기','이용 환경'],['환불|청약철회|해지','환불·청약철회'],['상담|문의|전화|채널','상담 연락처']],
+      risk:'합격 ?보장|수익 ?보장|취업 ?보장|매출 ?보장|월 ?\\d+ ?만 ?원',warn:'합격률',
+      sample:{theme:'vivid',b:[
+        {eb:'디자이너 없이 만드는',title:'상세페이지,\n주말 이틀이면 됩니다',sub:'스마트스토어 상세페이지 만들기 VOD 4강 (예시)',badges:'4강·총 3시간(예시), 90일 수강, 템플릿 제공',align:'c'},
+        {title:'상세페이지 외주가 부담된다면',items:'외주 견적이 상품 하나에 수십만 원이다\n직접 만들자니 어디서 시작할지 모르겠다\n유튜브 강의는 순서가 뒤죽박죽이다'},
+        {title:'강의를 들어도 못 만들던 이유',lt:'흔한 강의',li:'툴 기능 설명 위주\n내 상품에 적용이 어렵다',rt:'이 강의',ri:'내 상품으로 따라 만들기\n완성 템플릿 그대로 사용'},
+        {eb:'강사 소개',title:'저도 상세페이지 때문에\n밤을 새웠습니다',quote:'작은 쇼핑몰을 운영하며 익힌 방법을\n4강에 담았습니다.',name:'강사 OOO (예시)'},
+        {title:'숫자로 보여 드립니다',items:'4강|총 3시간 (예시)\n90일|수강 기간\n12종|상세페이지 템플릿 (예시)',src:'※ 예시 숫자입니다. 수강생 수·평점은 실제 수치와 기준일만'},
+        {eb:'강의 미리보기',title:'이런 화면으로 배웁니다',cap:'실습 화면 · 템플릿 · 완성 예시'},
+        {title:'결제 후 바로 시작',items:'결제|카드·계좌이체\n로그인|PC·휴대폰 어디서나\n수강|1강부터 차례로 따라 하기'},
+        {title:'수강권을 고르세요',items:'기본|59,000원|VOD 4강 + 템플릿\n코칭 포함|99,000원|기본 + 1:1 피드백 1회 (예시)|추천',note:'※ 예시 가격입니다'},
+        {title:'다음 신상품도\n외주 견적서부터',body:'내 손으로 고칠 수 있는 상세페이지를 가져 보세요.'},
+        {title:'직접 고칠 수\n있게 됐어요',items:'처음으로 상세페이지를 직접 바꿨어요|강OO|예시 후기\n템플릿 덕분에 하루 만에 끝냈어요|임OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'제작자(공급자)|OO클래스 (예시)\n이용 기간|결제일로부터 90일\n제공 방식|스트리밍 (다운로드 불가)\n이용 환경|PC·휴대폰, 크롬 브라우저 권장 (예시)\n제공 자료|상세페이지 템플릿 12종 (예시)\n환불·청약철회|7일 이내, 1강 미만 수강 시 전액 환불 (예시)\n상담 연락처|카카오톡 채널 OO클래스 (예시)'},
+        {items:'컴퓨터를 잘 못해도 되나요?|화면을 보며 그대로 따라 하도록 만들었습니다.\n들으면 매출이 오르나요?|매출은 상품과 시장에 따라 다릅니다. 만드는 방법을 알려 드립니다.'},
+        {eb:'이번 주말에',title:'내 상세페이지,\n이번 주말에 직접',button:'수강 신청하기',badges:'90일 수강, 템플릿 제공'}]}},
+    etc:{n:'기타 (직접 만든 물건, 종이책 등)',ex:'원목 휴대폰 거치대',photo:'제품 실물',steps:'받아서 쓰기까지 3단계',info:'상품 정보',
+      hint:'공통 기준(품명·인증·제조국·제조자·연락처 + 배송·교환). 건강기능식품·의료기기·어린이제품은 별도 규제가 무거우니 전문가 확인을 받으세요.',
+      info_k:[['품명|모델|도서명','품명·모델명'],['인증|허가','인증·허가'],['제조국|원산지','제조국'],['제조자|수입|출판사','제조자'],['배송','배송'],['교환|반품','교환·반품'],['A\\/S|상담|문의|채널','A/S·상담 연락처']],
+      risk:'',
+      sample:{theme:'white',b:[
+        {eb:'책상 위 작은 정리',title:'영상 볼 때\n손이 자유로워집니다',sub:'수제 원목 휴대폰 거치대 (예시)',badges:'직접 제작, 각도 2단, 태블릿 겸용(예시)',align:'c'},
+        {title:'휴대폰을 계속 들고 있다면',items:'영상 통화할 때 팔이 아프다\n레시피 영상을 보며 요리하기 불편하다\n플라스틱 거치대는 책상에 안 어울린다'},
+        {title:'왜 손이 계속 갈까',lt:'흔한 거치대',li:'가볍고 쉽게 넘어진다\n책상 분위기와 따로 논다',rt:'이 거치대',ri:'묵직해서 잘 넘어지지 않음 (예시)\n나뭇결이 살아 있는 마감'},
+        {eb:'만든 사람',title:'제 책상에 둘\n거치대를 만들다가',quote:'마음에 드는 거치대가 없어 직접 깎았고,\n찾는 분이 늘어 팔게 됐습니다.',name:'OO우드 대표 (예시)'},
+        {title:'숫자로 보여 드립니다',items:'2단|각도 조절\n13인치|올릴 수 있는 태블릿 크기 (예시)\n350g|무게 (예시)',src:'※ 예시 숫자입니다'},
+        {eb:'이렇게 씁니다',title:'책상, 주방,\n침대 옆 어디서나',cap:'영상 통화 · 레시피 보기 · 태블릿 거치'},
+        {title:'꺼내서 바로 씁니다',items:'상자에서 꺼내기|조립 없이 바로\n각도 고르기|홈 두 개 중 선택\n휴대폰 올리기|충전선 구멍으로 충전하며 사용'},
+        {title:'구성을 고르세요',items:'거치대|25,000원|휴대폰용\n거치대 2개|45,000원|선물용 포장|추천',note:'※ 예시 가격입니다'},
+        {title:'오늘도\n휴대폰 든 팔이 저릿',body:'손은 자유롭게, 책상은 깔끔하게 두세요.'},
+        {title:'두 손이\n편해졌어요',items:'레시피 볼 때 정말 편해요|노OO|예시 후기\n책상 분위기가 살아났어요|문OO|예시 후기'},
+        {title:'꼭 확인하세요',rows:'품명·모델명|원목 휴대폰 거치대 (예시)\n인증·허가|해당 없음 (예시)\n제조국|대한민국\n제조자|OO우드 (예시)\n크기·무게|12×9×8cm · 350g (예시)\n배송|주문 후 2일 안에 발송 (예시)\n교환·반품|받은 날부터 7일 안에, 단순 변심은 왕복 배송비 부담\nA/S·상담|카카오톡 채널 OO우드 (예시)'},
+        {items:'태블릿도 올라가나요?|13인치까지 올릴 수 있습니다(예시).\n나무 색이 사진과 달라요|나무마다 색과 무늬가 조금씩 다릅니다.'},
+        {eb:'오늘부터',title:'책상 위에 하나,\n손이 자유로워집니다',button:'거치대 담기',badges:'직접 제작, 각도 2단'}]}}
+  };
+  var CAT_ORDER=['food','agri','elec','beauty','living','fashion','digital','etc'];
+  var TI=['hero','checklist','compare','founder','numbers','photos','steps','pricing','text','reviews','infotable','faq','cta'];
+  function C(){return CATS[(S&&S.cat)||'food']||CATS.food;}
+  /* 회색 예시 글: 유형별 예시 채우기 값 → 없으면 반찬가게 기본 예시 */
+  function phOf(type,k,def){var c=C(),i=TI.indexOf(type),o=c.sample&&i>=0?c.sample.b[i]:null;return (o&&o[k]!==undefined)?o[k]:def;}
+
   function blk(type,o){var b={id:uid(),type:type,bg:'white'};TYPES[type].f.forEach(function(f){if(b[f[0]]===undefined)b[f[0]]=f[1]==='imgs'?[]:(f[1]==='check'?false:(f[1]==='select'?f[3][0][0]:(f[1]==='range'?45:'')));});if(o)for(var k in o)b[k]=o[k];return b;}
   function template(){return [
     blk('hero',{bg:'dark'}),
@@ -302,20 +446,21 @@
     blk('founder',{bg:'tint',eb:'저희도 그랬습니다'}),
     blk('numbers',{eb:'믿을 수 있는 이유'}),
     blk('photos',{bg:'tint',eb:'이렇게 만듭니다'}),
-    blk('steps',{eb:'받아서 드시기까지 3단계'}),
+    blk('steps',{eb:C().steps}),
     blk('pricing',{bg:'tint',eb:'구성·가격'}),
     blk('text',{eb:'이걸 놓치면',align:'c'}),
     blk('reviews',{bg:'tint',eb:'이렇게 달라집니다'}),
-    blk('infotable',{eb:'안심 정보'}),
+    blk('infotable',{eb:C().info}),
     blk('faq',{bg:'tint',eb:'자주 묻는 질문'}),
     blk('cta',{bg:'dark'})
   ];}
-  function defaults(){return {v:2,theme:'warm',c1:THEMES.warm.c1,c2:THEMES.warm.c2,font:'sans',size:'n',gap:'wide',r:14,num:false,aimark:true,blocks:template()};}
+  function defaults(){return {v:2,cat:(S&&S.cat)||'food',theme:'warm',c1:THEMES.warm.c1,c2:THEMES.warm.c2,font:'sans',size:'n',gap:'wide',r:14,num:false,aimark:true,blocks:template()};}
 
   var S=null, open={};
   var sv=load('fdp_builder2');
   if(sv){try{var o=JSON.parse(sv);if(o&&o.v===2&&Array.isArray(o.blocks))S=o;}catch(e){}}
   if(!S)S=defaults();
+  if(!CATS[S.cat])S.cat='food';
 
   /* ---------- 저장 ---------- */
   function strip(st){var c=JSON.parse(JSON.stringify(st));c.blocks.forEach(function(b){if(b.img)b.img='';if(b.imgs)b.imgs=[];});return c;}
@@ -323,7 +468,7 @@
 
   /* ---------- 편집기 ---------- */
   function fieldHTML(b,f){
-    var k=f[0],kind=f[1],lab=f[2],ph=f[3],v=b[k];
+    var k=f[0],kind=f[1],lab=f[2],ph=(['text','textarea','lines'].indexOf(kind)>=0)?phOf(b.type,k,f[3]):f[3],v=b[k];
     if(kind==='text')return '<div><label class="f">'+esc(lab)+'</label><input type="text" data-k="'+k+'" value="'+esc(v)+'" placeholder="'+esc(ph||'')+'"></div>';
     if(kind==='textarea')return '<div><label class="f">'+esc(lab)+'</label><textarea data-k="'+k+'" rows="2" placeholder="'+esc(ph||'')+'">'+esc(v)+'</textarea></div>';
     if(kind==='lines')return '<div><label class="f">'+esc(lab)+'</label><textarea data-k="'+k+'" rows="4" placeholder="'+esc(ph||'')+'">'+esc(v)+'</textarea></div>';
@@ -381,7 +526,13 @@
 
   /* ---------- 디자인 옵션 ---------- */
   $('#o-theme').innerHTML=Object.keys(THEMES).map(function(k){return '<option value="'+k+'">'+THEMES[k].n+'</option>';}).join('');
-  function syncOpts(){$('#o-theme').value=S.theme;$('#o-c1').value=S.c1;$('#o-c2').value=S.c2;$('#o-font').value=S.font;$('#o-size').value=S.size;$('#o-gap').value=S.gap;$('#o-r').value=S.r;$('#o-rv').textContent=S.r+'px';$('#o-num').checked=!!S.num;$('#o-ai').checked=!!S.aimark;}
+  $('#o-cat').innerHTML=CAT_ORDER.map(function(k){return '<option value="'+k+'">'+esc(CATS[k].n)+'</option>';}).join('');
+  $('#o-cat').addEventListener('change',function(){
+    var old=C();S.cat=this.value;var nw=C();
+    S.blocks.forEach(function(b){if(b.type==='steps'&&b.eb===old.steps)b.eb=nw.steps;if(b.type==='infotable'&&b.eb===old.info)b.eb=nw.info;});
+    syncOpts();renderEditor();soon();say(nw.n+' 기준으로 바꿨습니다. 이미 쓴 글은 그대로입니다');
+  });
+  function syncOpts(){$('#o-cat').value=S.cat;$('#o-cath').textContent=C().hint;$('#sample').textContent='예시 채우기('+C().ex+')';$('#o-theme').value=S.theme;$('#o-c1').value=S.c1;$('#o-c2').value=S.c2;$('#o-font').value=S.font;$('#o-size').value=S.size;$('#o-gap').value=S.gap;$('#o-r').value=S.r;$('#o-rv').textContent=S.r+'px';$('#o-num').checked=!!S.num;$('#o-ai').checked=!!S.aimark;}
   $('#o-theme').addEventListener('change',function(){S.theme=this.value;S.c1=THEMES[S.theme].c1;S.c2=THEMES[S.theme].c2;syncOpts();soon();});
   [['#o-c1','c1'],['#o-c2','c2'],['#o-font','font'],['#o-size','size'],['#o-gap','gap']].forEach(function(p){$(p[0]).addEventListener('input',function(){S[p[1]]=this.value;soon();});$(p[0]).addEventListener('change',function(){S[p[1]]=this.value;soon();});});
   $('#o-r').addEventListener('input',function(){S.r=+this.value;$('#o-rv').textContent=S.r+'px';soon();});
@@ -394,7 +545,7 @@
   function aim(b){return (b.ai&&S.aimark)?'<div class="aim">※ 연출 이미지(AI 생성 포함)입니다. 실제 상품과 다를 수 있습니다.</div>':'';}
   function badges(v){var a=String(v||'').split(',').map(function(x){return x.trim();}).filter(Boolean);return a.length?'<div class="badges">'+a.map(function(x){return '<span>'+esc(x)+'</span>';}).join('')+'</div>':'';}
   function blockHTML(b,sn){
-    var bg=b.bg||'white',ph=function(k){var f=TYPES[b.type].f.filter(function(x){return x[0]===k;})[0];return f?String(f[3]||''):'';};
+    var bg=b.bg||'white',ph=function(k){var f=TYPES[b.type].f.filter(function(x){return x[0]===k;})[0];return String(phOf(b.type,k,f?f[3]:'')||'');};
     switch(b.type){
       case 'hero':
         var st='--hh:'+(b.hh||1000)+'px;'+(b.img?'background-image:url('+b.img+');':'');
@@ -451,24 +602,27 @@
     var hero=B[0]&&B[0].type==='hero'?B[0]:null;
     L.push(hero?['ok','첫 블록이 첫 화면(히어로)입니다']:['no','맨 위에 "첫 화면" 블록을 두세요. 3초 안에 멈추게 하는 자리입니다']);
     if(hero){var hl=(hero.title||'').replace(/\s/g,'').length;L.push(!hl?['no','첫 화면 헤드라인이 비어 있습니다']:hl<=22?['ok','헤드라인 길이 적당 ('+hl+'자)']:hl<=30?['warn','헤드라인이 조금 깁니다 ('+hl+'자). 22자 안팎을 권합니다']:['no','헤드라인이 너무 깁니다 ('+hl+'자). 3초 안에 읽히게 줄이세요']);
-      L.push(hero.img?['ok','첫 화면 배경 사진이 있습니다']:['warn','첫 화면에 음식 실물 사진을 넣으면 멈춤 효과가 커집니다']);}
+      L.push(hero.img?['ok','첫 화면 배경 사진이 있습니다']:['warn','첫 화면에 '+C().photo+' 사진을 넣으면 멈춤 효과가 커집니다']);}
     var need=[['checklist','고객의 고민(SB7 ② 문제)'],['founder','대표 이야기(③ 가이드 공감)'],['steps','3단계(④ 계획)'],['pricing','구성·가격(⑤ 행동)'],['infotable','안심 정보']];
     var miss=need.filter(function(n){return !has(n[0]);});
     L.push(!miss.length?['ok','SB7단계 흐름의 핵심 블록을 모두 갖췄습니다']:['no','빠진 흐름: '+miss.map(function(m){return m[1];}).join(', ')]);
     var ctaN=B.filter(function(b){return b.type==='cta'||b.type==='pricing';}).length;
     L.push(ctaN>=2?['ok','구매로 이끄는 자리가 '+ctaN+'곳 있습니다']:ctaN===1?['warn','구매 유도가 1곳뿐입니다. 중간과 맨 끝에 한 번씩 더 두세요']:['no','행동 촉구(구성·가격, 배너)가 없습니다']);
     var info=B.filter(function(b){return b.type==='infotable'||b.type==='faq';}).map(function(b){return (b.rows||'')+'\n'+(b.items||'');}).join('\n');
-    var keys=[['원산지','원산지'],['내용량|중량|용량','내용량'],['소비기한|유통기한','소비기한'],['보관','보관방법'],['알레르기','알레르기'],['배송|교환|반품','배송·교환']];
+    var keys=C().info_k;
     var mk=keys.filter(function(k){return !new RegExp(k[0]).test(info);}).map(function(k){return k[1];});
-    L.push(!mk.length?['ok','필수 안심 정보(원산지·내용량·소비기한·보관·알레르기·배송)가 모두 있습니다']:['no','안심 정보에 빠진 항목: '+mk.join(', ')]);
-    var tx=allText(),risk=(tx.match(RISK)||[]).filter(function(v,i,a){return a.indexOf(v)===i;});
-    L.push(!risk.length?['ok','질병 효능·최상급·"무" 표현 같은 위험 표현이 없습니다']:['no','법규 점검 필요 표현: '+risk.join(', ')+' (교안 2주차 점검표 참고)']);
+    L.push(!mk.length?['ok',C().info+' 필수 항목('+keys.map(function(k){return k[1];}).join('·')+')이 모두 있습니다']:['no',C().info+'에 빠진 항목: '+mk.join(', ')+' (정보 표나 자주 묻는 질문에 적으세요)']);
+    var tx=allText(),re2=C().risk?new RegExp(RISK.source+'|'+C().risk,'g'):RISK,risk=(tx.match(re2)||[]).map(function(v){return v.trim();}).filter(function(v,i,a){return a.indexOf(v)===i;});
+    L.push(!risk.length?['ok','최상급·효능 과장·보장 같은 위험 표현이 없습니다 ('+C().n+' 기준)']:['no','법규 점검 필요 표현: '+risk.join(', ')+' (근거가 없으면 바꾸세요)']);
+    if(C().warn){var wv=(tx.match(new RegExp(C().warn,'g'))||[]).filter(function(v,i,a){return a.indexOf(v)===i;});if(wv.length)L.push(['warn','사실·근거 확인이 필요한 표현: '+wv.join(', ')]);}
     var longS=tx.split(/[.!?。\n]/).map(function(s){return s.trim();}).filter(function(s){return s.length>40;});
     L.push(!longS.length?['ok','40자 넘는 긴 문장이 없습니다']:['warn','40자 넘는 문장 '+longS.length+'개: 휴대폰에서 읽기 힘듭니다. 둘로 나누세요']);
     var noImg=B.filter(function(b){return (b.type==='photos'&&!(b.imgs||[]).length)||(b.type==='founder'&&!b.img);}).map(function(b){return TYPES[b.type].n;});
     L.push(!noImg.length?['ok','사진이 필요한 블록에 모두 사진이 있습니다']:['warn','사진이 빈 블록: '+noImg.join(', ')]);
     var empty=B.filter(function(b){return b.type!=='spacer'&&!TYPES[b.type].f.some(function(f){return ['text','textarea','lines'].indexOf(f[1])>=0&&f[0]!=='eb'&&b[f[0]];});}).length;
     L.push(!empty?['ok','비어 있는 블록이 없습니다']:['warn','내용이 빈 블록 '+empty+'개 (회색 예시 글자는 저장 전에 채우세요)']);
+    var phN=$('#page').querySelectorAll('.ph,.pp,div.im').length;
+    L.push(!phN?['ok','회색 예시 글자·빈 사진 자리가 없습니다']:['no','회색 예시 글자·빈 사진 자리 '+phN+'곳: 저장할 때는 빠지므로 그 자리가 비게 됩니다. 채우거나 블록을 지우세요']);
     var aiB=B.some(function(b){return b.ai;});
     L.push(aiB&&!S.aimark?['no','AI·연출 이미지가 있는데 표기가 꺼져 있습니다']:['ok',aiB?'AI·연출 이미지 표기가 켜져 있습니다':'AI·연출 이미지 표기 대상 없음']);
     if(has('reviews')){var rv=B.filter(function(b){return b.type==='reviews';}).map(function(b){return lines(b.items);}).reduce(function(a,c){return a.concat(c);},[]);var noSrc=rv.filter(function(x){return !x[2];}).length;if(rv.length)L.push(noSrc?['warn','출처 없는 후기 '+noSrc+'개: 실제 후기만, 출처(구매 채널)를 적으세요']:['ok','후기에 출처가 있습니다 (지어낸 후기 금지)']);}
@@ -498,8 +652,14 @@
     renderEditor();renderPage();autosave();say('빈 칸에 가게 카드·워크시트 내용을 넣었습니다. 문장은 다듬어 주세요');
   });
   $('#sample').addEventListener('click',function(){
-    if(!confirm('지금 내용을 반찬가게 예시로 바꿀까요? (사진은 빠집니다)'))return;
+    var cat=C();if(!confirm('지금 내용을 '+cat.ex+' 예시로 바꿀까요? (사진은 빠집니다)'))return;
     S=defaults();var B=S.blocks;
+    if(cat.sample){
+      var sm=cat.sample;if(sm.theme){S.theme=sm.theme;S.c1=THEMES[sm.theme].c1;S.c2=THEMES[sm.theme].c2;}
+      sm.b.forEach(function(o,i){if(B[i])Object.assign(B[i],o);});
+      B.push(blk('notice',{body:'※ 이 페이지의 숫자·가격·후기·인증 정보는 교육용 예시입니다. 일부 이미지는 연출 이미지입니다.'}));
+      open={};renderEditor();renderPage();autosave();syncOpts();say(cat.ex+' 예시로 채웠습니다');return;
+    }
     Object.assign(B[0],{eb:'퇴근 후 반찬 걱정 끝',title:'오늘 저녁,\n밥만 지으세요',sub:'매일 아침 그날 팔 양만 만드는 저염 반찬 3종',badges:'당일 조리, 저염 양념, 수도권 새벽배송',align:'c'});
     Object.assign(B[1],{title:'퇴근하면 저녁 차릴 기운이 없다면',items:'퇴근 후 1시간씩 요리할 여유가 없다\n사 온 반찬을 아이 앞에 내놓기 미안하다\n배달 음식은 너무 짜고 기름지다\n주말에 만든 반찬은 수요일이면 바닥난다',note:'바쁘다는 이유로 가족 밥상이 대충이 되면 안 되니까요.'});
     Object.assign(B[2],{title:'사 먹는 반찬이 불안했던 이유',li:'언제 만들었는지 모르는 반찬\n오래 두려고 간을 세게\n양이 많아 결국 버리는 반찬',ri:'매일 아침 그날 팔 양만 조리\n나트륨을 줄인 양념\n1~2인도 남기지 않는 소포장'});
@@ -522,7 +682,7 @@
   function stamp(){var d=new Date();return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
   function dl(href,name){var a=document.createElement('a');a.href=href;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);}
   $('#saveProj').addEventListener('click',function(){dl(URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'})),'상세페이지_작업파일_'+stamp()+'.json');say('사진까지 포함해 작업 파일을 저장했습니다');});
-  $('#openProj').addEventListener('change',function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!(o&&o.v===2&&Array.isArray(o.blocks)))throw 0;S=o;open={};renderEditor();renderPage();autosave();syncOpts();say('작업 파일을 열었습니다');}catch(e){say('이 도구로 저장한 작업 파일이 아닙니다');}};r.readAsText(f);this.value='';});
+  $('#openProj').addEventListener('change',function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!(o&&o.v===2&&Array.isArray(o.blocks)))throw 0;S=o;if(!CATS[S.cat])S.cat='food';open={};renderEditor();renderPage();autosave();syncOpts();say('작업 파일을 열었습니다');}catch(e){say('이 도구로 저장한 작업 파일이 아닙니다');}};r.readAsText(f);this.value='';});
 
   /* ---------- 보기·내보내기 ---------- */
   $('#vDesk').addEventListener('click',function(){$('#vw').classList.remove('mob');});
@@ -530,19 +690,22 @@
   function shoot(type){
     if(typeof html2canvas!=='function'){say('이미지 저장 기능을 불러오지 못했습니다. 인터넷 연결을 확인하세요');return;}
     var wasMob=$('#vw').classList.contains('mob');$('#vw').classList.remove('mob');
+    var pg=$('#page');pg.classList.add('exp');
     var sc=+$('#x-scale').value,sl=+$('#x-slice').value;say('이미지로 만드는 중…');
-    (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return html2canvas($('#page'),{scale:sc,useCORS:true,backgroundColor:null});}).then(function(cv){
+    (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return html2canvas(pg,{scale:sc,useCORS:true,backgroundColor:null});}).then(function(cv){
+      pg.classList.remove('exp');
       var H=sl?sl*sc:cv.height,parts=Math.ceil(cv.height/H);
       for(var k=0;k<parts;k++){var h=Math.min(H,cv.height-k*H),c2=document.createElement('canvas');c2.width=cv.width;c2.height=h;var g=c2.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c2.width,h);g.drawImage(cv,0,k*H,cv.width,h,0,0,cv.width,h);
         dl(type==='jpg'?c2.toDataURL('image/jpeg',0.9):c2.toDataURL('image/png'),'상세페이지_'+stamp()+'_'+String(k+1).padStart(2,'0')+(type==='jpg'?'.jpg':'.png'));}
       if(wasMob)$('#vw').classList.add('mob');say(parts+'장으로 저장했습니다 (폭 '+cv.width+'px)');
-    },function(){if(wasMob)$('#vw').classList.add('mob');say('이미지 저장에 실패했습니다');});
+    },function(){pg.classList.remove('exp');if(wasMob)$('#vw').classList.add('mob');say('이미지 저장에 실패했습니다');});
   }
   $('#png').addEventListener('click',function(){shoot('png');});
   $('#jpg').addEventListener('click',function(){shoot('jpg');});
   $('#html').addEventListener('click',function(){
     var css=Array.prototype.slice.call(document.querySelectorAll('style')).map(function(s){return s.textContent;}).join('\n');
-    var pg=$('#page');
+    var pg=$('#page').cloneNode(true);
+    Array.prototype.slice.call(pg.querySelectorAll('.ph,.pp,div.im')).forEach(function(n){n.parentNode.removeChild(n);});
     var doc='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>상세페이지</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap"><style>'+css+'body{background:#fff;}#page{max-width:860px;width:100%;}</style></head><body><div id="page" class="'+pg.className+'" style="'+pg.getAttribute('style')+'">'+pg.innerHTML+'</div></body></html>';
     dl(URL.createObjectURL(new Blob([doc],{type:'text/html'})),'상세페이지_'+stamp()+'.html');
   });
