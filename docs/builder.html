@@ -200,7 +200,7 @@
 </head>
 <body>
 <header>
-  <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구 <small>v2.2</small></h1>
+  <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구 <small>v2.3</small></h1>
   <button class="btn p" id="fromGuide" title="교안에 저장한 가게 카드·SB7단계 워크시트를 빈 칸에 채웁니다">교안 워크시트 불러오기</button>
   <button class="btn g" id="sample">예시 채우기</button>
   <button class="btn g" id="reset">기본 12섹션으로</button>
@@ -233,6 +233,17 @@
       <div id="blocks"></div>
       <div class="row" style="margin-top:8px"><select id="addType" style="width:auto;flex:1"></select><button class="btn p" id="add">+ 블록 추가</button></div>
       <p class="hint">여러 줄 칸은 <b>한 줄에 하나</b>씩, 칸 나눔은 <b>|</b> 기호로 적습니다. 사진은 이 브라우저에만 있고 어디에도 전송되지 않습니다. 자동 저장은 글만 저장되니, 사진까지 보관하려면 <b>작업 파일 저장</b>을 누르세요.</p>
+    </div>
+    <div class="panel" id="seoP">
+      <h2><span class="tag">4</span>검색·AI 노출 <span style="font-weight:600;font-size:12px;color:var(--sub)">· 검색엔진과 AI가 읽는 글자</span></h2>
+      <div style="display:grid;gap:10px">
+        <div><label class="f" for="s-name">검색용 상품명</label><input type="text" id="s-name" placeholder="예: OO반찬 저염 반찬 3종 세트 각 200g"><p class="hint">브랜드 + 상품 + 용량·구성 순서로. 비우면 첫 화면 헤드라인을 씁니다.</p></div>
+        <div><label class="f" for="s-kw">핵심 검색어 3~5개 (쉼표로 구분)</label><input type="text" id="s-kw" placeholder="예: 반찬 배송, 저염 반찬, 당일 조리 반찬"><p class="hint">손님이 검색창이나 AI에 칠 말입니다. 첫 화면·상품명·본문에 들어갔는지 ③품질 점검이 알려 줍니다.</p></div>
+        <div><label class="f" for="s-desc">한 줄 요약 <span id="s-dn"></span></label><textarea id="s-desc" rows="3" placeholder="누가, 무엇을, 어디서, 얼마에. 예: 파주에서 매일 아침 그날 팔 양만 조리하는 저염 반찬 3종 세트. 각 200g, 1만 원부터."></textarea>
+          <div class="row" style="margin-top:4px"><button class="btn g s" id="s-draft">초안 만들기</button><span class="hint" style="margin:0">80~120자 권장. 초안은 반드시 다듬으세요</span></div></div>
+        <div><label class="f" for="s-out">복사용 글 묶음 (스마트스토어·쿠팡 등 글자 칸에 붙여 넣기)</label><textarea id="s-out" rows="9" readonly style="background:#f8f9fb"></textarea>
+          <div class="row" style="margin-top:4px"><button class="btn p s" id="s-copy">전체 복사</button><span class="hint" style="margin:0">이미지 속 글자는 검색엔진·AI가 읽기 어렵습니다. HTML로 저장하면 상품명·요약이 페이지 머리말에 자동으로 들어갑니다</span></div></div>
+      </div>
     </div>
   </div>
 
@@ -435,6 +446,8 @@
         {eb:'오늘부터',title:'책상 위에 하나,\n손이 자유로워집니다',button:'거치대 담기',badges:'직접 제작, 각도 2단'}]}}
   };
   var CAT_ORDER=['food','agri','elec','beauty','living','fashion','digital','etc'];
+  /* 예시 채우기용 검색용 상품명·핵심 검색어 */
+  var KW={food:['OO반찬 저염 반찬 3종 세트 각 200g 당일 조리 (예시)','반찬 배송, 저염 반찬, 당일 조리 반찬'],agri:['경북 OO과수원 산지직송 제철 부사 사과 3kg 13~15과 (예시)','사과 산지직송, 제철 사과, 사과 3kg'],elec:['OO테크 미니 빔프로젝터 가정용 캠핑용 1080p (예시)','미니 빔프로젝터, 가정용 빔프로젝터, 캠핑 빔프로젝터'],beauty:['OO랩 수분 크림 50ml 건성 피부 보습 크림 (예시)','수분 크림, 건성 피부 크림, 보습 크림'],living:['OO공방 호두나무 원목 도마 수제 소·중·대 (예시)','호두나무 도마, 원목 도마, 수제 도마'],fashion:['OO레더 수제 가죽 카드지갑 이니셜 각인 (예시)','가죽 카드지갑, 각인 지갑, 수제 가죽 지갑'],digital:['스마트스토어 상세페이지 만들기 VOD 강의 4강 (예시)','상세페이지 강의, 상세페이지 만들기, 상세페이지 VOD'],etc:['수제 원목 휴대폰 거치대 각도 2단 (예시)','원목 휴대폰 거치대, 휴대폰 거치대, 수제 거치대']};
   var TI=['hero','checklist','compare','founder','numbers','photos','steps','pricing','text','reviews','infotable','faq','cta'];
   function C(){return CATS[(S&&S.cat)||'food']||CATS.food;}
   /* 회색 예시 글: 유형별 예시 채우기 값 → 없으면 반찬가게 기본 예시 */
@@ -456,7 +469,7 @@
     blk('faq',{bg:'tint',eb:'자주 묻는 질문'}),
     blk('cta',{bg:'dark'})
   ];}
-  function defaults(){return {v:2,cat:(S&&S.cat)||'food',theme:'warm',c1:THEMES.warm.c1,c2:THEMES.warm.c2,font:'sans',size:'n',gap:'wide',r:14,num:false,aimark:true,blocks:template()};}
+  function defaults(){return {v:2,cat:(S&&S.cat)||'food',theme:'warm',c1:THEMES.warm.c1,c2:THEMES.warm.c2,font:'sans',size:'n',gap:'wide',r:14,num:false,aimark:true,seo:{name:'',kw:'',desc:''},blocks:template()};}
 
   var S=null, open={};
   var sv=load('fdp_builder2');
@@ -534,7 +547,7 @@
     S.blocks.forEach(function(b){if(b.type==='steps'&&b.eb===old.steps)b.eb=nw.steps;if(b.type==='infotable'&&b.eb===old.info)b.eb=nw.info;});
     syncOpts();renderEditor();soon();say(nw.n+' 기준으로 바꿨습니다. 이미 쓴 글은 그대로입니다');
   });
-  function syncOpts(){$('#o-cat').value=S.cat;$('#o-cath').textContent=C().hint;$('#sample').textContent='예시 채우기('+C().ex+')';$('#o-theme').value=S.theme;$('#o-c1').value=S.c1;$('#o-c2').value=S.c2;$('#o-font').value=S.font;$('#o-size').value=S.size;$('#o-gap').value=S.gap;$('#o-r').value=S.r;$('#o-rv').textContent=S.r+'px';$('#o-num').checked=!!S.num;$('#o-ai').checked=!!S.aimark;}
+  function syncOpts(){$('#o-cat').value=S.cat;$('#o-cath').textContent=C().hint;$('#sample').textContent='예시 채우기('+C().ex+')';$('#o-theme').value=S.theme;$('#o-c1').value=S.c1;$('#o-c2').value=S.c2;$('#o-font').value=S.font;$('#o-size').value=S.size;$('#o-gap').value=S.gap;$('#o-r').value=S.r;$('#o-rv').textContent=S.r+'px';$('#o-num').checked=!!S.num;$('#o-ai').checked=!!S.aimark;var so=SEO();$('#s-name').value=so.name||'';$('#s-kw').value=so.kw||'';$('#s-desc').value=so.desc||'';}
   $('#o-theme').addEventListener('change',function(){S.theme=this.value;S.c1=THEMES[S.theme].c1;S.c2=THEMES[S.theme].c2;syncOpts();soon();});
   [['#o-c1','c1'],['#o-c2','c2'],['#o-font','font'],['#o-size','size'],['#o-gap','gap']].forEach(function(p){$(p[0]).addEventListener('input',function(){S[p[1]]=this.value;soon();});$(p[0]).addEventListener('change',function(){S[p[1]]=this.value;soon();});});
   $('#o-r').addEventListener('input',function(){S.r=+this.value;$('#o-rv').textContent=S.r+'px';soon();});
@@ -594,7 +607,43 @@
     return '';
   }
   function applyTheme(el){var T=THEMES[S.theme]||THEMES.warm;['pbg','ptint','pdark','pink','psub','pcard'].forEach(function(k){el.style.setProperty('--'+k,T[k]);});el.style.setProperty('--c1',S.c1);el.style.setProperty('--c2',S.c2);el.style.setProperty('--r',S.r+'px');el.className=[S.font==='serif'?'serif':'',S.size==='l'?'large':'',S.gap==='n'?'':S.gap].join(' ').trim();}
-  function renderPage(){var pg=$('#page');applyTheme(pg);var sec=0;pg.innerHTML=S.blocks.map(function(b){var isSec=b.type!=='spacer'&&b.type!=='notice'&&b.type!=='hero';if(b.type!=='spacer'&&b.type!=='notice')sec++;return blockHTML(b,(S.num&&isSec)?String(sec).padStart(2,'0'):'');}).join('');qa();}
+  function renderPage(){var pg=$('#page');applyTheme(pg);var sec=0;pg.innerHTML=S.blocks.map(function(b){var isSec=b.type!=='spacer'&&b.type!=='notice'&&b.type!=='hero';if(b.type!=='spacer'&&b.type!=='notice')sec++;return blockHTML(b,(S.num&&isSec)?String(sec).padStart(2,'0'):'');}).join('');qa();renderSeo();}
+
+  /* ---------- 검색·AI 노출 ---------- */
+  function SEO(){if(!S.seo)S.seo={name:'',kw:'',desc:''};return S.seo;}
+  function flat(v){return String(v||'').replace(/\s*\n\s*/g,' ').trim();}
+  function first(t){return S.blocks.filter(function(b){return b.type===t;})[0];}
+  function kwList(){return String(SEO().kw||'').split(/[,，]/).map(function(x){return x.trim();}).filter(function(x,i,a){return x&&a.indexOf(x)===i;});}
+  function pname(){var h=first('hero');return flat(SEO().name)||flat(h&&h.title);}
+  // 검색어의 낱말이 모두 들어 있으면 포함으로 본다 (띄어쓰기·대소문자 무시)
+  function hasKw(text,k){var t=String(text||'').replace(/\s/g,'').toLowerCase();return k.split(/\s+/).every(function(w){return t.indexOf(w.toLowerCase())>=0;});}
+  function draftDesc(){
+    var h=first('hero')||{},p=first('pricing'),pi=p?lines(p.items):[],it=first('infotable'),rows=it?lines(it.rows):[];
+    var src=rows.filter(function(r){return /원산지|산지|제조|생산|원재료/.test(r[0])&&r[1];})[0];
+    // 상품명을 앞에 두고, 서브카피는 상품명과 낱말이 절반 넘게 겹치면 뺀다
+    var nm=pname(),sub=flat(h.sub),sw=sub.replace(/\(예시\)/g,'').split(/\s+/).filter(Boolean),same=sw.filter(function(w){return nm.indexOf(w)>=0;}).length;
+    var out=[nm,sub&&same<=sw.length/2?sub:''];
+    if(src)out.push(src[0]+' '+src[1]);
+    if(pi[0]&&pi[0][1])out.push(pi[0][0]+' '+pi[0][1]+(pi.length>1?'부터':''));
+    return out.filter(Boolean).map(function(s){return s.replace(/[.。]$/,'');}).join('. ')+'.';
+  }
+  function bundle(){
+    var s=SEO(),h=first('hero')||{},o=[],kw=kwList(),tags=kw.concat(String(h.badges||'').split(',').map(function(x){return x.trim();})).filter(function(x,i,a){return x&&a.indexOf(x)===i;}).slice(0,10);
+    if(pname())o.push('[상품명]\n'+pname());
+    if(tags.length)o.push('[태그]\n'+tags.join(', '));
+    if(flat(s.desc))o.push('[한 줄 요약]\n'+flat(s.desc));
+    var fq=[];S.blocks.filter(function(b){return b.type==='faq';}).forEach(function(b){lines(b.items).forEach(function(x){if(x[0])fq.push('Q. '+x[0]+(x[1]?'\nA. '+x[1]:''));});});
+    if(fq.length)o.push('[자주 묻는 질문]\n'+fq.join('\n'));
+    var inf=[];S.blocks.filter(function(b){return b.type==='infotable';}).forEach(function(b){lines(b.rows).forEach(function(x){if(x[0])inf.push(x[0]+': '+(x[1]||''));});});
+    if(inf.length)o.push('[상품 정보]\n'+inf.join('\n'));
+    return o.join('\n\n');
+  }
+  function renderSeo(){var d=flat(SEO().desc).length;$('#s-dn').textContent=d?'('+d+'자)':'';$('#s-out').value=bundle()||'블록과 위 칸을 채우면 여기에 붙여 넣을 글이 모입니다.';}
+  [['#s-name','name'],['#s-kw','kw'],['#s-desc','desc']].forEach(function(p){$(p[0]).addEventListener('input',function(){SEO()[p[1]]=this.value;soon();});});
+  $('#s-draft').addEventListener('click',function(){var s=SEO();if(flat(s.desc)&&!confirm('지금 쓴 요약을 초안으로 바꿀까요?'))return;s.desc=draftDesc();$('#s-desc').value=s.desc;soon();say('초안을 만들었습니다. 내 말로 다듬어 주세요');});
+  $('#s-copy').addEventListener('click',function(){var t=bundle();if(!t){say('복사할 내용이 없습니다');return;}
+    function fb(){var a=$('#s-out');a.select();try{document.execCommand('copy');say('복사했습니다');}catch(e){say('글 묶음을 직접 선택해 복사하세요');}}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){say('복사했습니다. 쇼핑몰 글자 칸에 붙여 넣으세요');},fb);else fb();});
 
   /* ---------- 품질 점검 ---------- */
   var RISK=/(최고|최초|유일|1위|넘버원|No\.?\s?1|치료|완치|예방|면역|특효|혈당|혈압|항암|해독|다이어트|살\s?빠|무첨가|무방부제|기적|100%)/g;
@@ -619,6 +668,13 @@
     var tx=allText(),re2=C().risk?new RegExp(RISK.source+'|'+C().risk,'g'):RISK,risk=(tx.match(re2)||[]).map(function(v){return v.trim();}).filter(function(v,i,a){return a.indexOf(v)===i;});
     L.push(!risk.length?['ok','최상급·효능 과장·보장 같은 위험 표현이 없습니다 ('+C().n+' 기준)']:['no','법규 점검 필요 표현: '+risk.join(', ')+' (근거가 없으면 바꾸세요)']);
     if(C().warn){var wv=(tx.match(new RegExp(C().warn,'g'))||[]).filter(function(v,i,a){return a.indexOf(v)===i;});if(wv.length)L.push(['warn','사실·근거 확인이 필요한 표현: '+wv.join(', ')]);}
+    var kws=kwList();
+    if(!kws.length)L.push(['warn','④ 검색·AI 노출에 핵심 검색어 3~5개를 적으면 첫 화면·본문에 들어갔는지 점검합니다']);
+    else{var hTx=[hero&&hero.eb,hero&&hero.title,hero&&hero.sub,hero&&hero.badges,SEO().name].join(' '),pTx=tx+' '+SEO().name+' '+SEO().desc;
+      var mAll=kws.filter(function(k){return !hasKw(pTx,k);}),mHero=kws.filter(function(k){return !hasKw(hTx,k);});
+      L.push(mAll.length?['no','페이지 글 어디에도 없는 검색어: '+mAll.join(', ')+' (본문·자주 묻는 질문에 자연스럽게 넣으세요)']:mHero.length?['warn','첫 화면·상품명에 없는 검색어: '+mHero.join(', ')]:['ok','검색어 '+kws.length+'개가 첫 화면·상품명에 모두 있습니다'+(kws.length>5?' (5개 안쪽 권장)':'')]);}
+    var dl2=flat(SEO().desc).length;
+    L.push(!dl2?['warn','한 줄 요약이 비어 있습니다 (④에서 초안 만들기 → 다듬기)']:dl2<50||dl2>160?['warn','한 줄 요약 길이 '+dl2+'자: 80~120자를 권합니다']:['ok','한 줄 요약 '+dl2+'자']);
     var longS=tx.split(/[.!?。\n]/).map(function(s){return s.trim();}).filter(function(s){return s.length>40;});
     L.push(!longS.length?['ok','40자 넘는 긴 문장이 없습니다']:['warn','40자 넘는 문장 '+longS.length+'개: 휴대폰에서 읽기 힘듭니다. 둘로 나누세요']);
     var noImg=B.filter(function(b){return (b.type==='photos'&&!(b.imgs||[]).length)||(b.type==='founder'&&!b.img);}).map(function(b){return TYPES[b.type].n;});
@@ -662,6 +718,7 @@
       var sm=cat.sample;if(sm.theme){S.theme=sm.theme;S.c1=THEMES[sm.theme].c1;S.c2=THEMES[sm.theme].c2;}
       sm.b.forEach(function(o,i){if(B[i])Object.assign(B[i],o);});
       B.push(blk('notice',{body:'※ 이 페이지의 숫자·가격·후기·인증 정보는 교육용 예시입니다. 일부 이미지는 연출 이미지입니다.'}));
+      S.seo.name=KW[S.cat][0];S.seo.kw=KW[S.cat][1];S.seo.desc=draftDesc();
       open={};renderEditor();renderPage();autosave();syncOpts();say(cat.ex+' 예시로 채웠습니다');return;
     }
     Object.assign(B[0],{eb:'퇴근 후 반찬 걱정 끝',title:'오늘 저녁,\n밥만 지으세요',sub:'매일 아침 그날 팔 양만 만드는 저염 반찬 3종',badges:'당일 조리, 저염 양념, 수도권 새벽배송',align:'c'});
@@ -678,6 +735,7 @@
     Object.assign(B[11],{items:'얼마나 보관할 수 있나요?|받은 날부터 냉장 3일 안에 드시는 것을 권합니다.\n배송은 언제 오나요?|밤 10시 전 주문은 다음 날 새벽에 도착합니다(수도권).'});
     Object.assign(B[12],{eb:'이번 주 저녁부터',title:'밥만 지으면 되는 저녁,\n지금 시작하세요',sub:'가족 세트 첫 주문 무료배송 (예시)',button:'가족 세트 담기',badges:'당일 조리, 저염 양념'});
     B.push(blk('notice',{body:'※ 이 페이지의 숫자·가격·후기는 교육용 예시입니다. 일부 이미지는 연출 이미지입니다.'}));
+    S.seo.name=KW.food[0];S.seo.kw=KW.food[1];S.seo.desc=draftDesc();
     open={};renderEditor();renderPage();autosave();syncOpts();say('반찬가게 예시로 채웠습니다');
   });
   $('#reset').addEventListener('click',function(){if(!confirm('모든 블록을 비우고 기본 12섹션으로 돌아갈까요?'))return;var keep={theme:S.theme,c1:S.c1,c2:S.c2,font:S.font,size:S.size,gap:S.gap,r:S.r,num:S.num,aimark:S.aimark};S=defaults();Object.assign(S,keep);open={};renderEditor();renderPage();autosave();syncOpts();});
@@ -710,7 +768,7 @@
     var css=Array.prototype.slice.call(document.querySelectorAll('style')).map(function(s){return s.textContent;}).join('\n');
     var pg=$('#page').cloneNode(true);
     Array.prototype.slice.call(pg.querySelectorAll('.ph,.pp,div.im')).forEach(function(n){n.parentNode.removeChild(n);});
-    var doc='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>상세페이지</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap"><style>'+css+'body{background:#fff;}#page{max-width:860px;width:100%;}</style></head><body><div id="page" class="'+pg.className+'" style="'+pg.getAttribute('style')+'">'+pg.innerHTML+'</div></body></html>';
+    var doc='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>'+esc(pname()||'상세페이지')+'</title>'+(flat(SEO().desc)?'<meta name="description" content="'+esc(flat(SEO().desc))+'"><meta property="og:description" content="'+esc(flat(SEO().desc))+'">':'')+'<meta property="og:title" content="'+esc(pname()||'상세페이지')+'"><meta property="og:type" content="website"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap"><style>'+css+'body{background:#fff;}#page{max-width:860px;width:100%;}</style></head><body><div id="page" class="'+pg.className+'" style="'+pg.getAttribute('style')+'">'+pg.innerHTML+'</div></body></html>';
     dl(URL.createObjectURL(new Blob([doc],{type:'text/html'})),'상세페이지_'+stamp()+'.html');
   });
   // 미리보기에서는 버튼 링크로 이동하지 않음 (HTML 저장본에서만 작동)
