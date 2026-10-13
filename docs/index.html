@@ -491,7 +491,14 @@
   <div class="fill" id="brieftool">
     <div class="grid">
       <div><label for="f-name">① 상호 / 브랜드명</label><input id="f-name" type="text" placeholder="예: OO반찬"></div>
-      <div><label for="f-type">② 사업 유형</label><select id="f-type"><option value="">선택</option><option>음식점(포장·밀키트·배달)</option><option>식품 제조·가공</option><option>식품 유통(산지·도매)</option></select></div>
+      <div><label for="f-type">② 사업 유형</label><select id="f-type"><option value="">선택</option>
+        <optgroup label="음식점·외식"><option>음식점(포장·밀키트·배달)</option><option>카페·베이커리·디저트</option><option>반찬가게·도시락</option><option>정육점·수산물 판매점</option></optgroup>
+        <optgroup label="식품 제조·가공"><option>식품 제조·가공</option><option>전통식품(장류·김치·젓갈·장아찌)</option><option>떡·한과·전통 간식</option><option>소스·양념·조미료</option><option>냉동·간편식(밀키트·HMR)</option><option>음료·차·커피</option><option>전통주·주류</option><option>건강식품(건강기능식품 포함)</option><option>반려동물 간식·사료</option></optgroup>
+        <optgroup label="농·수·축산"><option>농산물 생산·직거래(농가)</option><option>농산물 가공(6차 산업)</option><option>수산물·건어물</option><option>축산물·정육·가공육</option><option>버섯·약초·임산물</option></optgroup>
+        <optgroup label="유통·판매"><option>식품 유통(산지·도매)</option><option>온라인 쇼핑몰·소매</option><option>수입식품 유통</option><option>로컬푸드·협동조합</option></optgroup>
+        <optgroup label="식품 외 업종"><option>소형가전·전자기기</option><option>화장품·뷰티</option><option>생활·주방용품</option><option>패션·잡화</option><option>공방·수공예품</option><option>교육·강의·디지털 콘텐츠</option><option>체험·관광·숙박</option></optgroup>
+        <option value="__etc">기타(직접 입력)</option></select>
+        <input id="f-type-etc" type="text" placeholder="업종을 직접 적어 주세요. 예: 수제 잼 공방" style="display:none;margin-top:6px"></div>
       <div><label for="f-hero">③ 상세페이지를 만들 대표 상품</label><input id="f-hero" type="text" placeholder="예: 저염 반찬 3종 세트"></div>
       <div><label for="f-who">④ 주로 사는 사람 (한 사람을 떠올리며)</label><input id="f-who" type="text" placeholder="예: 퇴근이 늦은 30~40대 맞벌이 부모"></div>
       <div><label for="f-pain">⑤ 그 사람의 가장 큰 고민</label><input id="f-pain" type="text" placeholder="예: 평일 저녁 차릴 시간과 기운이 없다"></div>
@@ -1232,7 +1239,11 @@
   /* ---------- 가게 카드 + SB7 ---------- */
   var fields={name:'f-name',type:'f-type',hero:'f-hero',who:'f-who',pain:'f-pain',edge:'f-edge',proof:'f-proof',story:'f-story',price:'f-price',keep:'f-keep',channel:'f-channel',tone:'f-tone'};
   var sbf={want:'s-want',ext:'s-ext',int:'s-int',phil:'s-phil',emp:'s-emp',auth:'s-auth',plan:'s-plan',cta:'s-cta',fail:'s-fail',succ:'s-succ',one:'s-one'};
-  function val(id){var el=document.getElementById(id);return el?el.value.trim():'';}
+  function val(id){var el=document.getElementById(id);if(!el)return '';if(el.value==='__etc'){var e=document.getElementById(id+'-etc');return e?e.value.trim():'';}return el.value.trim();}
+  // 사업 유형: '기타(직접 입력)'을 고르면 입력 칸을 보여 줌
+  var ftype=document.getElementById('f-type'),fetc=document.getElementById('f-type-etc');
+  function etcShow(){if(fetc)fetc.style.display=ftype&&ftype.value==='__etc'?'block':'none';}
+  if(ftype)ftype.addEventListener('change',function(){etcShow();if(ftype.value==='__etc'&&fetc)fetc.focus();});
   function cardVals(){var v={};Object.keys(fields).forEach(function(k){v[k]=val(fields[k]);});return v;}
   function sbVals(){var v={};Object.keys(sbf).forEach(function(k){v[k]=val(sbf[k]);});return v;}
   $$('.var').forEach(function(v){if(!v.getAttribute('data-def'))v.setAttribute('data-def',v.textContent);});
@@ -1261,14 +1272,16 @@
       sb:{want:'제철 굴을 산지 그대로 우리 집 식탁에서',ext:'마트 굴은 언제 캔 건지 모르고 손질이 번거롭다',int:'비싸게 샀는데 비리거나 상했을까 걱정된다',phil:'제철 음식은 제철에 제대로 먹어야 한다',emp:'저희도 도시로 올라와서 그 맛을 다시 못 찾았습니다',auth:'통영 산지 거래 10년(예시), 새벽 경매 당일 선별',plan:'① 저녁 6시 전 주문 ② 다음 날 아이스박스로 받기 ③ 흐르는 물에 헹궈 바로 요리',cta:'1kg 주문하기 / 제철 알림 받기',fail:'올해도 마트 굴 앞에서 반신반의하다 지나가는 제철',succ:'굴전과 굴국밥이 오르는 주말 저녁, "산지 맛 그대로네"',one:'마트 굴이 미덥지 않은 분들께, 새벽 경매 굴을 당일 선별해 산지의 제철 맛을 식탁까지 보내 드립니다'}}
   };
   var current='banchan';
-  function setSel(el,v){if(el.tagName==='SELECT'){for(var i=0;i<el.options.length;i++){if(el.options[i].text===v){el.selectedIndex=i;return;}}}else el.value=v;}
+  function setSel(el,v){if(el.tagName==='SELECT'){for(var i=0;i<el.options.length;i++){if(el.options[i].text===v&&el.options[i].value!=='__etc'){el.selectedIndex=i;if(el===ftype)etcShow();return;}}
+      // 목록에 없는 사업 유형(직접 입력한 값)은 '기타'로 고르고 입력 칸에 넣음
+      if(el===ftype&&v&&fetc){el.value='__etc';fetc.value=v;etcShow();}}else el.value=v;}
   $$('[data-sample]').forEach(function(b){b.addEventListener('click',function(){
     current=b.getAttribute('data-sample');var s=samples[current].card;
     Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&s[k]!=null)setSel(el,s[k]);});
     store('fdp_sample',current);apply();say('예시로 채웠습니다');
   });});
   var ap=$('#apply');if(ap)ap.addEventListener('click',function(){apply();say('페이지 전체에 적용했습니다');});
-  var cl=$('#clear');if(cl)cl.addEventListener('click',function(){Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(!el)return;if(el.tagName==='SELECT')el.selectedIndex=0;else el.value='';});apply();});
+  var cl=$('#clear');if(cl)cl.addEventListener('click',function(){Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k]);if(!el)return;if(el.tagName==='SELECT')el.selectedIndex=0;else el.value='';});if(fetc)fetc.value='';etcShow();apply();});
   var saved=load('fdp_card');
   if(saved){try{var o=JSON.parse(saved);Object.keys(o).forEach(function(k){var el=document.getElementById(fields[k]);if(el&&o[k])setSel(el,o[k]);});}catch(e){}}
   current=load('fdp_sample')||'banchan';
