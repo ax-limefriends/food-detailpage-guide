@@ -200,7 +200,7 @@
 </head>
 <body>
 <header>
-  <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구 <small>v2.3</small></h1>
+  <h1><img class="hlogo" src="assets/logo-gptclass.png" alt="gptClass" width="93" height="28">상세페이지 조립 도구 <small>v2.3.1</small></h1>
   <button class="btn p" id="fromGuide" title="교안에 저장한 가게 카드·SB7단계 워크시트를 빈 칸에 채웁니다">교안 워크시트 불러오기</button>
   <button class="btn g" id="sample">예시 채우기</button>
   <button class="btn g" id="reset">기본 12섹션으로</button>
@@ -253,7 +253,7 @@
       <button class="btn g" id="vDesk">860px 원본</button>
       <button class="btn g" id="vMob">휴대폰 크기로 보기</button>
       <span style="flex:1"></span>
-      <select id="x-slice" style="width:auto" title="이미지 한 장 높이"><option value="1000">한 장 1000px</option><option value="2000">한 장 2000px</option><option value="3000" selected>한 장 3000px</option><option value="0">나누지 않기</option></select>
+      <select id="x-slice" style="width:auto" title="이미지 한 장 높이"><option value="1000">한 장 최대 1000px</option><option value="2000">한 장 최대 2000px</option><option value="3000" selected>한 장 최대 3000px</option><option value="0">나누지 않기</option></select>
       <select id="x-scale" style="width:auto" title="선명도"><option value="1">선명도 1배 (860px)</option><option value="2">선명도 2배 (1720px)</option></select>
       <button class="btn d" id="png">PNG 저장</button>
       <button class="btn d" id="jpg">JPG 저장</button>
@@ -749,17 +749,31 @@
   /* ---------- 보기·내보내기 ---------- */
   $('#vDesk').addEventListener('click',function(){$('#vw').classList.remove('mob');});
   $('#vMob').addEventListener('click',function(){$('#vw').classList.add('mob');});
+  // 한 장 높이(lim)를 넘지 않는 범위에서 가장 아래 블록 경계로 자름. 한 블록이 lim보다 길면 그 블록을 통째로 한 장에
+  function cutPoints(bd,lim,total){
+    var end=Math.max(total,bd[bd.length-1]),b=bd.filter(function(y){return y>0&&y<end;}).concat([end]),c=[0],s=0;
+    if(!lim)return [0,end];
+    while(s<end){var best=0;for(var i=0;i<b.length;i++){if(b[i]>s&&b[i]<=s+lim)best=b[i];}
+      if(!best){for(i=0;i<b.length;i++){if(b[i]>s){best=b[i];break;}}}
+      c.push(best);s=best;}
+    return c;
+  }
   function shoot(type){
     if(typeof html2canvas!=='function'){say('이미지 저장 기능을 불러오지 못했습니다. 인터넷 연결을 확인하세요');return;}
     var wasMob=$('#vw').classList.contains('mob');$('#vw').classList.remove('mob');
     var pg=$('#page');pg.classList.add('exp');
     var sc=+$('#x-scale').value,sl=+$('#x-slice').value;say('이미지로 만드는 중…');
+    // 블록 경계(위에서부터 px). 글·사진 중간이 아니라 블록과 블록 사이에서만 자른다
+    var top0=pg.getBoundingClientRect().top,bd=[0];
+    [].forEach.call(pg.children,function(el){var y=Math.round(el.getBoundingClientRect().bottom-top0);if(y>bd[bd.length-1])bd.push(y);});
     (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(function(){return html2canvas(pg,{scale:sc,useCORS:true,backgroundColor:null});}).then(function(cv){
       pg.classList.remove('exp');
-      var H=sl?sl*sc:cv.height,parts=Math.ceil(cv.height/H);
-      for(var k=0;k<parts;k++){var h=Math.min(H,cv.height-k*H),c2=document.createElement('canvas');c2.width=cv.width;c2.height=h;var g=c2.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c2.width,h);g.drawImage(cv,0,k*H,cv.width,h,0,0,cv.width,h);
-        dl(type==='jpg'?c2.toDataURL('image/jpeg',0.9):c2.toDataURL('image/png'),'상세페이지_'+stamp()+'_'+String(k+1).padStart(2,'0')+(type==='jpg'?'.jpg':'.png'));}
-      if(wasMob)$('#vw').classList.add('mob');say(parts+'장으로 저장했습니다 (폭 '+cv.width+'px)');
+      var cuts=cutPoints(bd,sl,cv.height/sc),tall=0,stp=stamp();
+      for(var k=0;k<cuts.length-1;k++){var y0=Math.round(cuts[k]*sc),y1=k===cuts.length-2?cv.height:Math.min(cv.height,Math.round(cuts[k+1]*sc)),h=y1-y0;if(h<=0)continue;
+        if(sl&&cuts[k+1]-cuts[k]>sl)tall++;
+        var c2=document.createElement('canvas');c2.width=cv.width;c2.height=h;var g=c2.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c2.width,h);g.drawImage(cv,0,y0,cv.width,h,0,0,cv.width,h);
+        dl(type==='jpg'?c2.toDataURL('image/jpeg',0.9):c2.toDataURL('image/png'),'상세페이지_'+stp+'_'+String(k+1).padStart(2,'0')+(type==='jpg'?'.jpg':'.png'));}
+      if(wasMob)$('#vw').classList.add('mob');say((cuts.length-1)+'장으로 저장했습니다 (폭 '+cv.width+'px'+(sl?', 블록 사이에서 나눔':'')+(tall?', 한 장 높이보다 긴 블록 '+tall+'개는 통째로':'')+')');
     },function(){pg.classList.remove('exp');if(wasMob)$('#vw').classList.add('mob');say('이미지 저장에 실패했습니다');});
   }
   $('#png').addEventListener('click',function(){shoot('png');});
